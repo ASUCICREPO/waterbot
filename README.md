@@ -1,4 +1,4 @@
-# Disclaimers 
+# Disclaimers
 
 **Customers are responsible for making their own independent assessment of the information in this document and repository.**
 
