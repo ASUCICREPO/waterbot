@@ -22,6 +22,24 @@
 
 **All work produced is open source. More information can be found in the GitHub repo.**
 
+# Git Branching Strategy
+This project will use a simple git branching strategy and naming convention.
+
+Branches should be in the following format.
+```
+{category}/what-it-is-addressing
+```
+
+_Example categories:_
+| Branch | Description |
+| --- | --- |
+| hotfix | For quickly fixing critical issues, usually with a temporary solution |
+| bugfix | For fixing a bug |
+| enhancement | For adding, removing or modifying a enhancement |
+| test | For experimenting something which is not an issue |
+| wip | For a work in progress |
+
+
 
 # Waterbot
 
