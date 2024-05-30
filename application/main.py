@@ -1,6 +1,7 @@
 import uvicorn
 import uuid
 import secrets
+import socket
 
 from typing import Annotated
 
@@ -23,6 +24,28 @@ from dotenv import load_dotenv
 
 import os
 
+from starlette.middleware.base import BaseHTTPMiddleware
+
+# Set the cookie name to match the one configured in the CDK
+COOKIE_NAME = "WATERBOT"
+
+class SetCookieMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+
+        session_value = request.cookies.get(COOKIE_NAME) or str(uuid.uuid4())
+        # Set the application cookie in the response headers
+        response.set_cookie(
+            key=COOKIE_NAME,
+            value=session_value,  # You can set any value you want
+            max_age=7200,  # Cookie expiration time in seconds (1 hour in this example)
+            httponly=True,  # Set to True for better security
+            samesite="Strict"  # Strict mode to prevent CSRF attacks
+        )
+
+        return response
+
+
 # Take environment variables from .env
 load_dotenv(override=True)  
 
@@ -34,6 +57,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Middleware management
 secret_key=secrets.token_urlsafe(32)
 app.add_middleware(SessionMiddleware, secret_key=secret_key)
+app.add_middleware(SetCookieMiddleware)
 
 MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
 # adapter choices
@@ -60,7 +84,16 @@ message_count = {}
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
-    return templates.TemplateResponse("index.html", {"request": request})
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+
+    context = {
+        "request": request,
+        "hostname": hostname,
+        "ip_address": ip_address
+    }
+
+    return templates.TemplateResponse("index.html", context )
 
 # Route to handle ratings
 @app.post('/submit_rating_api')
@@ -72,7 +105,8 @@ async def submit_rating_api_post(
     ):
 
     session = request.session
-    session_uuid = session.get("uuid")
+    session_uuid = request.cookies.get(COOKIE_NAME)
+
 
     await datastore.update_rating_fields(
         session_uuid=session_uuid,
@@ -86,7 +120,7 @@ async def submit_rating_api_post(
 @app.post('/chat_sources_api')
 async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     session = request.session
-    session_uuid = session.get("uuid")
+    session_uuid = request.cookies.get(COOKIE_NAME)
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     user_query=await memory.get_latest_memory( session_id=session_uuid, read="content")
@@ -136,7 +170,7 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
 @app.post('/chat_actionItems_api')
 async def chat_action_items_api_post(request: Request, background_tasks:BackgroundTasks):
     session = request.session
-    session_uuid = session.get("uuid")
+    session_uuid = request.cookies.get(COOKIE_NAME)
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     sources=await memory.get_latest_memory( session_id=session_uuid, read="sources")
@@ -188,7 +222,7 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
 @app.post('/chat_detailed_api')
 async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTasks):
     session = request.session
-    session_uuid = session.get("uuid")
+    session_uuid = request.cookies.get(COOKIE_NAME)
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     sources=await memory.get_latest_memory( session_id=session_uuid, read="sources")
@@ -243,10 +277,8 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
     user_query=user_query
 
     session = request.session
-    session_uuid = session.get("uuid")
-    if session_uuid is None:
-        session_uuid = str(uuid.uuid4())
-        session["uuid"] = session_uuid
+    session_uuid = request.cookies.get(COOKIE_NAME)
+    if session.get("message_count") is None:
         session["message_count"] = 0
         await memory.create_session(session_uuid)
         
