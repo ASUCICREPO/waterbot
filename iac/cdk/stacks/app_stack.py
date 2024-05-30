@@ -138,15 +138,14 @@ class AppStack(Stack):
         )
 
         # Create an Application Load Balancer
-        alb = elbv2.ApplicationLoadBalancer(
+        alb_wb = elbv2.ApplicationLoadBalancer(
             self, "FargateALB",
             vpc=vpc,
-            internet_facing=True,
-            load_balancer_name="FargateALB",
+            internet_facing=True
         )
 
         # Create a listener for the ALB
-        listener = alb.add_listener(
+        listener_wb = alb_wb.add_listener(
             "FargateALBListener",
             port=80,
             open=True
@@ -154,25 +153,27 @@ class AppStack(Stack):
 
 
         # Create a target group for the Fargate service
-        target_group = listener.add_targets(
+        target_group_wb = listener_wb.add_targets(
             "FargateTargetGroup",
             port=8000,
             targets=[ecs.FargateService(
                 self, "FargateService",
                 cluster=cluster,
                 task_definition=task_definition,
-                desired_count=1,
+                desired_count=3,
             )],
             health_check=elbv2.HealthCheck(
                 path="/",
                 interval=Duration.minutes(1),
                 timeout=Duration.seconds(5)
-            )
+            ),
+            stickiness_cookie_duration=Duration.hours(2),  # Set the cookie duration
+            stickiness_cookie_name="WATERBOT"  # Set the cookie name
         )
 
 
         # overwrite default action implictly created above (will cause warning)
-        listener.add_action(
+        listener_wb.add_action(
             "Default",
             action=elbv2.ListenerAction.fixed_response(
                 status_code=403,
@@ -184,7 +185,7 @@ class AppStack(Stack):
         # Create a rule to check for the custom header
         custom_header_rule = elbv2.ApplicationListenerRule(
             self, "CustomHeaderRule",
-            listener=listener,
+            listener=listener_wb,
             priority=1,
             conditions=[
                 elbv2.ListenerCondition.http_header(
@@ -193,7 +194,7 @@ class AppStack(Stack):
                 )
             ],
             action=elbv2.ListenerAction.forward(
-                target_groups=[target_group]
+                target_groups=[target_group_wb]
             )
         )
 
@@ -246,7 +247,7 @@ class AppStack(Stack):
             self, "CloudFrontDistribution",
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.LoadBalancerV2Origin(
-                    alb,
+                    alb_wb,
                     origin_path="/",
                     protocol_policy=cloudfront.OriginProtocolPolicy.HTTP_ONLY,
                     custom_headers={
