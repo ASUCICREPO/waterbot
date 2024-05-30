@@ -114,11 +114,11 @@ The stack has the ability to deploy out multiple instances if necessary.  By def
 
 ```bash
 # Deploy for dev environment
-cdk deploy --context env=dev
+cdk deploy {stack_name}-dev --context env=dev
 
 # Deploy for staging environment
-cdk deploy --context env=staging
+cdk deploy {stack_name}-staging --context env=staging
 
 # Deploy for production environment
-cdk deploy --context env=prod
+cdk deploy {stack_name}-prod --context env=prod
 ```
