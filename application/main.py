@@ -34,7 +34,6 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
 
         session_value = request.cookies.get(COOKIE_NAME) or str(uuid.uuid4())
-        print(session_value)
         # Set the application cookie in the response headers
         response.set_cookie(
             key=COOKIE_NAME,
