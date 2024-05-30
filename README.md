@@ -22,6 +22,24 @@
 
 **All work produced is open source. More information can be found in the GitHub repo.**
 
+# Git Branching Strategy
+This project will use a simple git branching strategy and naming convention.
+
+Branches should be in the following format.
+```
+{category}/what-it-is-addressing
+```
+
+_Example categories:_
+| Branch | Description |
+| --- | --- |
+| hotfix | For quickly fixing critical issues, usually with a temporary solution |
+| bugfix | For fixing a bug |
+| enhancement | For adding, removing or modifying a enhancement |
+| test | For experimenting something which is not an issue |
+| wip | For a work in progress |
+
+
 
 # Waterbot
 
@@ -96,11 +114,11 @@ The stack has the ability to deploy out multiple instances if necessary.  By def
 
 ```bash
 # Deploy for dev environment
-cdk deploy --context env=dev
+cdk deploy {stack_name}-dev --context env=dev
 
 # Deploy for staging environment
-cdk deploy --context env=staging
+cdk deploy {stack_name}-staging --context env=staging
 
 # Deploy for production environment
-cdk deploy --context env=prod
+cdk deploy {stack_name}-prod --context env=prod
 ```
