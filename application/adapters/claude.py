@@ -104,5 +104,5 @@ class BedrockClaudeAdapter(ModelAdapter):
         # bedrock already
         moderation_result=False
         intent_result = await UserIntentCheck(user_query)
-        
+
         return moderation_result,intent_result

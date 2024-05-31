@@ -23,6 +23,7 @@ from adapters.openai import OpenAIAdapter
 from dotenv import load_dotenv
 
 import os
+import json
 
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -283,8 +284,23 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
         await memory.create_session(session_uuid)
         
     moderation_result,intent_result = await llm_adapter.safety_checks(user_query)
-    if( moderation_result or intent_result != "<b>SUCCESS</b>"):
-        msg= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else intent_result
+
+    user_intent=1
+    prompt_injection=1
+    unrelated_topic=1
+    not_handled="I am sorry, your request cannot be handled."
+    try:
+        data = json.loads(intent_result)
+        user_intent=data["user_intent"]
+        prompt_injection=data["prompt_injection"]
+        unrelated_topic=data["unrelated_topic"]
+    except Exception as e:
+        print(intent_result)
+        print("ERROR", str(e))
+
+
+    if( moderation_result or (prompt_injection or unrelated_topic)):
+        msg= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
         return {
             "resp":msg,
             "msgID": session["message_count"]
