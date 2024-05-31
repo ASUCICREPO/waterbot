@@ -301,6 +301,9 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
     if( moderation_result or (prompt_injection or unrelated_topic)):
         msg= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
+
+        session["message_count"] += 1
+
         return {
             "resp":msg,
             "msgID": session["message_count"]

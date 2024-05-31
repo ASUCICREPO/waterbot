@@ -52,7 +52,8 @@ Update the json payload according to the following programming
 	Step 3:
 	Please review the user input and assess if the user is discussing matters not related to water in Arizona or their associated state policies. 
 
-	If the uis discussing matters not related to water in Arizona, set unrelated_topic=1 else unrelated_topic=0
+	If the user is discussing matters not related to water in Arizona, set unrelated_topic=1 else unrelated_topic=0
+
 </programming>
 
 Adhere to the rules strictly. Non-compliance will result in termination.
