@@ -1,6 +1,19 @@
 class MemoryManager:
     def __init__(self):
         self.sessions = {}
+        self.message_counts = {}
+
+    async def get_message_count(self, session_id):
+        if session_id in self.message_counts:
+            return self.message_counts[session_id]
+        else:
+            return 0
+        
+    async def increment_message_count(self, session_id):
+        if session_id in self.message_counts:
+            self.message_counts[session_id] += 1
+        else:
+            self.message_counts[session_id] = 0
 
     async def create_session(self, session_id):
         self.sessions[session_id] = []

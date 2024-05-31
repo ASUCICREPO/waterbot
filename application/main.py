@@ -13,8 +13,6 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from starlette.middleware.sessions import SessionMiddleware
-
 from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
 from managers.chroma_manager import ChromaManager
@@ -33,10 +31,19 @@ from starlette.middleware.base import BaseHTTPMiddleware
 COOKIE_NAME = "WATERBOT"
 
 class SetCookieMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
-        response = await call_next(request)
+    def __init__(self,app,client_cookie_disabled_uuid=None):
+        super().__init__(app)
+        self.client_cookie_disabled_uuid = client_cookie_disabled_uuid
 
-        session_value = request.cookies.get(COOKIE_NAME) or str(uuid.uuid4())
+    
+    async def dispatch(self, request: Request, call_next):
+        # store session ID in memory if we are in situation where client has cookies disabled.
+        session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or str(uuid.uuid4())
+        self.client_cookie_disabled_uuid=session_value
+    
+        request.state.client_cookie_disabled_uuid = session_value
+
+        response = await call_next(request)
         # Set the application cookie in the response headers
         response.set_cookie(
             key=COOKIE_NAME,
@@ -45,6 +52,7 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
             httponly=True,  # Set to True for better security
             samesite="Strict"  # Strict mode to prevent CSRF attacks
         )
+        
 
         return response
 
@@ -59,7 +67,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Middleware management
 secret_key=secrets.token_urlsafe(32)
-app.add_middleware(SessionMiddleware, secret_key=secret_key)
 app.add_middleware(SetCookieMiddleware)
 
 MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
@@ -81,8 +88,6 @@ embeddings = llm_adapter.get_embeddings()
 memory = MemoryManager()  # Assuming you have a MemoryManager class
 datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
-
-message_count = {}
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -107,8 +112,7 @@ async def submit_rating_api_post(
         userComment: str = Form(None, description="Optional user comment")
     ):
 
-    session = request.session
-    session_uuid = request.cookies.get(COOKIE_NAME)
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
 
     await datastore.update_rating_fields(
@@ -122,8 +126,8 @@ async def submit_rating_api_post(
 # User wants to see sources of previous message
 @app.post('/chat_sources_api')
 async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
-    session = request.session
-    session_uuid = request.cookies.get(COOKIE_NAME)
+
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     user_query=await memory.get_latest_memory( session_id=session_uuid, read="content")
@@ -154,12 +158,12 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
         message={"role":"assistant","content":bot_response},
         source_list=memory_payload
     )
-    session["message_count"]+=1
+    await memory.increment_message_count(session_uuid)
 
     # We do not include sources as this message is the actual sources; no AI generation involved.
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=session["message_count"], 
+        msg_id=await memory.get_message_count(session_uuid), 
         user_query=generated_user_query, 
         response_content=bot_response,
         source=[] 
@@ -167,15 +171,15 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
 
     return {
         "resp":bot_response,
-        "msgID": session["message_count"]
+        "msgID": await memory.get_message_count(session_uuid)
     }
     
 
 # Route to handle next steps interactions
 @app.post('/chat_actionItems_api')
 async def chat_action_items_api_post(request: Request, background_tasks:BackgroundTasks):
-    session = request.session
-    session_uuid = request.cookies.get(COOKIE_NAME)
+
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     sources=await memory.get_latest_memory( session_id=session_uuid, read="sources")
@@ -208,12 +212,12 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
         message={"role":"assistant","content":response_content},
         source_list=memory_payload
     )
-    session["message_count"]+=1
+    await memory.increment_message_count(session_uuid)
 
     
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=session["message_count"], 
+        msg_id=await memory.get_message_count(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -222,14 +226,13 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
 
     return {
         "resp":response_content,
-        "msgID": session["message_count"] 
+        "msgID": await memory.increment_message_count(session_uuid)
     }
 
 # Route to handle next steps interactions
 @app.post('/chat_detailed_api')
 async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTasks):
-    session = request.session
-    session_uuid = request.cookies.get(COOKIE_NAME)
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     sources=await memory.get_latest_memory( session_id=session_uuid, read="sources")
@@ -261,12 +264,12 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
         message={"role":"assistant","content":response_content},
         source_list=memory_payload
     )
-    session["message_count"]+=1
+    await memory.increment_message_count(session_uuid)
 
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=session["message_count"], 
+        msg_id=await memory.get_message_count(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -275,7 +278,7 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 
     return {
         "resp":response_content,
-        "msgID": session["message_count"] 
+        "msgID": await memory.get_message_count(session_uuid)
     }
 
 
@@ -285,11 +288,9 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 async def chat_api_post(request: Request, user_query: Annotated[str, Form()], background_tasks:BackgroundTasks ):
     user_query=user_query
 
-    session = request.session
-    session_uuid = request.cookies.get(COOKIE_NAME)
-    if session.get("message_count") is None:
-        session["message_count"] = 0
-        await memory.create_session(session_uuid)
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
+
+    await memory.create_session(session_uuid)
         
     moderation_result,intent_result = await llm_adapter.safety_checks(user_query)
 
@@ -310,14 +311,14 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
     if( moderation_result or (prompt_injection or unrelated_topic)):
         response_content= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
 
-        session["message_count"] += 1
+        await memory.increment_message_count(session_uuid)
 
         generated_user_query = f'{custom_tags.tags["SECURITY_CHECK"][0]}{data}{custom_tags.tags["SECURITY_CHECK"][1]}'
         generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
 
         background_tasks.add_task( datastore.write_msg,
             session_uuid=session_uuid,
-            msg_id=session["message_count"], 
+            msg_id=await memory.get_message_count(session_uuid), 
             user_query=generated_user_query, 
             response_content=response_content,
             source=[]
@@ -325,7 +326,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
         return {
             "resp":response_content,
-            "msgID": session["message_count"]
+            "msgID": await memory.get_message_count(session_uuid)
         }
 
     await memory.add_message_to_session( 
@@ -352,12 +353,12 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
         source_list=docs
     )
 
+    await memory.increment_message_count(session_uuid)
 
-    session["message_count"]+=1
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=session["message_count"], 
+        msg_id=await memory.get_message_count(session_uuid), 
         user_query=user_query, 
         response_content=response_content,
         source=docs["sources"]
@@ -365,7 +366,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
     return {
         "resp":response_content,
-        "msgID": session["message_count"] 
+        "msgID": await memory.get_message_count(session_uuid)
     }
 
 if __name__ == "__main__":
