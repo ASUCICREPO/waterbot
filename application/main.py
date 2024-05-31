@@ -5,6 +5,8 @@ import socket
 
 from typing import Annotated
 
+import mappings.custom_tags as custom_tags
+
 from fastapi import FastAPI, BackgroundTasks
 from fastapi import Request, Form
 from fastapi.templating import Jinja2Templates
@@ -136,13 +138,15 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     formatted_source_list=await memory.format_sources_as_html(source_list=sources)
 
 
-    user_query = "<SOURCE_REQUEST>"+user_query+"</SOURCE_REQUEST>"
+    generated_user_query = f'{custom_tags.tags["SOURCE_REQUEST"][0]}Provide me sources.{custom_tags.tags["SOURCE_REQUEST"][1]}'
+    generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
+
     bot_response=formatted_source_list
 
 
     await memory.add_message_to_session( 
         session_id=session_uuid, 
-        message={"role":"user","content":user_query},
+        message={"role":"user","content":generated_user_query},
         source_list=memory_payload
     )
     await memory.add_message_to_session( 
@@ -156,7 +160,7 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
         msg_id=session["message_count"], 
-        user_query=user_query, 
+        user_query=generated_user_query, 
         response_content=bot_response,
         source=[] 
     )
@@ -191,7 +195,9 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
     llm_body=await llm_adapter.get_llm_nextsteps_body( kb_data=doc_content_str,user_query=user_query,bot_response=bot_response )
     response_content = await llm_adapter.generate_response(llm_body=llm_body)
 
-    generated_user_query="<NEXTSTEPS_REQUEST>Provide me the action items</NEXTSTEPS_REQUEST><OG_QUERY>"+user_query+"</OG_QUERY>"
+    generated_user_query = f'{custom_tags.tags["NEXTSTEPS_REQUEST"][0]}Provide me the action items{custom_tags.tags["NEXTSTEPS_REQUEST"][1]}'
+    generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
+
     await memory.add_message_to_session( 
         session_id=session_uuid, 
         message={"role":"user","content":generated_user_query},
@@ -242,7 +248,9 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
     llm_body=await llm_adapter.get_llm_detailed_body( kb_data=doc_content_str,user_query=user_query,bot_response=bot_response )
     response_content = await llm_adapter.generate_response(llm_body=llm_body)
 
-    generated_user_query="<MOREDETAIL_REQUEST>Provide me a more detailed response</MOREDETAIL_REQUEST><OG_QUERY>"+user_query+"</OG_QUERY>"
+    generated_user_query = f'{custom_tags.tags["MOREDETAIL_REQUEST"][0]}Provide me a more detailed response.{custom_tags.tags["MOREDETAIL_REQUEST"][1]}'
+    generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
+
     await memory.add_message_to_session( 
         session_id=session_uuid, 
         message={"role":"user","content":generated_user_query},
@@ -300,12 +308,23 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
 
     if( moderation_result or (prompt_injection or unrelated_topic)):
-        msg= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
+        response_content= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
 
         session["message_count"] += 1
 
+        generated_user_query = f'{custom_tags.tags["SECURITY_CHECK"][0]}{data}{custom_tags.tags["SECURITY_CHECK"][1]}'
+        generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
+
+        background_tasks.add_task( datastore.write_msg,
+            session_uuid=session_uuid,
+            msg_id=session["message_count"], 
+            user_query=generated_user_query, 
+            response_content=response_content,
+            source=[]
+        )
+
         return {
-            "resp":msg,
+            "resp":response_content,
             "msgID": session["message_count"]
         }
 
