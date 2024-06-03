@@ -27,12 +27,9 @@ app.add_middleware(SessionMiddleware, secret_key=secret_key)
 class MyEventHandler(TranscriptResultStreamHandler):
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
         results = transcript_event.transcript.results
-
-        if len(results) > 0:
-            if len(results[0].alternatives) > 0:
-                transcript = results[0].alternatives[0].transcript
-                print(transcript)
-
+        for result in results:
+            for alt in result.alternatives:
+                print(alt.transcript)
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -51,14 +48,15 @@ async def transcribe(websocket: WebSocket):
     async def receive_audio():
         try:
             while True:
-                data = await websocket.receive_text()
-                if data == '{ "event": "close" }':
+                data = await websocket.receive_bytes()
+                if data == b'{ "event": "close" }':
                     # Client wants to close the connection
                     await websocket.close()
                     break
-                # ... (handle audio data)
+                # Send the audio data to the Amazon Transcribe service
+                await stream.input_stream.send_audio_event(audio_chunk=data)
         except Exception as e:
-            print("WebSocket disconnected unexpectedly", str(e))
+            print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
         finally:
             await stream.input_stream.end_stream()
 
@@ -67,6 +65,6 @@ async def transcribe(websocket: WebSocket):
     try:
         await asyncio.gather(receive_audio(), handler.handle_events())
     except Exception as e:
-            print("WebSocket disconnected unexpectedly:", str(e))
+            print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
     finally:
         await websocket.close()

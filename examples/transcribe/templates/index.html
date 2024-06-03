@@ -48,8 +48,12 @@
             stopButton.disabled=true;
 
             mediaRecorder.stop();
-            socket.send(JSON.stringify({ event: 'close' }));
+            // Convert the JSON object to a string
+            const closeEventString = JSON.stringify({ event: 'close' });
 
+            // Convert the string to bytes
+            const closeEventBytes = new TextEncoder().encode(closeEventString);
+			socket.send(closeEventBytes);
             // Wait for the server to respond with a close frame
             socket.addEventListener('close', () => {
                 console.log('WebSocket connection closed gracefully');
