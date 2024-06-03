@@ -2,31 +2,70 @@
 <html>
   <head>
     <title>Live Transcription</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
   </head>
   <body>
     <h1>Transcribe Audio With FastAPI/Starlette</h1>
-    <p id="status">Connection status will go here</p>
-    <p id="transcript"></p>
+    <button id="startButton">Start</button>
+    <button id="stopButton" disabled>Stop</button>
+    <div id="transcription"></div>
 
     <script>
-        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
-          const mediaRecorder = new MediaRecorder(stream)
-        })
-    </script>
-    <script>
-        var ws = new WebSocket("ws://localhost:8000/ws");
-        ws.onmessage = function(event) {
-            var messages = document.getElementById('messages')
-            var message = document.createElement('li')
-            var content = document.createTextNode(event.data)
-            message.appendChild(content)
-            messages.appendChild(message)
-        };
-        function sendMessage(event) {
-            var input = document.getElementById("messageText")
-            ws.send(input.value)
-            input.value = ''
-            event.preventDefault()
+        const startButton=document.getElementById('startButton');
+        const stopButton=document.getElementById('stopButton');
+        const transcriptionDiv=document.getElementById('transcription');
+
+        let socket;
+        let mediaRecoder;
+
+        startButton.addEventListener('click',startRecording);
+        stopButton.addEventListener('click',stopRecording);
+
+
+        function startRecording() {
+            startButton.disabled = true;
+            stopButton.disabled = false;
+
+            navigator.mediaDevices.getUserMedia( { audio: true} )
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.addEventListener('dataavailable',handleDataAvailable);
+                    mediaRecorder.start();
+
+                    socket=new WebSocket('ws://localhost:8000/transcribe')
+                    socket.addEventListener('open', () => { console.error('WebSocket established')});
+                    socket.addEventListener('error', (error) => { console.error('WebSocket error',error)});
+
+                    socket.addEventListener('message',handleSocketMessage);
+                })
+                .catch(error => {
+                    console.error("Error accessing microphone:', error);")
+                });
+        }
+
+        function stopRecording() {
+            startButton.disabled=false;
+            stopButton.disabled=true;
+
+            mediaRecorder.stop();
+            socket.send(JSON.stringify({ event: 'close' }));
+
+            // Wait for the server to respond with a close frame
+            socket.addEventListener('close', () => {
+                console.log('WebSocket connection closed gracefully');
+            }, { once: true });
+        }
+
+        function handleDataAvailable(event) {
+            console.log("AUDIO: ", event.data)
+            if(event.data.size > 0 ){
+                socket.send(event.data);
+            }
+        }
+
+        function handleSocketMessage(event) {
+            const data = JSON.parse(event.data);
+            transcriptionDiv.innerText=data.transcript;
         }
     </script>
   </body>
