@@ -2,6 +2,7 @@
 
 import secrets
 import asyncio 
+import json
 
 from fastapi import FastAPI, WebSocket
 from fastapi import Request
@@ -25,6 +26,9 @@ secret_key=secrets.token_urlsafe(32)
 app.add_middleware(SessionMiddleware, secret_key=secret_key)
 
 class MyEventHandler(TranscriptResultStreamHandler):
+    def __init__(self, output_stream):
+        super().__init__(output_stream)
+
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
         results = transcript_event.transcript.results
         for result in results:
@@ -42,29 +46,31 @@ async def transcribe(websocket: WebSocket):
     stream = await client.start_stream_transcription(
         language_code="en-US",
         media_sample_rate_hz=16000,
-        media_encoding="pcm",
+        media_encoding="ogg-opus",
     )
 
     async def receive_audio():
         try:
             while True:
-                data = await websocket.receive_bytes()
-                if data == b'{ "event": "close" }':
-                    # Client wants to close the connection
-                    await websocket.close()
+                data = await websocket.receive()
+                #print(data)
+                if data.get("text") == '{"event":"close"}':
+                    print("Closing WebSocket connection")
+                    await stream.input_stream.end_stream()
                     break
-                # Send the audio data to the Amazon Transcribe service
-                await stream.input_stream.send_audio_event(audio_chunk=data)
+                elif data.get("bytes"):
+                    # Send the audio data to the Amazon Transcribe service
+                    await stream.input_stream.send_audio_event(audio_chunk=data.get("bytes"))
         except Exception as e:
             print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
-        finally:
             await stream.input_stream.end_stream()
 
-    handler=MyEventHandler(stream.output_stream)
+    handler = MyEventHandler(stream.output_stream)
 
     try:
         await asyncio.gather(receive_audio(), handler.handle_events())
     except Exception as e:
-            print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
+        print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
     finally:
+        print("Closing WebSocket connection")
         await websocket.close()

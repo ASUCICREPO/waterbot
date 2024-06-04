@@ -11,65 +11,85 @@
     <div id="transcription"></div>
 
     <script>
-        const startButton=document.getElementById('startButton');
-        const stopButton=document.getElementById('stopButton');
-        const transcriptionDiv=document.getElementById('transcription');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const transcriptionDiv = document.getElementById('transcription');
 
         let socket;
-        let mediaRecoder;
+        let mediaRecorder;
 
-        startButton.addEventListener('click',startRecording);
-        stopButton.addEventListener('click',stopRecording);
-
+        startButton.addEventListener('click', startRecording);
+        stopButton.addEventListener('click', stopRecording);
 
         function startRecording() {
             startButton.disabled = true;
             stopButton.disabled = false;
 
-            navigator.mediaDevices.getUserMedia( { audio: true} )
+            navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
+
                     mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.addEventListener('dataavailable',handleDataAvailable);
-                    mediaRecorder.start();
+                    mediaRecorder.addEventListener('dataavailable', handleDataAvailable);
+                    mediaRecorder.start(500);
 
-                    socket=new WebSocket('ws://localhost:8000/transcribe')
-                    socket.addEventListener('open', () => { console.error('WebSocket established')});
-                    socket.addEventListener('error', (error) => { console.error('WebSocket error',error)});
+                    console.log('MediaRecorder instance created');
+                    socket = new WebSocket('ws://localhost:8000/transcribe');
+                    socket.addEventListener('open', () => { console.log('WebSocket established') });
+                    socket.addEventListener('error', (error) => { console.error(`WebSocket error ${error}`) });
+                    socket.addEventListener('message', handleSocketMessage);
 
-                    socket.addEventListener('message',handleSocketMessage);
+
+
+
                 })
                 .catch(error => {
-                    console.error("Error accessing microphone:', error);")
+                    console.error("Error accessing microphone:", error);
                 });
         }
 
         function stopRecording() {
-            startButton.disabled=false;
-            stopButton.disabled=true;
+            startButton.disabled = false;
+            stopButton.disabled = true;
 
             mediaRecorder.stop();
-            // Convert the JSON object to a string
-            const closeEventString = JSON.stringify({ event: 'close' });
+            mediaRecorder.removeEventListener('dataavailable', handleDataAvailable);
 
-            // Convert the string to bytes
-            const closeEventBytes = new TextEncoder().encode(closeEventString);
-			socket.send(closeEventBytes);
-            // Wait for the server to respond with a close frame
-            socket.addEventListener('close', () => {
-                console.log('WebSocket connection closed gracefully');
-            }, { once: true });
+            const closeEventString = JSON.stringify({ 'event': 'close' });
+            socket.send(closeEventString);
+            socket.close();
         }
 
         function handleDataAvailable(event) {
-            console.log("AUDIO: ", event.data)
-            if(event.data.size > 0 ){
-                socket.send(event.data);
+            console.log('handleDataAvailable called');
+            console.log("AUDIO: ", event.data);
+            chunkSize=1024 * 2
+            if (event.data && socket.readyState === WebSocket.OPEN) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const arrayBuffer = reader.result;
+                    const chunks = splitArrayBuffer(arrayBuffer, chunkSize);
+                    for (const chunk of chunks) {
+                        socket.send(chunk);
+                    }
+                };
+                reader.readAsArrayBuffer(event.data);
             }
         }
 
+        function splitArrayBuffer(arrayBuffer, chunkSize) {
+            const chunks = [];
+            const view = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < view.byteLength; i += chunkSize) {
+                const chunk = view.subarray(i, i + chunkSize);
+                chunks.push(chunk);
+            }
+            return chunks;
+        }
+
         function handleSocketMessage(event) {
+            console.log("In handle socket message")
             const data = JSON.parse(event.data);
-            transcriptionDiv.innerText=data.transcript;
+            transcriptionDiv.innerText = data.transcript;
         }
     </script>
   </body>
