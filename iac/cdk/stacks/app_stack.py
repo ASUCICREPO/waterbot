@@ -62,7 +62,6 @@ class AppStack(Stack):
         # Create a Secrets Manager secret
         secret = secretsmanager.Secret(
             self, "OpenAI-APIKey",
-            secret_name="openai-api-key",
             description="Open API Key",
             secret_string_value=SecretValue.unsafe_plain_text(secret_value)
         )
