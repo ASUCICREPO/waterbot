@@ -203,12 +203,11 @@ class AppStack(Stack):
         # edge function
         #
         # This is just a basic auth blocker to help prevent genai llm call misuse
-        basic_auth_function_code = """
-            function handler(event) {
+        # Define the CloudFront Function code
+        basic_auth_function_code = '''
+        function handler(event) {
             var authHeaders = event.request.headers.authorization;
-            var expected = "Basic """ + basic_auth_secret
-        
-        basic_auth_function_code += """";
+            var expected = "Basic ''' + basic_auth_secret + '''";
 
             // If an Authorization header is supplied and it's an exact match, pass the
             // request on through to CF/the origin without any modification.
@@ -223,20 +222,19 @@ class AppStack(Stack):
                 statusCode: 401,
                 statusDescription: "Unauthorized",
                 headers: {
-                "www-authenticate": {
-                    value: 'Basic realm="Enter credentials for this super secure site"',
-                },
+                    "www-authenticate": {
+                        value: 'Basic realm="Enter credentials for this super secure site"',
+                    },
                 },
             };
 
             return response;
-            }
-        """
+        }
+        '''
 
         basic_auth_function = cloudfront.Function(
             self, "BasicAuthFunction",
-            code=cloudfront.FunctionCode.from_inline(basic_auth_function_code),
-            function_name="BasicAuthFunction",
+            code=cloudfront.FunctionCode.from_inline(basic_auth_function_code)
         )
 
 
