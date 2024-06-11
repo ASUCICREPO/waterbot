@@ -38,10 +38,10 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
     
     async def dispatch(self, request: Request, call_next):
         # store session ID in memory if we are in situation where client has cookies disabled.
-        session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or ("COOKIE_DISABLED."+str(uuid.uuid4()))
+        session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or str(uuid.uuid4())
         self.client_cookie_disabled_uuid=session_value
     
-        request.state.client_cookie_disabled_uuid = session_value
+        request.state.client_cookie_disabled_uuid = "COOKIE_DISABLED."+session_value
 
         response = await call_next(request)
         # Set the application cookie in the response headers
