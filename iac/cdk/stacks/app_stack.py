@@ -13,7 +13,10 @@ from aws_cdk import (
     aws_dynamodb as dynamodb,
     aws_s3 as s3,
     aws_lambda as lambda_,
-    aws_ssm as ssm
+    aws_ssm as ssm,
+    aws_events as events,
+    aws_events_targets as targets,
+    aws_sqs as sqs
 )
 import os
 
@@ -56,6 +59,7 @@ class AppStack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_11,
             handler="index.handler",
             code=lambda_.Code.from_asset(os.path.join("lambda","dynamo_export")),
+            timeout=Duration.minutes(1),
             environment={
                 "TABLE_ARN":dynamo_messages.table_arn,
                 "S3_BUCKET":export_bucket.bucket_name,
@@ -89,7 +93,16 @@ class AppStack(Stack):
         fn_dynamo_export.add_to_role_policy(allow_export_actions_policy)
         fn_dynamo_export.add_to_role_policy(allow_s3_actions_policy)
 
-
+        # For prod can update to every 24 hours
+        rule = events.Rule(self, "DailyIncrementalExportRule",
+                           schedule=events.Schedule.rate(Duration.minutes(30))
+        )
+        exports_dlq = sqs.Queue(self, "Queue")
+        rule.add_target( targets.LambdaFunction(
+            fn_dynamo_export,
+            dead_letter_queue=exports_dlq,
+            retry_attempts=2 )
+        )
         
         # Create a VPC for the Fargate cluster
         vpc = ec2.Vpc(self, "WaterbotVPC", max_azs=2)

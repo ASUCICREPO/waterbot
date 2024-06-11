@@ -12,7 +12,6 @@ param_name=os.environ['LAST_EXPORT_TIME_PARAM']
 
 def handler(event,context):
     last_export_time_param_value=ssm_client.get_parameter(Name=param_name)['Parameter']['Value']
-    last_export_time_param_value="1970-01-01T00:00:00Z"
     last_export_time=datetime.fromisoformat(last_export_time_param_value)
 
     # on initial deploy, we set this date.  we must do a full incremental the first time.
@@ -41,5 +40,7 @@ def handler(event,context):
         )
 
     ssm_client.put_parameter(Name=param_name,Value=new_export_time.isoformat(),Overwrite=True)
+
+    
 
     return response
