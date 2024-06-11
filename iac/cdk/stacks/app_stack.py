@@ -1,6 +1,7 @@
 from constructs import Construct
 from aws_cdk import (
     Duration,
+    Size,
     Stack,
     aws_ecs as ecs,
     aws_ec2 as ec2,
@@ -10,15 +11,22 @@ from aws_cdk import (
     aws_elasticloadbalancingv2 as elbv2,
     aws_cloudfront as cloudfront,
     aws_cloudfront_origins as origins,
-    aws_dynamodb as dynamodb
+    aws_dynamodb as dynamodb,
+    aws_s3 as s3,
+    aws_lambda as lambda_,
+    aws_ssm as ssm,
+    aws_events as events,
+    aws_events_targets as targets,
+    aws_sqs as sqs
 )
 import os
-
 
 class AppStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, imports: dict, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        context_value = self.node.try_get_context("env")
 
         # Get the secret value from an environment variable
         secret_value = os.environ.get("OPENAI_API_KEY")
@@ -39,9 +47,67 @@ class AppStack(Stack):
         dynamo_messages = dynamodb.Table(self,"cdk-waterbot-messages",
             partition_key=dynamodb.Attribute(name="sessionId", type=dynamodb.AttributeType.STRING),
             sort_key=dynamodb.Attribute(name="msgId", type=dynamodb.AttributeType.STRING),
-            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            point_in_time_recovery=True
+        )
+        export_bucket = s3.Bucket(self,"cdk-export-bucket")
+
+        last_export_time_param = ssm.StringParameter(self,"LastExportTimeParam",
+            string_value="1970-01-01T00:00:00Z"
         )
 
+        fn_dynamo_export = lambda_.Function(
+            self,"fn-dynamo-export",
+            description="dynamo-export", #microservice tag
+            runtime=lambda_.Runtime.PYTHON_3_11,
+            handler="index.handler",
+            code=lambda_.Code.from_asset(os.path.join("lambda","dynamo_export")),
+            timeout=Duration.minutes(1),
+            environment={
+                "TABLE_ARN":dynamo_messages.table_arn,
+                "S3_BUCKET":export_bucket.bucket_name,
+                "LAST_EXPORT_TIME_PARAM":last_export_time_param.parameter_name
+            }
+        )
+        
+        last_export_time_param.grant_read(fn_dynamo_export)
+        last_export_time_param.grant_write(fn_dynamo_export)
+
+        # Define the necessary policy statements
+        allow_export_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "dynamodb:ExportTableToPointInTime"
+            ],
+            resources=[f"{dynamo_messages.table_arn}"]
+        )
+
+        allow_s3_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "s3:AbortMultipartUpload",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            resources=[f"{export_bucket.bucket_arn}/*"]
+        )
+
+        # Attach the policies to the Lambda function
+        fn_dynamo_export.add_to_role_policy(allow_export_actions_policy)
+        fn_dynamo_export.add_to_role_policy(allow_s3_actions_policy)
+
+        # For prod can update to every 24 hours
+        rule = events.Rule(self, "DailyIncrementalExportRule",
+                           schedule=events.Schedule.rate(Duration.hours(24))
+        )
+        exports_dlq = sqs.Queue(self, "Queue")
+        rule.add_target( targets.LambdaFunction(
+            fn_dynamo_export,
+            dead_letter_queue=exports_dlq,
+            retry_attempts=2,
+            max_event_age=Duration.minutes(10) )
+        )
+        
         # Create a VPC for the Fargate cluster
         vpc = ec2.Vpc(self, "WaterbotVPC", max_azs=2)
 
@@ -62,16 +128,16 @@ class AppStack(Stack):
         # Create a Secrets Manager secret
         secret = secretsmanager.Secret(
             self, "OpenAI-APIKey",
-            secret_name="openai-api-key",
             description="Open API Key",
             secret_string_value=SecretValue.unsafe_plain_text(secret_value)
         )
 
+        prefix_for_container_logs="waterbot"+ ("-" + context_value if context_value else "")
         # Create a task definition for the Fargate service
         task_definition = ecs.FargateTaskDefinition(
             self, "WaterbotTaskDefinition",
             memory_limit_mib=512,
-            cpu=256,
+            cpu=256
         )
         # Grant the task permission to log to CloudWatch
         task_definition.add_to_task_role_policy(
@@ -134,6 +200,11 @@ class AppStack(Stack):
                 interval=Duration.minutes(1),
                 timeout=Duration.seconds(5),
                 retries=3,
+            ),
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix=prefix_for_container_logs,
+                mode=ecs.AwsLogDriverMode.NON_BLOCKING,
+                max_buffer_size=Size.mebibytes(25)
             )
         )
 
@@ -204,12 +275,11 @@ class AppStack(Stack):
         # edge function
         #
         # This is just a basic auth blocker to help prevent genai llm call misuse
-        basic_auth_function_code = """
-            function handler(event) {
+        # Define the CloudFront Function code
+        basic_auth_function_code = '''
+        function handler(event) {
             var authHeaders = event.request.headers.authorization;
-            var expected = "Basic """ + basic_auth_secret
-        
-        basic_auth_function_code += """";
+            var expected = "Basic ''' + basic_auth_secret + '''";
 
             // If an Authorization header is supplied and it's an exact match, pass the
             // request on through to CF/the origin without any modification.
@@ -224,20 +294,19 @@ class AppStack(Stack):
                 statusCode: 401,
                 statusDescription: "Unauthorized",
                 headers: {
-                "www-authenticate": {
-                    value: 'Basic realm="Enter credentials for this super secure site"',
-                },
+                    "www-authenticate": {
+                        value: 'Basic realm="Enter credentials for this super secure site"',
+                    },
                 },
             };
 
             return response;
-            }
-        """
+        }
+        '''
 
         basic_auth_function = cloudfront.Function(
             self, "BasicAuthFunction",
-            code=cloudfront.FunctionCode.from_inline(basic_auth_function_code),
-            function_name="BasicAuthFunction",
+            code=cloudfront.FunctionCode.from_inline(basic_auth_function_code)
         )
 
 
