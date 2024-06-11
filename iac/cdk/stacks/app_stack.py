@@ -10,10 +10,12 @@ from aws_cdk import (
     aws_elasticloadbalancingv2 as elbv2,
     aws_cloudfront as cloudfront,
     aws_cloudfront_origins as origins,
-    aws_dynamodb as dynamodb
+    aws_dynamodb as dynamodb,
+    aws_s3 as s3,
+    aws_lambda as lambda_,
+    aws_ssm as ssm
 )
 import os
-
 
 class AppStack(Stack):
 
@@ -39,9 +41,33 @@ class AppStack(Stack):
         dynamo_messages = dynamodb.Table(self,"cdk-waterbot-messages",
             partition_key=dynamodb.Attribute(name="sessionId", type=dynamodb.AttributeType.STRING),
             sort_key=dynamodb.Attribute(name="msgId", type=dynamodb.AttributeType.STRING),
-            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            point_in_time_recovery=True
+        )
+        export_bucket = s3.Bucket(self,"cdk-export-bucket")
+
+        last_export_time_param = ssm.StringParameter(self,"LastExportTimeParam",
+            string_value="1970-01-01T00:00:00Z"
         )
 
+        fn_dynamo_export = lambda_.Function(
+            self,"fn-dynamo-export",
+            description="dynamo-export", #microservice tag
+            runtime=lambda_.Runtime.PYTHON_3_11,
+            handler="index.handler",
+            code=lambda_.Code.from_asset(os.path.join("lambda","dynamo_export")),
+            environment={
+                "TABLE_ARN":dynamo_messages.table_arn,
+                "S3_BUCKET":export_bucket.bucket_name,
+                "LAST_EXPORT_TIME_PARAM":last_export_time_param.parameter_name
+            }
+        )
+
+        last_export_time_param.grant_read(fn_dynamo_export)
+        last_export_time_param.grant_write(fn_dynamo_export)
+
+
+        
         # Create a VPC for the Fargate cluster
         vpc = ec2.Vpc(self, "WaterbotVPC", max_azs=2)
 
