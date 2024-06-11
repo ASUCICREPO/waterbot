@@ -41,6 +41,7 @@ def handler(event,context):
 
     ssm_client.put_parameter(Name=param_name,Value=new_export_time.isoformat(),Overwrite=True)
 
-    
+     # Convert the response to a JSON-serializable format
+    json_response = json.dumps(response, default=str)
 
-    return response
+    return json_response

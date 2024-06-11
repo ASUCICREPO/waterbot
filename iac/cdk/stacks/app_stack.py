@@ -95,7 +95,7 @@ class AppStack(Stack):
 
         # For prod can update to every 24 hours
         rule = events.Rule(self, "DailyIncrementalExportRule",
-                           schedule=events.Schedule.rate(Duration.minutes(30))
+                           schedule=events.Schedule.rate(Duration.hours(24))
         )
         exports_dlq = sqs.Queue(self, "Queue")
         rule.add_target( targets.LambdaFunction(
