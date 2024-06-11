@@ -101,7 +101,8 @@ class AppStack(Stack):
         rule.add_target( targets.LambdaFunction(
             fn_dynamo_export,
             dead_letter_queue=exports_dlq,
-            retry_attempts=2 )
+            retry_attempts=2,
+            max_event_age=Duration.minutes(10) )
         )
         
         # Create a VPC for the Fargate cluster
