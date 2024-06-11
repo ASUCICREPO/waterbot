@@ -62,9 +62,32 @@ class AppStack(Stack):
                 "LAST_EXPORT_TIME_PARAM":last_export_time_param.parameter_name
             }
         )
-
+        
         last_export_time_param.grant_read(fn_dynamo_export)
         last_export_time_param.grant_write(fn_dynamo_export)
+
+        # Define the necessary policy statements
+        allow_export_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "dynamodb:ExportTableToPointInTime"
+            ],
+            resources=[f"{dynamo_messages.table_arn}"]
+        )
+
+        allow_s3_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "s3:AbortMultipartUpload",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            resources=[f"{export_bucket.bucket_arn}/*"]
+        )
+
+        # Attach the policies to the Lambda function
+        fn_dynamo_export.add_to_role_policy(allow_export_actions_policy)
+        fn_dynamo_export.add_to_role_policy(allow_s3_actions_policy)
 
 
         
