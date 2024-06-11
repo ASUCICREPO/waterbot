@@ -38,7 +38,7 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
     
     async def dispatch(self, request: Request, call_next):
         # store session ID in memory if we are in situation where client has cookies disabled.
-        session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or str(uuid.uuid4())
+        session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or ("COOKIE_DISABLED."+str(uuid.uuid4()))
         self.client_cookie_disabled_uuid=session_value
     
         request.state.client_cookie_disabled_uuid = session_value
@@ -114,10 +114,11 @@ async def submit_rating_api_post(
 
     session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
-
+    counter_uuid=await memory.get_message_count_uuid(session_uuid)
+    message_uuid_combo=counter_uuid+"."+message_id
     await datastore.update_rating_fields(
         session_uuid=session_uuid,
-        message_id=message_id,
+        message_id=message_uuid_combo,
         reaction=reaction,
         userComment=userComment
     )
@@ -163,7 +164,7 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     # We do not include sources as this message is the actual sources; no AI generation involved.
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=bot_response,
         source=[] 
@@ -217,7 +218,7 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
     
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -269,7 +270,7 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -318,7 +319,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
         background_tasks.add_task( datastore.write_msg,
             session_uuid=session_uuid,
-            msg_id=await memory.get_message_count(session_uuid), 
+            msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
             user_query=generated_user_query, 
             response_content=response_content,
             source=[]
@@ -358,7 +359,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=user_query, 
         response_content=response_content,
         source=docs["sources"]
