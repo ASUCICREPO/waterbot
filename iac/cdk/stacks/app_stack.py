@@ -1,6 +1,7 @@
 from constructs import Construct
 from aws_cdk import (
     Duration,
+    Size,
     Stack,
     aws_ecs as ecs,
     aws_ec2 as ec2,
@@ -24,6 +25,8 @@ class AppStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, imports: dict, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        context_value = self.node.try_get_context("env")
 
         # Get the secret value from an environment variable
         secret_value = os.environ.get("OPENAI_API_KEY")
@@ -129,11 +132,12 @@ class AppStack(Stack):
             secret_string_value=SecretValue.unsafe_plain_text(secret_value)
         )
 
+        prefix_for_container_logs="waterbot"+ ("-" + context_value if context_value else "")
         # Create a task definition for the Fargate service
         task_definition = ecs.FargateTaskDefinition(
             self, "WaterbotTaskDefinition",
             memory_limit_mib=512,
-            cpu=256,
+            cpu=256
         )
         # Grant the task permission to log to CloudWatch
         task_definition.add_to_task_role_policy(
@@ -196,6 +200,11 @@ class AppStack(Stack):
                 interval=Duration.minutes(1),
                 timeout=Duration.seconds(5),
                 retries=3,
+            ),
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix=prefix_for_container_logs,
+                mode=ecs.AwsLogDriverMode.NON_BLOCKING,
+                max_buffer_size=Size.mebibytes(25)
             )
         )
 
