@@ -1,3 +1,5 @@
+import uuid
+
 class MemoryManager:
     def __init__(self):
         self.sessions = {}
@@ -5,15 +7,29 @@ class MemoryManager:
 
     async def get_message_count(self, session_id):
         if session_id in self.message_counts:
-            return self.message_counts[session_id]
+            return self.message_counts[session_id]["count"]
         else:
             return 0
-        
+    async def get_message_count_uuid_combo(self, session_id):
+        if session_id in self.message_counts:
+            return str(self.message_counts[session_id]["conversation_uuid"]) + "." + str(self.message_counts[session_id]["count"])
+        else:
+            return "error." + str(uuid.uuid4())
+    async def get_message_count_uuid(self,session_id):
+        if session_id in self.message_counts:
+            return self.message_counts[session_id]["conversation_uuid"]
+        else:
+            return "error." + str(uuid.uuid4())
+             
     async def increment_message_count(self, session_id):
         if session_id in self.message_counts:
-            self.message_counts[session_id] += 1
+            self.message_counts[session_id]["count"] += 1
         else:
-            self.message_counts[session_id] = 0
+            conversation_uuid=str(uuid.uuid4())
+            self.message_counts[session_id] = {
+                "conversation_uuid":conversation_uuid,
+                "count":0
+            }
 
     async def create_session(self, session_id):
         self.sessions[session_id] = []
