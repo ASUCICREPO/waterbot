@@ -2,3 +2,6 @@ amazon-transcribe
 fastapi
 itsdangerous
 sounddevice
+boto3==1.34.124
+botocore==1.34.124
+python-dotenv==1.0.1
