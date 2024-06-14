@@ -16,6 +16,7 @@ from fastapi.staticfiles import StaticFiles
 from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
 from managers.chroma_manager import ChromaManager
+from managers.s3_manager import S3Manager
 
 from adapters.claude import BedrockClaudeAdapter
 from adapters.openai import OpenAIAdapter
@@ -24,7 +25,7 @@ from dotenv import load_dotenv
 
 import os
 import json
-
+import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Set the cookie name to match the one configured in the CDK
@@ -70,6 +71,7 @@ secret_key=secrets.token_urlsafe(32)
 app.add_middleware(SetCookieMiddleware)
 
 MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
+TRANSCRIPT_BUCKET_NAME=os.getenv("TRANSCRIPT_BUCKET_NAME")
 # adapter choices
 ADAPTERS = {
     "claude.haiku":BedrockClaudeAdapter("anthropic.claude-3-haiku-20240307-v1:0"),
@@ -88,7 +90,7 @@ embeddings = llm_adapter.get_embeddings()
 memory = MemoryManager()  # Assuming you have a MemoryManager class
 datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
-
+s3_manager = S3Manager(bucket_name=TRANSCRIPT_BUCKET_NAME)
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
@@ -102,6 +104,30 @@ async def home(request: Request,):
     }
 
     return templates.TemplateResponse("index.html", context )
+
+
+@app.post("/session-transcript")
+async def session_transcript_post(request: Request):
+    # Get the session UUID from the cookie
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
+
+    # Get all session history
+    session_history = await memory.get_session_history_all(session_uuid)
+
+    # Generate a unique filename for the S3 object
+    filename = f"{session_uuid}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+    object_key = f"session-transcript/{filename}"
+
+    # Upload the session history to S3
+    print(session_history)
+    print(TRANSCRIPT_BUCKET_NAME)
+    await s3_manager.upload(key=object_key, body=json.dumps(session_history))
+
+    # Generate a presigned URL for the S3 object
+    url = await s3_manager.generate_presigned(key=object_key)
+
+    return {'presigned_url': url}
+
 
 # Route to handle ratings
 @app.post('/submit_rating_api')
