@@ -51,6 +51,7 @@ class AppStack(Stack):
             point_in_time_recovery=True
         )
         export_bucket = s3.Bucket(self,"cdk-export-bucket")
+        transcript_bucket = s3.Bucket(self,"cdk-transcript-bucket")
 
         last_export_time_param = ssm.StringParameter(self,"LastExportTimeParam",
             string_value="1970-01-01T00:00:00Z"
@@ -183,6 +184,17 @@ class AppStack(Stack):
                 resources=[dynamo_messages.table_arn], 
             )
         )
+        # Grant the task permission to access s3 for transcripts
+        task_definition.add_to_task_role_policy(
+            iam.PolicyStatement(
+                actions=[            
+                    "s3:PutObject",
+                    "s3:GetObject"
+                ],
+                resources=[f"{export_bucket.bucket_arn}/*"], 
+            )
+        )
+
 
         # Create a container in the task definition & inject the secret into the container as an environment variable
         container = task_definition.add_container(
@@ -190,7 +202,8 @@ class AppStack(Stack):
             image=ecs.ContainerImage.from_ecr_repository(repository, tag="latest"),
             port_mappings=[ecs.PortMapping(container_port=8000)],
             environment={
-                "MESSAGES_TABLE": dynamo_messages.table_name
+                "MESSAGES_TABLE": dynamo_messages.table_name,
+                "TRANSCRIPT_BUCKET_NAME": transcript_bucket.bucket_name
             },
             secrets={
                 "OPENAI_API_KEY": ecs.Secret.from_secrets_manager(secret)
