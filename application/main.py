@@ -2,6 +2,8 @@ import uvicorn
 import uuid
 import secrets
 import socket
+import httpx
+
 
 from typing import Annotated
 
@@ -12,6 +14,7 @@ from fastapi import Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi import WebSocket
 
 from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
@@ -19,6 +22,14 @@ from managers.chroma_manager import ChromaManager
 
 from adapters.claude import BedrockClaudeAdapter
 from adapters.openai import OpenAIAdapter
+
+from amazon_transcribe.client import TranscribeStreamingClient
+from amazon_transcribe.handlers import TranscriptResultStreamHandler
+from amazon_transcribe.model import TranscriptEvent
+from starlette.middleware.sessions import SessionMiddleware
+from starlette.websockets import WebSocketState
+
+import asyncio
 
 from dotenv import load_dotenv
 
@@ -56,6 +67,22 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
 
         return response
 
+class MyEventHandler(TranscriptResultStreamHandler):
+    def __init__(self, output_stream):
+        super().__init__(output_stream)
+        
+    async def handle_transcript_event(self, transcript_event: TranscriptEvent):
+        results = transcript_event.transcript.results
+        for result in results:
+            if not result.is_partial:
+                for alt in result.alternatives:
+                    print(alt.transcript)
+                    # Prepare the form data as expected by the /chat_api endpoint
+                    form_data = {'user_query': alt.transcript}
+                    async with httpx.AsyncClient() as client:
+                        # Ensure to send the form data correctly
+                        response = await client.post("http://localhost:8000/chat_api", data=form_data)
+                        print(response.text)  # Handle or log the response from your chat API
 
 # Take environment variables from .env
 load_dotenv(override=True)  
@@ -68,6 +95,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Middleware management
 secret_key=secrets.token_urlsafe(32)
 app.add_middleware(SetCookieMiddleware)
+app.add_middleware(SessionMiddleware, secret_key=secret_key)
 
 MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
 # adapter choices
@@ -281,7 +309,41 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
         "msgID": await memory.get_message_count(session_uuid)
     }
 
+@app.websocket("/transcribe")
+async def transcribe(websocket: WebSocket):
+    await websocket.accept()
+    client = TranscribeStreamingClient(region="us-east-1")
+    stream = await client.start_stream_transcription(
+        language_code="en-US",
+        media_sample_rate_hz=16000,
+        media_encoding="ogg-opus",
+    )
 
+    async def receive_audio():
+        try:
+            while True:
+                data = await websocket.receive()
+                # print("In receive audio fn:",data)
+                if data.get("text") == '{"event":"close"}':
+                    print("Closing WebSocket connection")
+                    await stream.input_stream.end_stream()
+                    break
+                elif data.get("bytes"):
+                    # Send the audio data to the Amazon Transcribe service
+                    await stream.input_stream.send_audio_event(audio_chunk=data.get("bytes"))
+        except Exception as e:
+            print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
+            await stream.input_stream.end_stream()
+
+    handler = MyEventHandler(stream.output_stream)
+
+    try:
+        await asyncio.gather(receive_audio(), handler.handle_events())
+    except Exception as e:
+        print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
+    finally:
+        print("Closing WebSocket connection")
+        await websocket.close()
 
 # Route to handle chat interactions
 @app.post('/chat_api')
