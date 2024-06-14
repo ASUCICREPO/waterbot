@@ -155,6 +155,10 @@
               </div>
             </div>
           </div>
+
+          <!-- Add transcription div here -->
+          <div id="transcription" style="display:none;"></div>
+
           <form autocomplete="off" onsubmit="return false" action="/chat_api" method="post" id="userBox" style="display: flex; align-items: center;">
             <div class="input-group mt-3" style="position: relative; flex-grow: 1;">
               <input autocomplete="nope" type="text" id="user_query" name="user_query"
@@ -536,9 +540,21 @@
 
     function handleSocketMessage(event) {
         console.log("In handle socket message")
+        console.log("Received WebSocket message:", event.data);
+        try{
         const data = JSON.parse(event.data);
+        console.log("Parsed data: ", data); 
         transcriptionDiv.innerText = data.transcript;
+      // Check if the message is from the user or the bot and display it accordingly
+        if (data.type === "user") {
+          displayUserMessage(data.transcript);
+      } else if (data.type === "bot") {
+          displayBotMessage(data.response, data.messageID);
+      }
+    }catch(error)
+    { console.error("Error parsing WebSocket message:", error);}
     }
+  
 </script>
 
 </body>
