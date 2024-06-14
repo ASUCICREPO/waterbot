@@ -29,6 +29,32 @@ $(document).ready(function () {
     chatHistory.appendChild(userMessage);
   }
 
+  // Toggle buttons for language selection
+document.getElementById('english-button').addEventListener('click', function() {
+  this.classList.add('active');
+  document.getElementById('spanish-button').classList.remove('active');
+  // Navigate to English version if needed
+  // window.location.href = 'URL_FOR_ENGLISH_VERSION';
+});
+
+document.getElementById('spanish-button').addEventListener('click', function() {
+  this.classList.add('active');
+  document.getElementById('english-button').classList.remove('active');
+  // Navigate to Spanish version
+  window.location.href = 'Spanish_Translation_2.0.1.html';  // Adjust the URL as needed when spanish version is developed
+});
+
+let socket = new WebSocket('ws://localhost:8000/transcribe');
+
+socket.onmessage = function(event) {
+    let data = JSON.parse(event.data);
+    if (data.type === "user") {
+        displayUserMessage(data.text);
+    } else if (data.type === "bot") {
+        displayBotMessage(data.text);
+    }
+};
+
   function showReactions(message) {
     $(message).find('.reactions').show();
   }

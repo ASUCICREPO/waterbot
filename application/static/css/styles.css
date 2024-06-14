@@ -649,3 +649,93 @@ a {
   0% , 60% , 100%{ transform:  scale(1) }
   80% { transform:  scale(1.2)}
 }
+.btn-mic:hover svg {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+.btn-mic:hover {
+  background-color: #8c1d40;
+  color: white;
+}
+.language-text {
+  width: 83px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #191919;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.language-toggle-container {
+  width: 140px; /* Adjusted width to fit the buttons */
+  height: 35px; /* Adjusted height to fit the buttons */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25.5px; /* Ensure it matches the button border-radius */
+  background-color: #606060;
+  overflow: hidden; /* Ensure buttons fit within the container */
+  margin-bottom: 20px; /* Add margin-bottom to create space below the button */
+}
+
+.language-toggle {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border-radius: 25.5px;
+  overflow: hidden;
+}
+
+.language-button {
+  flex: 1;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+}
+
+.language-button.english-button {
+  background: #8C1D40;
+  color: #FFFFFF;
+  border-top-left-radius: 25.5px;
+  border-bottom-left-radius: 25.5px;
+  border-top-right-radius: 0;  /* Adjust border radius */
+  border-bottom-right-radius: 0;  /* Adjust border radius */
+  width: 70px; /* Adjusted width */
+  height: 35px; /* Adjusted height */
+  font-size: 12px; /* Adjusted font size */
+  padding: 5px 0; /* Adjusted padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.language-button.spanish-button {
+  background: #606060;
+  color: #FFFFFF;
+  border-top-right-radius: 25.5px;
+  border-bottom-right-radius: 25.5px;
+  border-top-left-radius: 0;  /* Adjust border radius */
+  border-bottom-left-radius: 0;
+  font-family: Montserrat, sans-serif;
+  font-size: 12px; /* Adjusted font size */
+  text-transform: uppercase;
+  width: 70px; /* Adjusted width */
+  height: 35px; /* Adjusted height */
+  padding: 5px 0; /* Adjusted padding */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.language-button.active {
+  background-color: #8C1D40;
+  color: #FFFFFF;
+}
