@@ -68,8 +68,9 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
         return response
 
 class MyEventHandler(TranscriptResultStreamHandler):
-    def __init__(self, output_stream):
+    def __init__(self, output_stream, websocket):
         super().__init__(output_stream)
+        self.websocket = websocket
         
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
         results = transcript_event.transcript.results
@@ -80,9 +81,21 @@ class MyEventHandler(TranscriptResultStreamHandler):
                     # Prepare the form data as expected by the /chat_api endpoint
                     form_data = {'user_query': alt.transcript}
                     async with httpx.AsyncClient() as client:
-                        # Ensure to send the form data correctly
                         response = await client.post("http://localhost:8000/chat_api", data=form_data)
                         print(response.text)  # Handle or log the response from your chat API
+                        # Send back the user query and bot response to the UI
+                        await self.websocket.send_json({
+                            'type': 'user',
+                            'transcript': alt.transcript
+                        })
+                        print("Sent user message to client.")
+                        # Assuming the API response contains the bot's message
+                        await self.websocket.send_json({
+                            'type': 'bot',
+                            'response': response.json()['resp'],
+                            'messageID': response.json()['msgID']
+                        })
+                        print("Sent bot response to client.") 
 
 # Take environment variables from .env
 load_dotenv(override=True)  
@@ -335,7 +348,7 @@ async def transcribe(websocket: WebSocket):
             print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
             await stream.input_stream.end_stream()
 
-    handler = MyEventHandler(stream.output_stream)
+    handler = MyEventHandler(stream.output_stream, websocket)
 
     try:
         await asyncio.gather(receive_audio(), handler.handle_events())
