@@ -17,7 +17,8 @@ from aws_cdk import (
     aws_ssm as ssm,
     aws_events as events,
     aws_events_targets as targets,
-    aws_sqs as sqs
+    aws_sqs as sqs,
+    aws_ecs_patterns as ecs_patterns
 )
 import os
 
@@ -221,43 +222,40 @@ class AppStack(Stack):
             )
         )
 
-        # Create an Application Load Balancer
-        alb_wb = elbv2.ApplicationLoadBalancer(
-            self, "FargateALB",
-            vpc=vpc,
-            internet_facing=True
+
+        # Instantiate an Amazon ECS Service
+        ecs_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "FargateService",
+            cluster=cluster,
+            task_definition=task_definition,
+            desired_count=2,
+            listener_port=80
+        )
+        # Setup AutoScaling policy
+        scaling = ecs_service.service.auto_scale_task_count(
+            min_capacity=2,
+            max_capacity=4
+        )
+        scaling.scale_on_memory_utilization(
+            "CpuScaling",
+            target_utilization_percent=90,
+            scale_in_cooldown=Duration.seconds(3600),
+            scale_out_cooldown=Duration.seconds(60),
         )
 
-        # Create a listener for the ALB
-        listener_wb = alb_wb.add_listener(
-            "FargateALBListener",
-            port=80,
-            open=True
+        ecs_service.target_group.configure_health_check(
+            path="/",
+            interval=Duration.minutes(1),
+            timeout=Duration.seconds(5)
         )
-
-
-        # Create a target group for the Fargate service
-        target_group_wb = listener_wb.add_targets(
-            "FargateTargetGroup",
-            port=8000,
-            targets=[ecs.FargateService(
-                self, "FargateService",
-                cluster=cluster,
-                task_definition=task_definition,
-                desired_count=3,
-            )],
-            health_check=elbv2.HealthCheck(
-                path="/",
-                interval=Duration.minutes(1),
-                timeout=Duration.seconds(5)
-            ),
-            stickiness_cookie_duration=Duration.hours(2),  # Set the cookie duration
-            stickiness_cookie_name="WATERBOT"  # Set the cookie name
+        # Enable stickiness
+        ecs_service.target_group.enable_cookie_stickiness(
+            duration=Duration.hours(2),  # Set the cookie duration
+            cookie_name="WATERBOT"  # Set the cookie name
         )
-
+    
 
         # overwrite default action implictly created above (will cause warning)
-        listener_wb.add_action(
+        ecs_service.listener.add_action(
             "Default",
             action=elbv2.ListenerAction.fixed_response(
                 status_code=403,
@@ -269,7 +267,7 @@ class AppStack(Stack):
         # Create a rule to check for the custom header
         custom_header_rule = elbv2.ApplicationListenerRule(
             self, "CustomHeaderRule",
-            listener=listener_wb,
+            listener=ecs_service.listener,
             priority=1,
             conditions=[
                 elbv2.ListenerCondition.http_header(
@@ -278,7 +276,7 @@ class AppStack(Stack):
                 )
             ],
             action=elbv2.ListenerAction.forward(
-                target_groups=[target_group_wb]
+                target_groups=[ecs_service.target_group]
             )
         )
 
@@ -329,7 +327,7 @@ class AppStack(Stack):
             self, "CloudFrontDistribution",
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.LoadBalancerV2Origin(
-                    alb_wb,
+                    ecs_service.load_balancer,
                     origin_path="/",
                     protocol_policy=cloudfront.OriginProtocolPolicy.HTTP_ONLY,
                     custom_headers={
