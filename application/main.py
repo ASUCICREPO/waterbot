@@ -17,13 +17,15 @@ from fastapi import WebSocket
 from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
 from managers.chroma_manager import ChromaManager
-from managers.transcribe_manager import MyEventHandler
 
 from adapters.claude import BedrockClaudeAdapter
 from adapters.openai import OpenAIAdapter
 
 from amazon_transcribe.client import TranscribeStreamingClient
 from starlette.middleware.sessions import SessionMiddleware
+import logging
+from amazon_transcribe.handlers import TranscriptResultStreamHandler
+from amazon_transcribe.model import TranscriptEvent
 
 import asyncio
 
@@ -96,6 +98,50 @@ memory = MemoryManager()  # Assuming you have a MemoryManager class
 datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
 
+class MyEventHandler(TranscriptResultStreamHandler):
+    def __init__(self, output_stream, websocket, session_uuid=None):
+        super().__init__(output_stream)
+        self.websocket = websocket
+        self.session_uuid = session_uuid or str(uuid.uuid4())
+        logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+        # Function mapping
+        # self.function_map = {
+        #     "tell me more": self.chat_detailed_api_post,
+        #     "next steps": self.chat_action_items_api_post,
+        #     "sources": self.chat_sources_post
+        # }
+
+    async def handle_transcript_event(self, transcript_event: TranscriptEvent):
+        results = transcript_event.transcript.results
+        for result in results:
+            if not result.is_partial:
+                for alt in result.alternatives:
+                    logging.info(f"Handling full transcript: {alt.transcript}")
+                    
+                    background_tasks = BackgroundTasks()
+                    response = await self.process_chat_query(alt.transcript.strip().lower(), self.session_uuid, background_tasks)
+                    await self.send_responses(alt.transcript, response)
+
+
+    # def determine_function(self, transcript):
+    #     for key, func in self.function_map.items():
+    #         if transcript == key or transcript == key + '.':
+    #             return func
+    #     return self.chat_api_post  # Default function if no exact match is found
+
+    async def send_responses(self, user_transcript, api_response):
+        await self.websocket.send_json({
+            'type': 'user',
+            'transcript': user_transcript
+        })
+        logging.info("Sent user message to client.")
+        await self.websocket.send_json({
+            'type': 'bot',
+            'response': api_response['resp'],
+            'messageID': api_response['msgID']
+        })
+        logging.info("Sent bot response to client.")
+        
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
@@ -290,6 +336,7 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 
 @app.websocket("/transcribe")
 async def transcribe(websocket: WebSocket):
+    session_uuid = str(uuid.uuid4())
     await websocket.accept()
     client = TranscribeStreamingClient(region="us-east-1")
     stream = await client.start_stream_transcription(
@@ -314,7 +361,7 @@ async def transcribe(websocket: WebSocket):
             print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
             await stream.input_stream.end_stream()
 
-    handler = MyEventHandler(stream.output_stream, websocket)
+    handler = MyEventHandler(stream.output_stream, websocket, session_uuid)
 
     try:
         await asyncio.gather(receive_audio(), handler.handle_events())
@@ -324,13 +371,9 @@ async def transcribe(websocket: WebSocket):
         print("Closing WebSocket connection")
         await websocket.close()
 
-# Route to handle chat interactions
-@app.post('/chat_api')
-async def chat_api_post(request: Request, user_query: Annotated[str, Form()], background_tasks:BackgroundTasks ):
-    user_query=user_query
 
-    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
-
+async def process_chat_interaction(user_query, session_uuid, background_tasks):
+    
     await memory.create_session(session_uuid)
         
     moderation_result,intent_result = await llm_adapter.safety_checks(user_query)
@@ -409,6 +452,100 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
         "resp":response_content,
         "msgID": await memory.get_message_count(session_uuid)
     }
+
+# Route to handle chat interactions
+@app.post('/chat_api')
+async def chat_api_post(request: Request, user_query: Annotated[str, Form()], background_tasks:BackgroundTasks ):
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
+    result = await process_chat_interaction(user_query, session_uuid, background_tasks)
+    return result
+
+
+# # Route to handle chat interactions
+# @app.post('/chat_api')
+# async def chat_api_post(request: Request, user_query: Annotated[str, Form()], background_tasks:BackgroundTasks ):
+#     user_query=user_query
+
+#     session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
+
+#     await memory.create_session(session_uuid)
+        
+#     moderation_result,intent_result = await llm_adapter.safety_checks(user_query)
+
+#     user_intent=1
+#     prompt_injection=1
+#     unrelated_topic=1
+#     not_handled="I am sorry, your request cannot be handled."
+#     try:
+#         data = json.loads(intent_result)
+#         user_intent=data["user_intent"]
+#         prompt_injection=data["prompt_injection"]
+#         unrelated_topic=data["unrelated_topic"]
+#     except Exception as e:
+#         print(intent_result)
+#         print("ERROR", str(e))
+
+
+#     if( moderation_result or (prompt_injection or unrelated_topic)):
+#         response_content= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
+
+#         await memory.increment_message_count(session_uuid)
+
+#         generated_user_query = f'{custom_tags.tags["SECURITY_CHECK"][0]}{data}{custom_tags.tags["SECURITY_CHECK"][1]}'
+#         generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
+
+#         background_tasks.add_task( datastore.write_msg,
+#             session_uuid=session_uuid,
+#             msg_id=await memory.get_message_count(session_uuid), 
+#             user_query=generated_user_query, 
+#             response_content=response_content,
+#             source=[]
+#         )
+
+#         return {
+#             "resp":response_content,
+#             "msgID": await memory.get_message_count(session_uuid)
+#         }
+
+#     await memory.add_message_to_session( 
+#         session_id=session_uuid, 
+#         message={"role":"user","content":user_query},
+#         source_list=[]
+#     )
+    
+
+#     docs = await knowledge_base.ann_search(user_query)
+#     doc_content_str = await knowledge_base.knowledge_to_string(docs)
+    
+#     llm_body = await llm_adapter.get_llm_body( 
+#         chat_history=await memory.get_session_history_all(session_uuid), 
+#         kb_data=doc_content_str,
+#         temperature=.5,
+#         max_tokens=500 )
+
+#     response_content = await llm_adapter.generate_response(llm_body=llm_body)
+
+#     await memory.add_message_to_session( 
+#         session_id=session_uuid, 
+#         message={"role":"assistant","content":response_content},
+#         source_list=docs
+#     )
+
+#     await memory.increment_message_count(session_uuid)
+
+
+#     background_tasks.add_task( datastore.write_msg,
+#         session_uuid=session_uuid,
+#         msg_id=await memory.get_message_count(session_uuid), 
+#         user_query=user_query, 
+#         response_content=response_content,
+#         source=docs["sources"]
+#     )
+
+#     return {
+#         "resp":response_content,
+#         "msgID": await memory.get_message_count(session_uuid)
+#     }
 
 if __name__ == "__main__":
     uvicorn.run(app, host='0.0.0.0', port=8000)

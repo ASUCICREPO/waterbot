@@ -1,20 +1,18 @@
-
-import httpx
 import logging
 from amazon_transcribe.handlers import TranscriptResultStreamHandler
 from amazon_transcribe.model import TranscriptEvent
-
+from main import chat_detailed_api_post, chat_api_post, chat_action_items_api_post,chat_sources_post
 
 class MyEventHandler(TranscriptResultStreamHandler):
     def __init__(self, output_stream, websocket):
         super().__init__(output_stream)
         self.websocket = websocket
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-        # Mapping of specific phrases to API endpoints
-        self.api_endpoints = {
-            "tell me more": "http://localhost:8000/chat_detailed_api",
-            "next steps": "http://localhost:8000/chat_actionItems_api",
-            "sources": "http://localhost:8000/chat_sources_api",
+        # Function mapping
+        self.function_map = {
+            "tell me more": chat_detailed_api_post,
+            "next steps": chat_action_items_api_post,
+            "sources": chat_sources_post
         }
 
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
@@ -23,23 +21,16 @@ class MyEventHandler(TranscriptResultStreamHandler):
             if not result.is_partial:
                 for alt in result.alternatives:
                     logging.info(f"Handling full transcript: {alt.transcript}")
-                    api_url = self.determine_api_url(alt.transcript.strip().lower())
-                    form_data = {'user_query': alt.transcript}
-                    try:
-                        async with httpx.AsyncClient() as client:
-                            response = await client.post(api_url, data=form_data)
-                            response.raise_for_status()  # This will raise an exception for HTTP error responses
-                            await self.send_responses(alt.transcript, response)
-                    except (httpx.HTTPError, httpx.RequestError) as e:
-                        logging.error(f"Failed to post to chat API: {e}")
-                        await self.websocket.send_json({'type': 'error', 'details': str(e)})
+                    function = self.determine_function(alt.transcript.strip().lower())
+                    response = await function(alt.transcript)  # Direct function call
+                    await self.send_responses(alt.transcript, response)
 
-    def determine_api_url(self, transcript):
-        # Exact matches for specific requests, considering an optional period
-        for key, url in self.api_endpoints.items():
+
+    def determine_function(self, transcript):
+        for key, func in self.function_map.items():
             if transcript == key or transcript == key + '.':
-                return url
-        return "http://localhost:8000/chat_api"  # Default API if no exact match is found
+                return func
+        return chat_api_post  # Default function if no exact match is found
 
     async def send_responses(self, user_transcript, api_response):
         await self.websocket.send_json({
@@ -47,10 +38,9 @@ class MyEventHandler(TranscriptResultStreamHandler):
             'transcript': user_transcript
         })
         logging.info("Sent user message to client.")
-        api_response_data = api_response.json()
         await self.websocket.send_json({
             'type': 'bot',
-            'response': api_response_data['resp'],
-            'messageID': api_response_data['msgID']
+            'response': api_response['resp'],
+            'messageID': api_response['msgID']
         })
         logging.info("Sent bot response to client.")
