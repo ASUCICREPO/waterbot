@@ -112,6 +112,10 @@ async def home(request: Request,):
 
 @app.websocket("/transcribe")
 async def transcribe(websocket: WebSocket):
+    #######
+    # prints in this function and transcribe manager utilized to demonstrate 
+    # concept
+    #######
     await websocket.accept()
     
     client = TranscribeStreamingClient(region="us-east-1")
