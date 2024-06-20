@@ -8,7 +8,9 @@ class TranscribeManager(TranscriptResultStreamHandler):
                 "tell me more": "ACTION_tell_me_more",
                 "next steps": "ACTION_next_steps",
                 "sources": "ACTION_chat_sources",
-            }
+        }
+        self.transcribed_text = None
+        self.designated_action = None
 
 
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
@@ -19,6 +21,8 @@ class TranscribeManager(TranscriptResultStreamHandler):
                     print(f"Handling full transcript: {alt.transcript}")
                     action = await self.determine_action(alt.transcript.strip().lower())
                     print(action)
+                    self.transcribed_text = alt.transcript
+                    self.designated_action = action
 
 
     async def determine_action(self, transcript):

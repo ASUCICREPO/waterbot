@@ -137,15 +137,18 @@ async def transcribe(websocket: WebSocket):
             print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
             await stream.input_stream.end_stream()
 
-    handler = TranscribeManager(stream.output_stream)
+    transcribe_manager = TranscribeManager(stream.output_stream)
 
     try:
-        await asyncio.gather(receive_audio(), handler.handle_events())
+        await asyncio.gather(receive_audio(), transcribe_manager.handle_events())
+
     except Exception as e:
         print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
     finally:
         print("Closing WebSocket connection")
         await websocket.close()
+        print(transcribe_manager.transcribed_text)
+        print(transcribe_manager.designated_action)
 
 
 @app.post("/session-transcript")
