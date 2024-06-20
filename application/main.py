@@ -2,12 +2,12 @@ import uvicorn
 import uuid
 import secrets
 import socket
-
+import asyncio 
 from typing import Annotated
 
 import mappings.custom_tags as custom_tags
 
-from fastapi import FastAPI, BackgroundTasks
+from fastapi import FastAPI, BackgroundTasks, WebSocket
 from fastapi import Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -17,6 +17,7 @@ from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
 from managers.chroma_manager import ChromaManager
 from managers.s3_manager import S3Manager
+from managers.transcribe_manager import TranscribeManager
 
 from adapters.claude import BedrockClaudeAdapter
 from adapters.openai import OpenAIAdapter
@@ -27,6 +28,9 @@ import os
 import json
 import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
+
+from amazon_transcribe.client import TranscribeStreamingClient
+
 
 # Set the cookie name to match the one configured in the CDK
 COOKIE_NAME = "WATERBOT"
@@ -92,6 +96,7 @@ datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
 s3_manager = S3Manager(bucket_name=TRANSCRIPT_BUCKET_NAME)
 
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
     hostname = socket.gethostname()
@@ -104,6 +109,43 @@ async def home(request: Request,):
     }
 
     return templates.TemplateResponse("index.html", context )
+
+@app.websocket("/transcribe")
+async def transcribe(websocket: WebSocket):
+    await websocket.accept()
+    
+    client = TranscribeStreamingClient(region="us-east-1")
+    stream = await client.start_stream_transcription(
+        language_code="en-US",
+        media_sample_rate_hz=16000,
+        media_encoding="ogg-opus",
+    )
+
+    async def receive_audio():
+        try:
+            while True:
+                data = await websocket.receive()
+                #print(data)
+                if data.get("text") == '{"event":"close"}':
+                    print("Closing WebSocket connection")
+                    await stream.input_stream.end_stream()
+                    break
+                elif data.get("bytes"):
+                    # Send the audio data to the Amazon Transcribe service
+                    await stream.input_stream.send_audio_event(audio_chunk=data.get("bytes"))
+        except Exception as e:
+            print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
+            await stream.input_stream.end_stream()
+
+    handler = TranscribeManager(stream.output_stream)
+
+    try:
+        await asyncio.gather(receive_audio(), handler.handle_events())
+    except Exception as e:
+        print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
+    finally:
+        print("Closing WebSocket connection")
+        await websocket.close()
 
 
 @app.post("/session-transcript")
