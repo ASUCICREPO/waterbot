@@ -149,6 +149,8 @@ async def transcribe(websocket: WebSocket):
         await websocket.close()
         print(transcribe_manager.transcribed_text)
         print(transcribe_manager.designated_action)
+        print(websocket.url)
+        print(websocket.base_url)
 
 
 @app.post("/session-transcript")
