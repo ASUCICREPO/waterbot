@@ -211,7 +211,7 @@ async def transcribe(websocket: WebSocket):
     finally:
         print("Closing WebSocket connection")
         await websocket.close()
-
+        print(websocket.headers)
 
 @app.post("/session-transcript")
 async def session_transcript_post(request: Request):
