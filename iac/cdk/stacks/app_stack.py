@@ -1,6 +1,7 @@
 from constructs import Construct
 from aws_cdk import (
     Duration,
+    Size,
     Stack,
     aws_ecs as ecs,
     aws_ec2 as ec2,
@@ -10,15 +11,23 @@ from aws_cdk import (
     aws_elasticloadbalancingv2 as elbv2,
     aws_cloudfront as cloudfront,
     aws_cloudfront_origins as origins,
-    aws_dynamodb as dynamodb
+    aws_dynamodb as dynamodb,
+    aws_s3 as s3,
+    aws_lambda as lambda_,
+    aws_ssm as ssm,
+    aws_events as events,
+    aws_events_targets as targets,
+    aws_sqs as sqs,
+    aws_ecs_patterns as ecs_patterns
 )
 import os
-
 
 class AppStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, imports: dict, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        context_value = self.node.try_get_context("env")
 
         # Get the secret value from an environment variable
         secret_value = os.environ.get("OPENAI_API_KEY")
@@ -39,9 +48,68 @@ class AppStack(Stack):
         dynamo_messages = dynamodb.Table(self,"cdk-waterbot-messages",
             partition_key=dynamodb.Attribute(name="sessionId", type=dynamodb.AttributeType.STRING),
             sort_key=dynamodb.Attribute(name="msgId", type=dynamodb.AttributeType.STRING),
-            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            point_in_time_recovery=True
+        )
+        export_bucket = s3.Bucket(self,"cdk-export-bucket")
+        transcript_bucket = s3.Bucket(self,"cdk-transcript-bucket")
+
+        last_export_time_param = ssm.StringParameter(self,"LastExportTimeParam",
+            string_value="1970-01-01T00:00:00Z"
         )
 
+        fn_dynamo_export = lambda_.Function(
+            self,"fn-dynamo-export",
+            description="dynamo-export", #microservice tag
+            runtime=lambda_.Runtime.PYTHON_3_11,
+            handler="index.handler",
+            code=lambda_.Code.from_asset(os.path.join("lambda","dynamo_export")),
+            timeout=Duration.minutes(1),
+            environment={
+                "TABLE_ARN":dynamo_messages.table_arn,
+                "S3_BUCKET":export_bucket.bucket_name,
+                "LAST_EXPORT_TIME_PARAM":last_export_time_param.parameter_name
+            }
+        )
+        
+        last_export_time_param.grant_read(fn_dynamo_export)
+        last_export_time_param.grant_write(fn_dynamo_export)
+
+        # Define the necessary policy statements
+        allow_export_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "dynamodb:ExportTableToPointInTime"
+            ],
+            resources=[f"{dynamo_messages.table_arn}"]
+        )
+
+        allow_s3_actions_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=[
+                "s3:AbortMultipartUpload",
+                "s3:PutObject",
+                "s3:PutObjectAcl"
+            ],
+            resources=[f"{export_bucket.bucket_arn}/*"]
+        )
+
+        # Attach the policies to the Lambda function
+        fn_dynamo_export.add_to_role_policy(allow_export_actions_policy)
+        fn_dynamo_export.add_to_role_policy(allow_s3_actions_policy)
+
+        # For prod can update to every 24 hours
+        rule = events.Rule(self, "DailyIncrementalExportRule",
+                           schedule=events.Schedule.rate(Duration.hours(24))
+        )
+        exports_dlq = sqs.Queue(self, "Queue")
+        rule.add_target( targets.LambdaFunction(
+            fn_dynamo_export,
+            dead_letter_queue=exports_dlq,
+            retry_attempts=2,
+            max_event_age=Duration.minutes(10) )
+        )
+        
         # Create a VPC for the Fargate cluster
         vpc = ec2.Vpc(self, "WaterbotVPC", max_azs=2)
 
@@ -66,11 +134,12 @@ class AppStack(Stack):
             secret_string_value=SecretValue.unsafe_plain_text(secret_value)
         )
 
+        prefix_for_container_logs="waterbot"+ ("-" + context_value if context_value else "")
         # Create a task definition for the Fargate service
         task_definition = ecs.FargateTaskDefinition(
             self, "WaterbotTaskDefinition",
             memory_limit_mib=512,
-            cpu=256,
+            cpu=256
         )
         # Grant the task permission to log to CloudWatch
         task_definition.add_to_task_role_policy(
@@ -116,6 +185,17 @@ class AppStack(Stack):
                 resources=[dynamo_messages.table_arn], 
             )
         )
+        # Grant the task permission to access s3 for transcripts
+        task_definition.add_to_task_role_policy(
+            iam.PolicyStatement(
+                actions=[            
+                    "s3:PutObject",
+                    "s3:GetObject"
+                ],
+                resources=[f"{export_bucket.bucket_arn}/*"], 
+            )
+        )
+
 
         # Create a container in the task definition & inject the secret into the container as an environment variable
         container = task_definition.add_container(
@@ -123,7 +203,8 @@ class AppStack(Stack):
             image=ecs.ContainerImage.from_ecr_repository(repository, tag="latest"),
             port_mappings=[ecs.PortMapping(container_port=8000)],
             environment={
-                "MESSAGES_TABLE": dynamo_messages.table_name
+                "MESSAGES_TABLE": dynamo_messages.table_name,
+                "TRANSCRIPT_BUCKET_NAME": transcript_bucket.bucket_name
             },
             secrets={
                 "OPENAI_API_KEY": ecs.Secret.from_secrets_manager(secret)
@@ -133,46 +214,48 @@ class AppStack(Stack):
                 interval=Duration.minutes(1),
                 timeout=Duration.seconds(5),
                 retries=3,
+            ),
+            logging=ecs.LogDrivers.aws_logs(
+                stream_prefix=prefix_for_container_logs,
+                mode=ecs.AwsLogDriverMode.NON_BLOCKING,
+                max_buffer_size=Size.mebibytes(25)
             )
         )
 
-        # Create an Application Load Balancer
-        alb_wb = elbv2.ApplicationLoadBalancer(
-            self, "FargateALB",
-            vpc=vpc,
-            internet_facing=True
+
+        # Instantiate an Amazon ECS Service
+        ecs_service = ecs_patterns.ApplicationLoadBalancedFargateService(self, "FargateService",
+            cluster=cluster,
+            task_definition=task_definition,
+            desired_count=2,
+            listener_port=80
+        )
+        # Setup AutoScaling policy
+        scaling = ecs_service.service.auto_scale_task_count(
+            min_capacity=2,
+            max_capacity=4
+        )
+        scaling.scale_on_memory_utilization(
+            "CpuScaling",
+            target_utilization_percent=90,
+            scale_in_cooldown=Duration.seconds(3600),
+            scale_out_cooldown=Duration.seconds(60),
         )
 
-        # Create a listener for the ALB
-        listener_wb = alb_wb.add_listener(
-            "FargateALBListener",
-            port=80,
-            open=True
+        ecs_service.target_group.configure_health_check(
+            path="/",
+            interval=Duration.minutes(1),
+            timeout=Duration.seconds(5)
         )
-
-
-        # Create a target group for the Fargate service
-        target_group_wb = listener_wb.add_targets(
-            "FargateTargetGroup",
-            port=8000,
-            targets=[ecs.FargateService(
-                self, "FargateService",
-                cluster=cluster,
-                task_definition=task_definition,
-                desired_count=3,
-            )],
-            health_check=elbv2.HealthCheck(
-                path="/",
-                interval=Duration.minutes(1),
-                timeout=Duration.seconds(5)
-            ),
-            stickiness_cookie_duration=Duration.hours(2),  # Set the cookie duration
-            stickiness_cookie_name="WATERBOT"  # Set the cookie name
+        # Enable stickiness
+        ecs_service.target_group.enable_cookie_stickiness(
+            duration=Duration.hours(2),  # Set the cookie duration
+            cookie_name="WATERBOT"  # Set the cookie name
         )
-
+    
 
         # overwrite default action implictly created above (will cause warning)
-        listener_wb.add_action(
+        ecs_service.listener.add_action(
             "Default",
             action=elbv2.ListenerAction.fixed_response(
                 status_code=403,
@@ -184,7 +267,7 @@ class AppStack(Stack):
         # Create a rule to check for the custom header
         custom_header_rule = elbv2.ApplicationListenerRule(
             self, "CustomHeaderRule",
-            listener=listener_wb,
+            listener=ecs_service.listener,
             priority=1,
             conditions=[
                 elbv2.ListenerCondition.http_header(
@@ -193,7 +276,7 @@ class AppStack(Stack):
                 )
             ],
             action=elbv2.ListenerAction.forward(
-                target_groups=[target_group_wb]
+                target_groups=[ecs_service.target_group]
             )
         )
 
@@ -244,7 +327,7 @@ class AppStack(Stack):
             self, "CloudFrontDistribution",
             default_behavior=cloudfront.BehaviorOptions(
                 origin=origins.LoadBalancerV2Origin(
-                    alb_wb,
+                    ecs_service.load_balancer,
                     origin_path="/",
                     protocol_policy=cloudfront.OriginProtocolPolicy.HTTP_ONLY,
                     custom_headers={
