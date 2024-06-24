@@ -74,12 +74,17 @@ class MyEventHandler(TranscriptResultStreamHandler):
         super().__init__(output_stream)
         self.websocket = websocket
         logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-        # Mapping of specific phrases to API endpoints
+        
+        self.base_url = f"http://{websocket.base_url.hostname}:{websocket.base_url.port if websocket.base_url.port else ''}"
+        
+        print("printing the base url inside event handler: ", self.base_url)
         self.api_endpoints = {
-            "tell me more": "http://localhost:8000/chat_detailed_api",
-            "next steps": "http://localhost:8000/chat_actionItems_api",
-            "sources": "http://localhost:8000/chat_sources_api",
+            "tell me more": str(self.base_url) + "/chat_detailed_api",
+            "next steps": str(self.base_url) +"/chat_actionItems_api",
+            "sources": str(self.base_url) + "/chat_sources_api",
         }
+        self.transcribed_text = None
+        self.designated_action = None
 
     async def handle_transcript_event(self, transcript_event: TranscriptEvent):
         results = transcript_event.transcript.results
@@ -88,6 +93,9 @@ class MyEventHandler(TranscriptResultStreamHandler):
                 for alt in result.alternatives:
                     logging.info(f"Handling full transcript: {alt.transcript}")
                     api_url = self.determine_api_url(alt.transcript.strip().lower())
+                    print(api_url)
+                    self.transcribed_text = alt.transcript
+                    self.designated_action = api_url
                     form_data = {'user_query': alt.transcript}
                     try:
                         async with httpx.AsyncClient() as client:
@@ -103,7 +111,7 @@ class MyEventHandler(TranscriptResultStreamHandler):
         for key, url in self.api_endpoints.items():
             if transcript == key or transcript == key + '.':
                 return url
-        return "http://localhost:8000/chat_api"  # Default API if no exact match is found
+        return str(self.base_url) + "/chat_api"  # Default API if no exact match is found
 
     async def send_responses(self, user_transcript, api_response):
         await self.websocket.send_json({
@@ -167,6 +175,42 @@ async def home(request: Request,):
     }
 
     return templates.TemplateResponse("index.html", context )
+
+@app.websocket("/transcribe")
+async def transcribe(websocket: WebSocket):
+    await websocket.accept()
+    client = TranscribeStreamingClient(region="us-east-1")
+    stream = await client.start_stream_transcription(
+        language_code="en-US",
+        media_sample_rate_hz=16000,
+        media_encoding="ogg-opus",
+    )
+
+    async def receive_audio():
+        try:
+            while True:
+                data = await websocket.receive()
+                # print("In receive audio fn:",data)
+                if data.get("text") == '{"event":"close"}':
+                    print("Closing WebSocket connection")
+                    await stream.input_stream.end_stream()
+                    break
+                elif data.get("bytes"):
+                    # Send the audio data to the Amazon Transcribe service
+                    await stream.input_stream.send_audio_event(audio_chunk=data.get("bytes"))
+        except Exception as e:
+            print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
+            await stream.input_stream.end_stream()
+
+    handler = MyEventHandler(stream.output_stream, websocket)
+
+    try:
+        await asyncio.gather(receive_audio(), handler.handle_events())
+    except Exception as e:
+        print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
+    finally:
+        print("Closing WebSocket connection")
+        await websocket.close()
 
 
 @app.post("/session-transcript")
@@ -370,42 +414,6 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
         "resp":response_content,
         "msgID": await memory.get_message_count(session_uuid)
     }
-
-@app.websocket("/transcribe")
-async def transcribe(websocket: WebSocket):
-    await websocket.accept()
-    client = TranscribeStreamingClient(region="us-east-1")
-    stream = await client.start_stream_transcription(
-        language_code="en-US",
-        media_sample_rate_hz=16000,
-        media_encoding="ogg-opus",
-    )
-
-    async def receive_audio():
-        try:
-            while True:
-                data = await websocket.receive()
-                # print("In receive audio fn:",data)
-                if data.get("text") == '{"event":"close"}':
-                    print("Closing WebSocket connection")
-                    await stream.input_stream.end_stream()
-                    break
-                elif data.get("bytes"):
-                    # Send the audio data to the Amazon Transcribe service
-                    await stream.input_stream.send_audio_event(audio_chunk=data.get("bytes"))
-        except Exception as e:
-            print("WebSocket disconnected unexpectedly (receive audio after while)", str(e))
-            await stream.input_stream.end_stream()
-
-    handler = MyEventHandler(stream.output_stream, websocket)
-
-    try:
-        await asyncio.gather(receive_audio(), handler.handle_events())
-    except Exception as e:
-        print("WebSocket disconnected unexpectedly (receive audio after handler):", str(e))
-    finally:
-        print("Closing WebSocket connection")
-        await websocket.close()
 
 # Route to handle chat interactions
 @app.post('/chat_api')
