@@ -20,6 +20,7 @@ from fastapi import WebSocket
 from managers.memory_manager import MemoryManager
 from managers.dynamodb_manager import DynamoDBManager
 from managers.chroma_manager import ChromaManager
+from managers.s3_manager import S3Manager
 
 from adapters.claude import BedrockClaudeAdapter
 from adapters.openai import OpenAIAdapter
@@ -36,7 +37,7 @@ from dotenv import load_dotenv
 
 import os
 import json
-
+import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
 
 # Set the cookie name to match the one configured in the CDK
@@ -53,7 +54,7 @@ class SetCookieMiddleware(BaseHTTPMiddleware):
         session_value = request.cookies.get(COOKIE_NAME) or self.client_cookie_disabled_uuid or str(uuid.uuid4())
         self.client_cookie_disabled_uuid=session_value
     
-        request.state.client_cookie_disabled_uuid = session_value
+        request.state.client_cookie_disabled_uuid = "COOKIE_DISABLED."+session_value
 
         response = await call_next(request)
         # Set the application cookie in the response headers
@@ -133,6 +134,7 @@ app.add_middleware(SetCookieMiddleware)
 app.add_middleware(SessionMiddleware, secret_key=secret_key)
 
 MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
+TRANSCRIPT_BUCKET_NAME=os.getenv("TRANSCRIPT_BUCKET_NAME")
 # adapter choices
 ADAPTERS = {
     "claude.haiku":BedrockClaudeAdapter("anthropic.claude-3-haiku-20240307-v1:0"),
@@ -151,7 +153,7 @@ embeddings = llm_adapter.get_embeddings()
 memory = MemoryManager()  # Assuming you have a MemoryManager class
 datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
-
+s3_manager = S3Manager(bucket_name=TRANSCRIPT_BUCKET_NAME)
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
@@ -166,6 +168,30 @@ async def home(request: Request,):
 
     return templates.TemplateResponse("index.html", context )
 
+
+@app.post("/session-transcript")
+async def session_transcript_post(request: Request):
+    # Get the session UUID from the cookie
+    session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
+
+    # Get all session history
+    session_history = await memory.get_session_history_all(session_uuid)
+
+    # Generate a unique filename for the S3 object
+    filename = f"{session_uuid}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+    object_key = f"session-transcript/{filename}"
+
+    # Upload the session history to S3
+    print(session_history)
+    print(TRANSCRIPT_BUCKET_NAME)
+    await s3_manager.upload(key=object_key, body=json.dumps(session_history))
+
+    # Generate a presigned URL for the S3 object
+    url = await s3_manager.generate_presigned(key=object_key)
+
+    return {'presigned_url': url}
+
+
 # Route to handle ratings
 @app.post('/submit_rating_api')
 async def submit_rating_api_post(
@@ -177,10 +203,11 @@ async def submit_rating_api_post(
 
     session_uuid = request.cookies.get(COOKIE_NAME) or request.state.client_cookie_disabled_uuid
 
-
+    counter_uuid=await memory.get_message_count_uuid(session_uuid)
+    message_uuid_combo=counter_uuid+"."+message_id
     await datastore.update_rating_fields(
         session_uuid=session_uuid,
-        message_id=message_id,
+        message_id=message_uuid_combo,
         reaction=reaction,
         userComment=userComment
     )
@@ -226,7 +253,7 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     # We do not include sources as this message is the actual sources; no AI generation involved.
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=bot_response,
         source=[] 
@@ -280,7 +307,7 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
     
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -332,7 +359,7 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=generated_user_query, 
         response_content=response_content,
         source=sources
@@ -415,7 +442,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
         background_tasks.add_task( datastore.write_msg,
             session_uuid=session_uuid,
-            msg_id=await memory.get_message_count(session_uuid), 
+            msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
             user_query=generated_user_query, 
             response_content=response_content,
             source=[]
@@ -455,7 +482,7 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
 
     background_tasks.add_task( datastore.write_msg,
         session_uuid=session_uuid,
-        msg_id=await memory.get_message_count(session_uuid), 
+        msg_id=await memory.get_message_count_uuid_combo(session_uuid), 
         user_query=user_query, 
         response_content=response_content,
         source=docs["sources"]
