@@ -735,7 +735,78 @@ a {
   align-items: center;
 }
 
+.language-button.spanish-button:hover {
+  background-color: #787878; /* Lighter shade for hover */
+  color: #f0f0f0; /* Light greyish white for better contrast */
+}
+
+
+.language-button.english-button:hover {
+  background-color: #a83250; /* Slightly lighter shade for hover */
+  color: #f0f0f0; /* Light greyish white for text */
+}
+
 .language-button.active {
   background-color: #8C1D40;
   color: #FFFFFF;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.language-section, .transcript-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.language-text{
+  margin-bottom: 7px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.transcript-heading {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.transcript-button {
+  width: 100px; /* Set the button width */
+  height: 35px; /* Set the button height */
+  margin-top: 0; 
+  flex-shrink: 0; /* Prevent the button from shrinking */
+  background-color: #8C1D40; /* Background color */
+  padding: 5px 0; 
+  color: white; /* Text color for visibility */
+  border: none; /* Remove default border */
+  border-radius: 25px; /* Rounded corners */
+  font-family: Arial, sans-serif; /* Font styling */
+  font-size: 14px; /* Font size */
+  font-weight: bold; /* Font weight */
+  cursor: pointer; /* Cursor indicates it's clickable */
+  outline: none; /* Remove focus outline */
+  display: flex; /* Flexbox for center alignment */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.transcript-button:hover {
+  background-color: #a83250; /* Slightly lighter shade of the original color for the hover state */
+  color: #f0f0f0; /* A slightly off-white color for better contrast */
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  .language-toggle-container {
+    margin-bottom: 10px;
+  }
 }
