@@ -8,3 +8,4 @@ fastapi
 itsdangerous
 boto3
 botocore
+amazon-transcribe
