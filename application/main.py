@@ -179,6 +179,8 @@ async def home(request: Request,):
 @app.websocket("/transcribe")
 async def transcribe(websocket: WebSocket):
     await websocket.accept()
+    # print("Headers received during handshake:", websocket.request_headers)
+    # print("Response headers sent:", websocket.response_headers)
     client = TranscribeStreamingClient(region="us-east-1")
     stream = await client.start_stream_transcription(
         language_code="en-US",
@@ -220,15 +222,23 @@ async def session_transcript_post(request: Request):
 
     # Get all session history
     session_history = await memory.get_session_history_all(session_uuid)
+    
+    if not isinstance(session_history, (dict, list)):
+        raise HTTPException(status_code=500, detail="Session history is not serializable")
 
     # Generate a unique filename for the S3 object
-    filename = f"{session_uuid}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+    filename = f"{session_uuid}_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.txt"
     object_key = f"session-transcript/{filename}"
+    
+    # Convert session history to plain text format
+    session_text = ""
+    for entry in session_history:
+        session_text += f"Role: {entry['role']}\nContent: {entry['content']}\n\n"
 
-    # Upload the session history to S3
-    print(session_history)
-    print(TRANSCRIPT_BUCKET_NAME)
-    await s3_manager.upload(key=object_key, body=json.dumps(session_history))
+    # Upload the session history to S3 as plain text
+    print(session_text)  # Print for debugging (optional)
+    print(TRANSCRIPT_BUCKET_NAME)  # Print for debugging (optional)
+    await s3_manager.upload(key=object_key, body=session_text)
 
     # Generate a presigned URL for the S3 object
     url = await s3_manager.generate_presigned(key=object_key)
