@@ -88,7 +88,7 @@ knowledge_sources = {
       "description": "Tribal-Tax-Primer-3"
     },
     "GAO- precision farming.pdf": {
-      "url": "https://www.gao.gov/products/gao-24-105962",
+      "url": " https://www.gao.gov/assets/d24105962high.pdf",
       "description": "GAO- precision farming"
     },
     "Precision Agriculture in Crop Production _ NIFA.pdf": {
@@ -236,7 +236,7 @@ knowledge_sources = {
       "description": "Ch.-5.10-Cocopah-Current-Future-Use-Section-12-13-2018"
     },
     "Ch.-5.1-Ute-Tribe-Current-Future-Water-Use-12-13-2018.pdf": {
-      "url": "https://tentribespartnership.org/wp-content/uploads/2019/12/WaterStudy.pdf",
+      "url": "https://tentribespartnership.org/wp-content/uploads/2019/12/WaterStudy.pdf",#duplicate links 8
       "description": "Ch.-5.1-Ute-Tribe-Current-Future-Water-Use-12-13-2018"
     },
     "Ch.-5.2-SUIT-Current-Future-Water-Use-12-13-2018.pdf": {
@@ -268,7 +268,7 @@ knowledge_sources = {
       "description": "Ch.-5.9-Quechan-Current-Future-Water-Use-12-13-2018"
     },
     "tribal clean water.pdf": {
-      "url": "https://www.naturalresourcespolicy.org/docs/water-tribes/wti-full-report-4.21.pdf",
+      "url": "https://www.naturalresourcespolicy.org/docs/water-tribes/wti-full-report-4.21.pdf",#duplicate link
       "description": "tribal clean water"
     },
     "Wastewater Treatment and reclaimed water arizona - focused on flagstaff.PDF": {
@@ -280,7 +280,7 @@ knowledge_sources = {
       "description": "Title25Ch3"
     },
     "waste water treatment.txt": {
-      "url": "https://wickenburgaz.gov/1434/Water-Wastewater",
+      "url": "https://www.wickenburgaz.gov/DocumentCenter/View/2273/General-Plan-2025",
       "description": "waste water treatment"
     },
     "water sanitation and hygiene.txt": {
@@ -292,31 +292,23 @@ knowledge_sources = {
       "description": "how Can I help"
     },
     "mesa_waterquality_2022.pdf": {
-      "url": "https://www.mesaaz.gov/residents/water/water-quality",
+      "url": "https://www.mesaaz.gov/residents/water/water-quality",#duplicate links
       "description": "mesa waterquality 2022"
     },
     "Rainwater-Harvesting-Leads-to-More-Culturally-Appropriate-Food-in-Water-Scarce-Native-American-Commu.txt": {
-      "url": "https://www.pewtrusts.org/en/research-and-analysis/articles/2023/05/16/rainwater-harvesting-can-increase-access-to-cultural-foods",
+      "url": "https://ashiwi.org/POZUtility.htm",
       "description": "Rainwater-Harvesting-Leads-to-More-Culturally-Appropriate-Food-in-Water-Scarce-Native-American-Commu"
     },
     "reclaimed_wastewater.txt": {
       "url": "https://www.usgs.gov/special-topics/water-science-school/science/reclaimed-wastewater",
       "description": "reclaimed wastewater"
     },
-    "Tempe_WaterQualityReport2021.pdf": {
-      "url": "https://www.tempe.gov/government/municipal-utilities/water/water-quality/annual-water-reports",
-      "description": "Tempe WaterQualityReport2021"
-    },
-    "Tempe_WaterQualityReport2022.pdf": {
-      "url": "https://www.tempe.gov/government/municipal-utilities/water/water-quality/annual-water-reports",
-      "description": "Tempe WaterQualityReport2022"
-    },
     "Regain our Water (article).pdf": {
       "url": "https://ensia.com/features/water-rights-gila-river-indian-community-native-american-american-west/",
       "description": "Regain our Water (article)"
     },
     "phx_waterQualityReport.pdf": {
-      "url": "https://www.phoenix.gov/waterservicessite/documents/wsdprimarywqr.pdf",
+      "url": "https://www.phoenix.gov/waterservicessite/documents/wsdprimarywqr.pdf",#2023 report
       "description": "phx waterQualityReport"
     },
     "phx_waterquality_2022.pdf": {
@@ -364,7 +356,7 @@ knowledge_sources = {
       "description": "tribal water security"
     },
     "Universal Access to Clean Water for Tribes in the Colorado River Basin.pdf": {
-      "url": "https://www.naturalresourcespolicy.org/docs/water-tribes/wti-full-report-4.21.pdf",
+      "url": "https://www.naturalresourcespolicy.org/docs/water-tribes/wti-full-report-4.21.pdf",#duplicate link
       "description": "Universal Access to Clean Water for Tribes in the Colorado River Basin"
     },
     "lower-colorado-river-water-quality-partnership-fact-sheet.pdf": {
@@ -392,7 +384,7 @@ knowledge_sources = {
       "description": "Gila river - water settlement"
     },
     "hard_water_info_az.txt": {
-      "url": "https://www.mesaaz.gov/residents/water/water-quality/hard-water",
+      "url": "https://www.mesaaz.gov/residents/water/water-quality/hard-water", #dupliate link
       "description": "hard water info az"
     },
     "desalination.txt": {
@@ -404,7 +396,7 @@ knowledge_sources = {
       "description": "current colorado system study"
     },
     "City-of-Chandler-2022-Water-Quality-Report-June-2023.pdf": {
-      "url": "https://www.chandleraz.gov/residents/water/water-quality",
+      "url": "https://www.chandleraz.gov/sites/default/files/documents/imported/ChandlerGeneralPlan2016.pdf",
       "description": "City-of-Chandler-2022-Water-Quality-Report-June-2023"
     },
     "CAP-FactSheet-January2024.pdf": {
@@ -512,7 +504,7 @@ knowledge_sources = {
       "description": "Avondale City waterQualityReport"
     },
     "Avondale City water.txt": {
-      "url": "https://www.avondaleaz.gov/government/departments/public-works/water",
+      "url": "https://ehq-production-us-california.s3.us-west-1.amazonaws.com/b3c2e5d8bddb0497ce8904344e508a3799114be9/original/1703787282/60caadf187c5e35812ede861f2143373_RES_1080-1223_-_Recorded.pdf",
       "description": "Avondale City water"
     },
     "2022Benson WaterQualityReport.pdf": {
@@ -532,7 +524,7 @@ knowledge_sources = {
       "description": "Bullhead City Water Conservation2022"
     },
     "Billhead City water.txt": {
-      "url": "https://www.bullheadcity.com/government/water-energy-resources",
+      "url": "https://www.bullheadcity.com/home/showpublisheddocument/6109/635991581053900000",
       "description": "Billhead City water"
     },
     "CSWR_FAQ.txt": {
@@ -544,7 +536,7 @@ knowledge_sources = {
       "description": "FINAL Williams Water Master Plan"
     },
     "Willcox_City_info.txt": {
-      "url": "https://willcox.az.gov/departments/utilities",
+      "url": "https://willcox.az.gov/media/Planning%20and%20Zoning%20Commission/2040%20General%20Plan.pdf",
       "description": "Willcox City info"
     },
     "City of Cottonwood Drought and Water Shortage Preparedness Plan.pdf": {
@@ -576,15 +568,15 @@ knowledge_sources = {
       "description": "Storm Water Management"
     },
     "Jerome_CCR2022.pdf": {
-      "url": "https://jerome.az.gov/water-quality-report",
+      "url": "https://jerome.az.gov/documents/76/2018_GENERAL_PLAN_FINAL_reduced.pdf",
       "description": "Jerome CCR2022"
     },
     "Town of Kearny_water.txt": {
-      "url": "https://www.kearnyaz.gov/public-works/pages/water",
+      "url": "https://www.kearnyaz.gov/sites/g/files/vyhlif7746/f/uploads/conserveplan.pdf",
       "description": "Town of Kearny water"
     },
     "Lake Havasu Water Savers.txt": {
-      "url": "https://www.kearnyaz.gov/public-works/pages/water",
+      "url": "https://www.lhcaz.gov/docs/default-source/department-documents/waterconservationplan.pdf?sfvrsn=ad2b2f7c_28",
       "description": "Lake Havasu Water Savers"
     },
     "2022Springville_CCR.pdf": {
@@ -600,7 +592,7 @@ knowledge_sources = {
       "description": "2022-Water-Quality-Report-starValley"
     },
     "2022_QC_Water_Quality_Report_Queen_creek.pdf": {
-      "url": "https://www.queencreekaz.gov/home/showpublisheddocument/38216/638235484870300000",
+      "url": "https://www.queencreekaz.gov/home/showpublisheddocument/38869/638422055428170000",
       "description": "2022 QC Water Quality Report Queen creek"
     },
     "WaterDept_Safford.txt": {
@@ -624,7 +616,7 @@ knowledge_sources = {
       "description": "2022-CCR-Page"
     },
     "Town of Paradise Valley_UtilityServices.txt": {
-      "url": "https://www.paradisevalleyaz.gov/510/Utility-Services",
+      "url": "https://www.paradisevalleyaz.gov/DocumentCenter/View/9907/6-Environmental-Planning-_-Water-Resources?bidId=",
       "description": "Town of Paradise Valley UtilityServices"
     },
     "Town of Payson Water Department.txt": {
@@ -634,5 +626,671 @@ knowledge_sources = {
     "Water Services Strategic Plan_Peoria.pdf": {
       "url": "https://www.peoriaaz.gov/home/showpublisheddocument/27176/637767962335070000",
       "description": "Water Services Strategic Plan Peoria"
+    },
+    "Drought.pdf": {
+    "url": "https://new.azwater.gov/drought/faq",
+    "description": "Drought Frequently Asked Questions"
+    },
+      "AMAs.pdf": {
+      "url": "https://new.azwater.gov/sites/default/files/media/AMAFACTSHEET2016%20%281%29_0.pdf",
+      "description": "Active Management Areas Fact Sheet"
+    },
+    "CAGRD.pdf": {
+        "url": "https://www.amwua.org/blog/lets-talk-about-the-cagrd",
+        "description": "Let's Talk About the Central Arizona Groundwater Replenishment District"
+    },
+    "Outdoor Water Use-2.pdf": {
+        "url": "https://www.amwua.org/blog/how-to-be-efficient-and-effective-with-your-outdoor-watering",
+        "description": "How to Be Efficient and Effective with Your Outdoor Watering"
+    },
+    "Sustainable Cities Network Greater Phoenix Green Infrastructure Handbook.pdf": {
+        "url": "https://cdn.globalfutures.asu.edu/sustainable-cities/wp-content/uploads/sites/17/2023/09/LID2018-HandBook-04-11-19.pdf",
+        "description": "Greater Phoenix Green Infrastructure Handbook"
+    },
+    "University of Arizona-4.pdf": {
+        "url": "https://wrrc.arizona.edu/sites/wrrc.arizona.edu/files/2024-01/Mohave_8-page_01_2024.pdf",
+        "description": "University of Arizona Mohave Region Water Factsheet"
+    },
+    "University of Arizona-8.pdf": {
+        "url": "https://wrrc.arizona.edu/sites/wrrc.arizona.edu/files/2024-01/Gila_Factsheet_01_2024.pdf",
+        "description": "University of Arizona Gila Region Water Factsheet"
+    },
+    "Water Resources-2.pdf": {
+        "url": "https://cottonwoodaz.gov/482/Water-Resources",
+        "description": "City of Cottonwood Water Resources Information"
+    },
+    "City of El Mirage Water Quality & Resources.pdf": {
+        "url": "https://www.elmirageaz.gov/317/Water-Quality-Resources",
+        "description": "City of El Mirage Water Quality and Resources Information"
+    },
+    "Mojave Water Agency.pdf": {
+        "url": "https://www.mojavewater.org/about-mwa/strategic-plan/",
+        "description": "Mojave Water Agency Strategic Plan"
+    },
+    "Brief History of Water Resources.pdf": {
+        "url": "http://www.tonation-nsn.gov/water-resources/brief-history/",
+        "description": "Tohono O'odham Nation Brief History of Water Resources"
+    },
+    "Tribal Water Study Report.pdf": {
+        "url": "https://www.usbr.gov/lc/region/programs/crbstudy/tribalwaterstudy.html",
+        "description": "Tribal Water Study Report by the Bureau of Reclamation"
+    },
+    "OVERVIEW OF THE ARIZONA GROUNDWATER MANAGEMENT CODE.pdf": {
+        "url": "https://www.azwater.gov/sites/default/files/media/Arizona%20Groundwater_Code_1.pdf",
+        "description": "Overview of the Arizona Groundwater Management Code"
+    },
+    "Fort Mojave Indian Tribe.pdf": {
+    "url": "https://mojaveindiantribe.com/",
+    "description": "Official Website of the Fort Mojave Indian Tribe"
+    },
+    "Ak-Chin Indian Community.pdf": {
+    "url": "https://www.tribalwateruse.org/?page_id=153",
+    "description": "Tribal Water Uses of the Ak-Chin Indian Community"
+    },
+    "Town of Eloy Water Division.pdf": {
+        "url": "https://eloyaz.gov/DocumentCenter/View/4933/36-Environmental-Planning-Element",
+        "description": "Town of Eloy Water Division"
+    },
+    "USGS.pdf": {
+        "url": "https://www.gilabendaz.org/DocumentCenter/View/1154/240327_Final-Existing-Conditions-Report",
+        "description": "Ground Water Resources and Geology: Gila Bend and Dendora Areas, Maricopa County, Arizona"
+    },
+     "Keepers of the River.pdf": {
+        "url": "https://tentribespartnership.org/wp-content/uploads/2020/01/Ch.-5.6-Ft.-Mojave-Current-Future-Water-Use-12-13-2018.pdf",
+        "description": "Keepers of the River: Ft. Mojave Current and Future Water Use"
+    },
+      "Water Division - City of Benson.pdf": {
+        "url": "https://webgen1files1.revize.com/cityofbensonaz/Document%20Center/Department/Planning%20and%20Zoning/General%20Plan/2015_Final_Draft.pdf",
+        "description": "Water Division | City of Benson"
+    },
+    "Water Resources - City of Buckeye.pdf": {
+        "url": "https://www.buckeyeaz.gov/home/showpublisheddocument/6300/637928096311900000",
+        "description": "Water Resources | City of Buckeye"
+    },
+    "Resource Information.pdf": {
+        "url": "https://www.campverde.az.gov/home/showpublisheddocument/30/638005663542270000",
+        "description": "Resource Information"
+    },
+    "Water Quality - Arizona Water Company.pdf": {
+        "url": "https://drive.google.com/file/d/1fscThmzMiYY4VO_BT_k29pf47MK6bAaa/view?usp=sharing",
+        "description": "Water Quality - Arizona Water Company"
+    },
+    "City of Douglas Water & Sewer.pdf": {
+        "url": "https://www.azwater.gov/faqs-douglas-ama",
+        "description": "City of Douglas Water & Sewer"
+    },
+    "Oro Valley Water Utility.pdf": {
+        "url": "https://www.orovalleyaz.gov/files/assets/public/v/1/documents/water-utility/standards-specifications-and-checklists/2018_potable_water_master_plan_final.pdf",
+        "description": "Oro Valley Water Utility"
+    },
+    "Page Water Department.pdf": {
+        "url": "https://cityofpage.org/wp-content/uploads/2023/05/COP_-_2040_General_Plan_Complete_3-1-23.pdf",
+        "description": "Page Water Department"
+    },
+    "Peoria Water Services.pdf": {
+        "url": "https://www.peoriaaz.gov/home/showpublisheddocument/23968/637503575384170000",
+        "description": "Peoria Water Services"
+    },
+    "Public Works-2.pdf": {
+        "url": "https://www.springervilleaz.gov/media/Page%20Document/Economic%20Development/General-Plan-2015-2025.pdf",
+        "description": "Public Works"
+    },
+    "City of Tempe Water Conservation.pdf": {
+        "url": "https://www.tempe.gov/home/showpublisheddocument/101702/638288312294400000",
+        "description": "City of Tempe Water Conservation"
+    },
+    "Houston Advanced Research Center.pdf": {
+        "url": "https://www.austintexas.gov/sites/default/files/files/Water/Water%20Conservation/2024%20DCP%20Final.pdf",
+        "description": "Houston Advanced Research Center"
+    },
+    "Groundwater Quality in Arizona 1995-2015": {
+        "url": "https://static.azdeq.gov/wqd/gw/fs/16-02_20year_final_ofr.pdf",
+        "description": "Groundwater Quality in Arizona 1995-2015"
+    },
+    "Glossary of Terms": {
+        "url": "https://legacy.azdeq.gov/function/help/glossary_drupal.html",
+        "description": "Glossary of Terms"
+    },
+    "Recycled Water": {
+        "url": "https://azdeq.gov/recycled-water",
+        "description": "Recycled Water"
+    },
+    "Arizona Department of Environmental Quality Recycled Water Work Groups Final Report": {
+        "url": "https://static.azdeq.gov/wqd/combined_workgroup_final_report.pdf",
+        "description": "Arizona Department of Environmental Quality Recycled Water Work Groups Final Report"
+    },
+    "Arizona Drought Preparedness Report 2023": {
+        "url": "https://www.azwater.gov/sites/default/files/2023-12/ADPAR_2023_FINAL.pdf",
+        "description": "Arizona Drought Preparedness Report 2023"
+    },
+    "Conservation: Agriculture": {
+        "url": "https://www.azwater.gov/conservation/agriculture",
+        "description": "Conservation: Agriculture"
+    },
+    "Phoenix Fifth Active Management Plan": {
+        "url": "https://www.azwater.gov/sites/default/files/media/Phx5MP.pdf",
+        "description": "Phoenix Fifth Active Management Plan"
+    },
+    "Pinal Fifth Active Management Plan": {
+        "url": "https://www.azwater.gov/sites/default/files/media/PAMA5MP.pdf",
+        "description": "Pinal Fifth Active Management Plan"
+    },
+    "Prescott Fifth Active Management Plan": {
+        "url": "https://www.azwater.gov/sites/default/files/media/PrAMA5MP.pdf",
+        "description": "Prescott Fifth Active Management Plan"
+    },
+    "Santa Cruz Fifth Active Management Plan": {
+        "url": "https://www.azwater.gov/sites/default/files/media/SCAMA5MP.pdf",
+        "description": "Santa Cruz Fifth Active Management Plan"
+    },
+    "Tucson Fifth Active Management Plan": {
+        "url": "https://www.azwater.gov/sites/default/files/media/TAMA5MP.pdf",
+        "description": "Tucson Fifth Active Management Plan"
+    },
+    "Community Water Systems FAQs": {
+        "url": "https://www.azwater.gov/cws/cws-frequently-asked-questions",
+        "description": "Community Water Systems FAQs"
+    },
+    "Hardest Working River": {
+        "url": "https://storymaps.arcgis.com/stories/2efeafc8613440dba5b56cb83cd790ba/print",
+        "description": "Hardest Working River"
+    },
+    "California's Water Supply Strategy": {
+        "url": "https://resources.ca.gov/-/media/CNRA-Website/Files/Initiatives/Water-Resilience/CA-Water-Supply-Strategy.pdf",
+        "description": "California's Water Supply Strategy"
+    },
+    "Calwater": {
+        "url": "https://drought.calwater.com/faqs",
+        "description": "Calwater"
+    },
+    "Colorado River Shortage FAQ": {
+        "url": "https://library.cap-az.com/documents/departments/planning/colorado-river-programs/2024-02-colorado-river-shortage-faq.pdf",
+        "description": "Colorado River Shortage FAQ"
+    },
+    "CAWCD Property Taxes": {
+        "url": "https://library.cap-az.com/documents/departments/finance/CAP-Doc-CAWCDPropertyTaxesQA-121621.pdf",
+        "description": "CAWCD Property Taxes"
+    },
+    "Items that Directly Affect the Price of Water in Carefree": {
+        "url": "https://carefreewaterco.com/documents/1621/Items_that_Affect_the_Price_of_Water_in_Carefree.pdf",
+        "description": "Items that Directly Affect the Price of Water in Carefree"
+    },
+    "Water Resources | Chino Valley, AZ": {
+        "url": "https://www.chinoaz.net/176/Water-Resources",
+        "description": "Water Resources | Chino Valley, AZ"
+    },
+    "Drought Contingency Plan": {
+        "url": "https://www.austintexas.gov/sites/default/files/files/Water/Water%20Conservation/2024%20DCP%20Final.pdf",
+        "description": "Drought Contingency Plan"
+    },
+    "Tribal Water Uses in Colorado River Basin": {
+        "url": "http://www.tribalwateruse.org/?page_id=101",
+        "description": "Tribal Water Uses in Colorado River Basin"
+    },
+    "University of Colorado Boulder": {
+        "url": "https://wwa.colorado.edu/resources/intermountain-west-climate-dashboard/briefing/water-year-2021-summary",
+        "description": "University of Colorado Boulder"
+    },
+    "General Plan - Water Resources": {
+        "url": "https://www.coolidgeaz.com/vertical/sites/%7BAE188E70-DD7F-47BE-99EF-B58B70641DF9%7D/uploads/Chapter_7-Water_Resources_06192014.pdf",
+        "description": "General Plan - Water Resources"
+    },
+    "Small Community Environmental Protection Plan": {
+        "url": "https://www.eagaraz.gov/media/491",
+        "description": "Small Community Environmental Protection Plan"
+    },
+    "CCRs": {
+        "url": "https://www.epa.gov/sites/default/files/2018-02/documents/epa-ogwdw-ccr-infographic-v5_508.pdf",
+        "description": "CCRs"
+    },
+    "General Plan - Water Resources-2": {
+        "url": "https://flagstaff.az.gov/DocumentCenter/View/41532/VIII---Water-Resources-021113?bidId=",
+        "description": "General Plan - Water Resources-2"
+    },
+    "Town of Florence Water Resources": {
+        "url": "https://www.florenceaz.gov/water-resource/",
+        "description": "Town of Florence Water Resources"
+    },
+    "Water Settlement": {
+        "url": "https://www.gilariver.org/index.php/about/water-settlement",
+        "description": "Water Settlement"
+    },
+    "Regain our Water": {
+        "url": "https://waterdesk.org/2021/11/a-generational-historic-struggle-to-regain-our-water/",
+        "description": "Regain our Water"
+    },
+    "Water Rights": {
+        "url": "https://ensia.com/features/water-rights-gila-river-indian-community-native-american-american-west",
+        "description": "Water Rights"
+    },
+    "Gilbert Water Supply": {
+        "url": "https://www.gilbertaz.gov/departments/public-works/water/water-resources/water-supply",
+        "description": "Gilbert Water Supply"
+    },
+    "Glendale \"Your Water\"": {
+        "url": "https://www.glendaleaz.com/live/city_services/water_services/your_water",
+        "description": "Glendale \"Your Water\""
+    },
+    "Arizona Water Company (Fact Sheet)": {
+        "url": "https://www.globeaz.gov/sites/g/files/vyhlif5376/f/uploads/fact-sheet.pdf",
+        "description": "Arizona Water Company (Fact Sheet)"
+    },
+    "GWPC Executive Order": {
+        "url": "https://azgovernor.gov/sites/default/files/eo4.pdf",
+        "description": "GWPC Executive Order"
+    },
+    "Stormwater Management Plan": {
+        "url": "https://www.guadalupeaz.org/sites/g/files/vyhlif6711/f/uploads/stormwater_management_program_swmp_2024.pdf",
+        "description": "Stormwater Management Plan"
+    },
+    "Tribal Water Uses in Colorado River Basin-2": {
+        "url": "http://www.tribalwateruse.org/?page_id=189",
+        "description": "Tribal Water Uses in Colorado River Basin-2"
+    },
+    "Water Rate Study": {
+        "url": "https://townofhaydenaz.gov/wp-content/uploads/2024/04/23_Water_Rate_Study.pdf",
+        "description": "Water Rate Study"
+    },
+    "Tribal Water Uses in Colorado River Basin-3": {
+        "url": "http://www.tribalwateruse.org/?page_id=149",
+        "description": "Tribal Water Uses in Colorado River Basin-3"
+    },
+    "City Code (Water Conservation)": {
+        "url": "https://www.codepublishing.com/AZ/HuachucaCity/#!/html/HuachucaCity13/HuachucaCity1355.html",
+        "description": "City Code (Water Conservation)"
+    },
+    "DOI Water Rights Settlement": {
+        "url": "https://www.doi.gov/pressreleases/interior-department-welcomes-significant-progress-indian-water-rights-settlements",
+        "description": "DOI Water Rights Settlement"
+    },
+    "Tribal Water Uses in Colorado River Basin-4": {
+        "url": "http://www.tribalwateruse.org/?page_id=198",
+        "description": "Tribal Water Uses in Colorado River Basin-4"
+    },
+    "Colorado River Shortage Story Map": {
+        "url": "https://storymaps.arcgis.com/stories/a1a782ce054d4ad28a0d7d0845e6c03d",
+        "description": "Colorado River Shortage Story Map"
+    },
+    "Arizona's Water Story": {
+        "url": "https://asu.maps.arcgis.com/apps/Cascade/index.html?appid=a44299ef542a479d8a63b72c348dd1ba",
+        "description": "Arizona's Water Story"
+    },
+    "Big Picture": {
+        "url": "https://storymaps.arcgis.com/stories/0f244e635ef5479394d3eefc81032a79",
+        "description": "Big Picture"
+    },
+    "Arizona's Stream Adjudications": {
+        "url": "https://storymaps.arcgis.com/stories/48e6754b99a74d398783b732c6254aeb",
+        "description": "Arizona's Stream Adjudications"
+    },
+    "Colorado River Basin Coal Facility": {
+        "url": "https://storymaps.arcgis.com/stories/1ad192703c79442b94328f24e5bb6510/print",
+        "description": "Colorado River Basin Coal Facility"
+    },
+    "Long-term Storage Credits": {
+        "url": "https://storymaps.arcgis.com/stories/61c95c2245e549fbb51fb94e7e0070bb",
+        "description": "Long-term Storage Credits"
+    },
+    "Water and Land Use in Central Arizona": {
+        "url": "https://storymaps.arcgis.com/stories/eb51183c1305428187c699d004cbf77b",
+        "description": "Water and Land Use in Central Arizona"
+    },
+    "Public Works": {
+        "url": "https://townofmammoth.us/public-works-2/",
+        "description": "Public Works"
+    },
+    "Marana Water FAQs": {
+        "url": "https://www.maranaaz.gov/water-faq",
+        "description": "Marana Water FAQs"
+    },
+    "Maricopa Water Resource Element": {
+        "url": "https://www.maricopa-az.gov/departments/development-services/planning-maricopa-general-plan/general-plan-elements/public-buildings-facilities-services-element",
+        "description": "Maricopa Water Resource Element"
+    },
+    "City of Mesa Water FAQs": {
+        "url": "https://www.mesaaz.gov/residents/water/water-resources-faqs",
+        "description": "City of Mesa Water FAQs"
+    },
+    "Flood Damage Prevention Regulations": {
+        "url": "https://miamiaz.gov/wp-content/uploads/2022/10/Title-15-Buildings-and-Construction-11-2021-1.pdf",
+        "description": "Flood Damage Prevention Regulations"
+    },
+    "Water Rights and Water Use of Coal Facilities": {
+        "url": "https://morrisoninstitute.asu.edu/sites/default/files/asu-kc-coalrprt-nov22.pdf",
+        "description": "Water Rights and Water Use of Coal Facilities"
+    },
+    "Toward a Sense of the Basin": {
+        "url": "https://www.naturalresourcespolicy.org/docs/colorado-river-basin/basin-report-2020.pdf",
+        "description": "Toward a Sense of the Basin"
+    },
+    "Tri-University Water Recharge Collaboration": {
+        "url": "https://news.nau.edu/got-water-nau-researchers-a-part-of-a-tri-university-collaboration-to-enhance-water-recharge-in-arizona/",
+        "description": "Tri-University Water Recharge Collaboration"
+    },
+    "Department of Water Resources": {
+        "url": "https://nndwr.navajo-nsn.gov/",
+        "description": "Department of Water Resources"
+    },
+    "Nogales Water": {
+        "url": "https://nogalesaz.gov/wp-content/uploads/2020/12/City_of_Nogales_Stormwater_Management_Plan.pdf",
+        "description": "Nogales Water"
+    },
+    "Guidance Framework for Direct Potable Reuse in Arizona": {
+        "url": "https://www.nwri-usa.org/_files/ugd/632dc3_0bd8e67cef55446f8c3f7759a37512ce.pdf?index=true",
+        "description": "Guidance Framework for Direct Potable Reuse in Arizona"
+    },
+    "Water Quality Control Plan": {
+        "url": "http://paiutewater.us/WQS%20Jan%202019.pdf",
+        "description": "Water Quality Control Plan"
+    },
+    "Water management innovation": {
+        "url": "https://knowyourwaternews.com/pascua-yaqui-tribe-thrives-on-water-management-innovation/",
+        "description": "Water management innovation"
+    },
+    "NAU Water-Energy Nexus Study": {
+        "url": "http://www.waterenergy.nau.edu/patagonia.html",
+        "description": "NAU Water-Energy Nexus Study"
+    },
+    "Patagonia": {
+        "url": "https://patagonia-az.gov/wp-content/uploads/2011/07/Patagonia-Town-Code-Ch12-w-amendments-from-2012-1.pdf",
+        "description": "Patagonia"
+    },
+    "City of Phoenix Water Conservation": {
+        "url": "https://www.phoenix.gov/waterservices/resourcesconservation/faqs",
+        "description": "City of Phoenix Water Conservation"
+    },
+    "City of Phoenix Drinking Water": {
+        "url": "https://www.phoenix.gov/waterservices/envservices/drinking-water/faqs",
+        "description": "City of Phoenix Drinking Water"
+    },
+    "Irrigation project": {
+        "url": "https://irrigationleadermagazine.com/the-pima-maricopa-irrigation-project/",
+        "description": "Irrigation project"
+    },
+    "A Vision Statement for P-MIP": {
+        "url": "https://www.gilariver.com/new-vision.html",
+        "description": "A Vision Statement for P-MIP"
+    },
+    "ADWR": {
+        "url": "https://www.pinetoplakesideaz.gov/DocumentCenter/View/855/2015-General-Plan---",
+        "description": "ADWR"
+    },
+    "Pinetop Water": {
+        "url": "https://www.pinetopwatercfd.com/conservation-tips",
+        "description": "Pinetop Water"
+    },
+    "Pinetop Water-2": {
+        "url": "https://www.pinetopwatercfd.com/documents/581/res2007-2.pdf",
+        "description": "Pinetop Water-2"
+    },
+    "Water Resources": {
+        "url": "https://planprescott.com/wp-content/uploads/2023/01/10-Water-Resources-Element.pdf",
+        "description": "Water Resources"
+    },
+    "Backflow Code": {
+        "url": "https://cms8.revize.com/revize/quartzsite/Document_Center/Department/Utility/Backflow%20Code.pdf",
+        "description": "Backflow Code"
+    },
+    "Tribal Water Uses in Colorado River Basin-5": {
+        "url": "http://www.tribalwateruse.org/?page_id=123",
+        "description": "Tribal Water Uses in Colorado River Basin-5"
+    },
+    "FAQs": {
+        "url": "https://rippleeffectsedona.com/faqs/",
+        "description": "FAQs"
+    },
+    "General Plan": {
+        "url": "https://www.sierravistaaz.gov/home/showpublisheddocument/3356/637876863574970000",
+        "description": "General Plan"
+    },
+    "Conservation Plan": {
+        "url": "https://www.snowflakeaz.gov/departments/public-works/water-division/conservation-plan/",
+        "description": "Conservation Plan"
+    },
+    "Flood Irrigation": {
+        "url": "https://www.srpnet.com/grid-water-management/water-management/how-irrigation-works",
+        "description": "Flood Irrigation"
+    },
+    "PUBLIC WORKS (WATER AND SEWER)": {
+        "url": "https://www.sjaz.us/public-works-water-and-sewer/",
+        "description": "PUBLIC WORKS (WATER AND SEWER)"
+    },
+    "Water Department": {
+        "url": "https://starvalleyaz.com/waterdepartment/",
+        "description": "Water Department"
+    },
+    "Water Resource Management": {
+        "url": "https://surpriseaz.gov/603/Water-Resource-Management",
+        "description": "Water Resource Management"
+    },
+    "Fort Mojave Indian Tribe": {
+        "url": "https://tentribespartnership.org/wp-content/uploads/2020/01/Ch.-5.6-Ft.-Mojave-Current-Future-Water-Use-12-13-2018.pdf",
+        "description": "Fort Mojave Indian Tribe"
+    },
+    "Brief History of Tohono O'odham Water": {
+        "url": "http://www.tonation-nsn.gov/water-resources/brief-history/",
+        "description": "Brief History of Tohono O'odham Water"
+    },
+    "Tribal Water Study Overview": {
+        "url": "https://www.waterandtribes.org/_files/ugd/1c5bb7_ee6dd174b3524eac82c750300c8ba139.pdf",
+        "description": "Tribal Water Study Overview"
+    },
+    "Inventory in the Colorado River Basin": {
+        "url": "https://www.tribalwateruse.org/?page_id=569",
+        "description": "Inventory in the Colorado River Basin"
+    },
+    "Tucson One Water": {
+        "url": "https://tucsononewater.com/wp-content/uploads/2024/04/Tucson_Water_One_Water_2100_Plan_Print_Ready-1.pdf",
+        "description": "Tucson One Water"
+    },
+    "Tucson Water": {
+        "url": "https://www.tucsonaz.gov/Departments/Water",
+        "description": "Tucson Water"
+    },
+    "Tucson One Water-2": {
+        "url": "https://tucsononewater.com/wp-content/uploads/2024/04/Tucson_Water_One_Water_2100_Plan_Print_Ready-1.pdf",
+        "description": "Tucson One Water-2"
+    },
+    "A Common Vision": {
+        "url": "https://www.waterandtribes.org/_files/ugd/17c3c8_f1d896681b9c488f86bd2a34754d7e5d.pdf",
+        "description": "A Common Vision"
+    },
+    "Developing the Next Framework": {
+        "url": "https://www.waterandtribes.org/_files/ugd/1c5bb7_c6557dd8e23c4c5d848590e7d36efe96.pdf",
+        "description": "Developing the Next Framework"
+    },
+    "Status of Tribal Water Rights": {
+        "url": "https://www.waterandtribes.org/_files/ugd/17c3c8_1fa6790c664842249959f156b927d10d.pdf",
+        "description": "Status of Tribal Water Rights"
+    },
+    "The Enduring Role": {
+        "url": "https://www.waterandtribes.org/_files/ugd/17c3c8_7705fac3008e4bdf806e268271d187e2.pdf",
+        "description": "The Enduring Role"
+    },
+    "Water and Tribes Initiative": {
+        "url": "https://www.waterandtribes.org/",
+        "description": "Water and Tribes Initiative"
+    },
+    "Developing the Next Framework-1": {
+        "url": "https://www.waterandtribes.org/_files/ugd/1c5bb7_c6557dd8e23c4c5d848590e7d36efe96.pdf",
+        "description": "Developing the Next Framework-1"
+    },
+    "Status of Tribal Water Rights-1": {
+        "url": "https://www.waterandtribes.org/_files/ugd/17c3c8_1fa6790c664842249959f156b927d10d.pdf",
+        "description": "Status of Tribal Water Rights-1"
+    },
+    "Pinal Active Management Area": {
+        "url": "https://wrrc.arizona.edu/sites/wrrc.arizona.edu/files/2023-02/final_june-12-2020_wrrc_pinal_ama_water_report.pdf",
+        "description": "Pinal Active Management Area"
+    },
+    "Desert Flows Methodology": {
+        "url": "https://wrrc.arizona.edu/sites/wrrc.arizona.edu/files/attachment/Desert%2520Flows%2520Methodology%2520Guidebook_2017.pdf",
+        "description": "Desert Flows Methodology"
+    },
+    "Water Advisory Committee": {
+        "url": "https://www.yavapaiaz.gov/County-Government/Board-of-Supervisors/Boards-and-Commissions/Water-Advisory-Committee",
+        "description": "Water Advisory Committee"
+    },
+    "Central Yavapai Water Resource Study": {
+        "url": "https://www.yavapaiaz.gov/files/sharedassets/public/v/1/resident-services/environmental-safety/documents/environmental_issues_assessment_and_alternative_descriptions_final_v4-4.pdf",
+        "description": "Central Yavapai Water Resource Study"
+    },
+    "Zuni Youth Enrichment Project - Water is Life": {
+        "url": "https://www.zyep.org/zuni-families-conserve-water-and-save-money-through-the-zuni-youth-enrichment-projects-support-of-rain-harvest/",
+        "description": "Zuni Youth Enrichment Project - Water is Life"
+    },
+    
+  "Enhancing Tribal Water Management Capacity in the Colorado River Basin: A Baseline Assessment": {
+        "url": "https://www.waterandtribes.org/_files/ugd/1c5bb7_c3b7d7dbc21c4ceb9aacf49d23e6642e.pdf",
+        "description": "Enhancing Tribal Water Management Capacity in the Colorado River Basin: A Baseline Assessment"
+    },
+    "General Plan-1": {
+        "url": "https://www.apachejunctionaz.gov/DocumentCenter/View/20772/-Apache-Junction-GPU-2020-DIGITAL",
+        "description": "General Plan-1"
+    },
+    "General Plan-2": {
+        "url": "https://webgen1files1.revize.com/cityofbensonaz/Document%20Center/Department/Planning%20and%20Zoning/General%20Plan/2015_Final_Draft.pdf",
+        "description": "General Plan-2"
+    },
+    "General Plan-3": {
+        "url": "https://www.bisbeeaz.gov/DocumentCenter/View/1141/2015GeneralPlanUpdateVolume1Final_001June-2014?bidId=",
+        "description": "General Plan-3"
+    },
+    "Know Your Water Factsheet": {
+        "url": "https://knowyourwaternews.com/wp-content/uploads/2020/12/CAP-Fact-Sheet-Know-Your-Water.pdf",
+        "description": "Know Your Water Factsheet"
+    },
+    "Public Facilities": {
+        "url": "https://eloyaz.gov/DocumentCenter/View/4935/38-Public-Facilities-Element",
+        "description": "Public Facilities"
+    },
+    "Pinal Creek Wastewater Treatment Facility": {
+        "url": "https://www.globeaz.gov/public-works/pages/pinal-creek-wastewater-treatment-facility",
+        "description": "Pinal Creek Wastewater Treatment Facility"
+    },
+    "Water-3": {
+        "url": "https://www.globeaz.gov/public-works/pages/water",
+        "description": "Water"
+    },
+    "General Plan-5": {
+        "url": "https://assets.website-files.com/5d110e58c64b3a3c65215b35/642b5c925902ed39c43ccf07_General%20Plan%208-9-05.pdf",
+        "description": "General Plan-5"
+    },
+    "General Plan-6": {
+        "url": "https://www.cityofkingman.gov/home/showdocument?id=292",
+        "description": "General Plan-6"
+    },
+    "General Plan-7": {
+        "url": "https://www.litchfieldpark.gov/DocumentCenter/View/11618/2022-General-Plan-033022-Approved-Final",
+        "description": "General Plan-7"
+    },
+    "Pima Water Resources Unit": {
+        "url": "https://webgen1files1.revize.com/pimaaz/PIMA_GP%20(1).pdf",
+        "description": "Pima Water Resources Unit"
+    },
+    "General Plan-9": {
+        "url": "https://www.prescottvalley-az.gov/DocumentCenter/View/14355/Approved-General-Plan-2035",
+        "description": "General Plan-9"
+    },
+    "General Plan-10": {
+        "url": "https://sahuaritaaz.gov/DocumentCenter/View/1169/Aspire-2035-Sahuaritas-General-Plan-Amended-2022?bidId=",
+        "description": "General Plan-10"
+    },
+    "General Plan-11": {
+        "url": "https://www.sanluisaz.gov/DocumentCenter/View/10150/City-of-San-Luis-GP-2040",
+        "description": "General Plan-11"
+    },
+    "General Plan-13": {
+        "url": "https://core-docs.s3.us-east-1.amazonaws.com/documents/asset/uploaded_file/4677/COSL/4023765/2018_GENERAL_PLAN_FINAL_201909101144128160__2_.pdf",
+        "description": "General Plan-13"
+    },
+    "General Plan-14": {
+        "url": "https://cms2.revize.com/revize/somertonaz/document_center/Community%20Development/SGP_CouncilAdopted_060220.pdf",
+        "description": "General Plan-14"
+    },
+    "General Plan-15": {
+        "url": "https://www.southtucsonaz.gov/sites/default/files/fileattachments/city_clerk/page/4753/city_of_south_tucson_chapter_22-_floodplain_pc.pdf",
+        "description": "General Plan-15"
+    },
+    "General Plan - Water Resources-3": {
+        "url": "https://content.civicplus.com/api/assets/92746936-baf3-4b14-a50e-204c418083da?cache=1800",
+        "description": "General Plan - Water Resources"
+    },
+    "General Plan-17": {
+        "url": "https://www.tayloraz.gov/wp-content/uploads/2014/01/2025-General-Plan.pdf",
+        "description": "General Plan-17"
+    },
+    "General Plan-18": {
+        "url": "https://www.thatcher.az.gov/home/showpublisheddocument/1008/637901936330630000",
+        "description": "General Plan-18"
+    },
+    "General Plan-19": {
+        "url": "https://www.tolleson.az.gov/DocumentCenter/View/2491/General-Plan-2024?bidId=",
+        "description": "General Plan-19"
+    },
+    "General Plan-20": {
+        "url": "https://www.welltonaz.gov/sites/g/files/vyhlif8076/f/uploads/231214_final_adopted_wellton_2023_general_plan.pdf",
+        "description": "General Plan-20"
+    },
+    "General Plan-22": {
+        "url": "https://tusayan-az.gov/wp-content/uploads/2023/06/2014-04-23-Tusayan-General-Plan-2024.pdf",
+        "description": "General Plan-22"
+    },
+    "General Plan-23": {
+        "url": "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_12608991/File/Our%20Services/Community%20Development/Directory%20of%20Regulatory%20Documents/6-24-14%20General%20Plan%202025%20-%20Final.pdf",
+        "description": "General Plan-23"
+    },
+    "General Plan-24": {
+        "url": "https://www.yumaaz.gov/home/showpublisheddocument/5172/637939261174930000",
+        "description": "General Plan-24"
+    },
+    "Securing Our Water Future Through Advanced Water Purification": {
+        "url": "https://www.amwua.org/blog/securing-our-water-future-through-advanced-water-purification",
+        "description": "Securing Our Water Future Through Advanced Water Purification"
+    },
+    "General Plan-4": {
+        "url": "https://cottonwoodaz.gov/DocumentCenter/View/606/Water-Resources-PDF",
+        "description": "General Plan-4"
+    },
+    "General Plan (2009, most recent)": {
+        "url": "https://drive.google.com/file/d/1A1SeL48R48CNZEX17T4RaeHAWAZIaOpf/view",
+        "description": "General Plan (2009, most recent)"
+    },
+    "General Plan-8": {
+        "url": "https://drive.google.com/file/d/1CT7-L12DWcvZkGNG9eMq3fesVdsLtfx8/view?usp=drive_link",
+        "description": "General Plan-8"
+    },
+    "A Water / Energy Best Practices Guide for Rural Arizona’s Water & Wastewater Systems": {
+        "url": "https://drive.google.com/file/d/1NzED78d48CE4NIv7qdWzSmAivkEPF8Fx/view?usp=drive_link",
+        "description": "A Water / Energy Best Practices Guide for Rural Arizona’s Water & Wastewater Systems"
+    },
+    "Nogales Water-2": {
+        "url": "https://drive.google.com/file/d/1O0yA4PZTBGoPnfNJ7Jrg1BvBQCAV5SwQ/view?usp=drive_link",
+        "description": "Nogales Water-2"
+    },
+    "Public Works-3": {
+        "url": "https://drive.google.com/file/d/1wXO7f0jalBPGgUSapGNGfYOvXKrYAZJJ/view?usp=drive_link",
+        "description": "Public Works"
+    },
+    "General Plan-12": {
+        "url": "https://drive.google.com/file/d/1Bw2aY7H9En2wI_E8OB4AAPkANghKKOqB/view?usp=drive_link",
+        "description": "General Plan-12"
+    },
+    "General Plan-16": {
+        "url": "https://content.civicplus.com/api/assets/92746936-baf3-4b14-a50e-204c418083da?cache=1800",
+        "description": "General Plan-16"
+    },
+    "General Plan-21": {
+        "url": "https://drive.google.com/file/d/1cQenUYqsMbpenhaVquAjHW_S9wawJ-e2/view?usp=drive_link",
+        "description": "General Plan-21"
+    },
+    "Willcox Utilities": {
+        "url": "https://drive.google.com/file/d/1PpawNSHapIuisHSc3juM8UWEPh2-RzHO/view?usp=drive_link",
+        "description": "Willcox Utilities"
+    },
+    "2024 Scottsdale Water Quality Report": {
+        "url": "https://drive.google.com/file/d/1TC9N1dlqmcG9Au1Xy8b3k-ZLVjUy6JcN/view?usp=drive_link",
+        "description": "2024 Scottsdale Water Quality Report"
     }
+
 }
