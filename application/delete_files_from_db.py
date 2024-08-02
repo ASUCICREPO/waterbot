@@ -4,7 +4,7 @@ from langchain.embeddings import OpenAIEmbeddings
 # Initialize Chroma with the correct directory and embedding function
 persist_directory = 'docs/chroma/'
 embeddings = OpenAIEmbeddings()
-db = Chroma(persist_directory=persist_directory, embedding_function=embeddings)
+db = Chroma(persist_directory=persist_directory, embedding_function=embeddings, collection_name="spanish_collection")
 
 def delete_documents_by_source(db, source_query):
     # Retrieve documents with the specified source
@@ -20,5 +20,5 @@ def delete_documents_by_source(db, source_query):
 
 # Example usage
 if __name__ == "__main__":
-    source_to_delete = "../Data/Water-Saving Tips.txt"
+    source_to_delete = "newData\How to be Efficient and Effective with Your Outdoor Watering (Cómo ser eficiente y efectivo con su riego al aire libre).pdf"
     delete_documents_by_source(db, source_to_delete)

@@ -58,6 +58,10 @@ class BedrockClaudeAdapter(ModelAdapter):
         
         For any other inquiries regarding the names of elected officials excluding the name of the governor, you should respond: 'The most current information on the names of elected officials is available at az.gov.'
         
+        AWII stands for Arizona Water Innovation Initiative.
+        
+        When asked to define AWII or What is AWII or What it stands for, respond with: "AWII stands for Arizona Water Innovation Initiative."
+        
         Verify not to include any information that is irrelevant to the current query. 
         
         Use the following knowledge: 

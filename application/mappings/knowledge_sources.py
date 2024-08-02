@@ -1291,6 +1291,320 @@ knowledge_sources = {
     "2024 Scottsdale Water Quality Report": {
         "url": "https://drive.google.com/file/d/1TC9N1dlqmcG9Au1Xy8b3k-ZLVjUy6JcN/view?usp=drive_link",
         "description": "2024 Scottsdale Water Quality Report"
-    }
+    },
+    "Rural Water in Arizona": {
+        "url": "https://docs.google.com/document/d/1TgddnnDf4SVyx59vOIy6UIYfs30FN_Cz/edit?usp=drive_link&ouid=105796556670555250653&rtpof=true&sd=true",
+        "description": "Rural Water in Arizona"
+    },
+    "Augmentation Concepts": {
+        "url": "https://docs.google.com/document/d/10KrtHXDQw8w95rh1c0Yi7fYXLTurtdSj/edit?usp=drive_link&ouid=105796556670555250653&rtpof=true&sd=true",
+        "description": "Augmentation Concepts"
+    },
+    "Brief History of Water Resources-2": {
+        "url": "http://www.tonation-nsn.gov/water-resources/brief-history/",
+        "description": "Brief History of Water Resources-2"
+    },
+    "OVERVIEW OF THE ARIZONA GROUNDWATER MANAGEMENT CODE-2": {
+        "url": "https://www.azwater.gov/sites/default/files/media/Arizona%20Groundwater_Code_1.pdf",
+        "description": "OVERVIEW OF THE ARIZONA GROUNDWATER MANAGEMENT CODE-2"
+    },
+    "HCC Water Master Plan Memo": {
+        "url": "https://drive.google.com/file/d/1P9WXKbSfrGWJ9o4ML9lrHWTzW6WyaZD9/view",
+        "description": "HCC Water Master Plan Memo"
+    },
+    "General Plan-25": {
+        "url": "https://img1.wsimg.com/blobby/go/5f14fb93-ed4c-41ba-b8c4-d5ccaa1bf7c8/downloads/3%20Clifton%20General%20Plan%20Policy%20Plan%20-%20Final%208%201.pdf?ver=1720819747718",
+        "description": "General Plan-25"
+    },
+    "General Plan-26": {
+        "url": "https://www.clarkdale.az.gov/DocumentCenter/View/997/Town-of-Clarkdale-2021-General-Plan-",
+        "description": "General Plan-26"
+    },
+    "General Plan-27": {
+        "url": "https://www.cavecreekaz.gov/DocumentCenter/View/4413/2021-General-Plan---Cave-Creek?bidId=",
+        "description": "General Plan-27"
+    },
+    "COLORADO RIVER INDIAN TRIBES WATER RESILIENCY ACT OF 2022": {
+        "url": "https://www.crit-nsn.gov/PLAW-117publ343.pdf",
+        "description": "COLORADO RIVER INDIAN TRIBES WATER RESILIENCY ACT OF 2022"
+    },
+    "Water Conservation Brochure": {
+        "url": "https://www.srpmic-nsn.gov/wp-content/uploads/2021/06/PW-WC2019Brochure.pdf",
+        "description": "Water Conservation Brochure"
+    },
+    "Water Conservation Page": {
+        "url": "https://www.srpmic-nsn.gov/government/public-works/water-conservation/",
+        "description": "Water Conservation Page"
+    },
+    "Water Adjudication": {
+        "url": "https://digitalrepository.unm.edu/cgi/viewcontent.cgi?article=1053&context=nawrs",
+        "description": "Water Adjudication"
+    },
+    "Ak-Chin Indian Water Rights Settlement Act of 1978": {
+        "url": "https://drive.google.com/file/d/1PQ11ev2Xn3rkYcwU1d6DFs4GhG2jvo9z/view?usp=drive_link",
+        "description": "Ak-Chin Indian Water Rights Settlement Act of 1978"
+    },
+    "Tohono Oodham Water Rights Settlement Act of 1982 Title III": {
+        "url": "https://drive.google.com/file/d/1MTct8u0SYtoVwX2U8aF-Lvu857ljBTUq/view?usp=drive_link",
+        "description": "Tohono Oodham Water Rights Settlement Act of 1982 Title III"
+    },
+    "1983 Agreement in Principle to Revise Ak-Chin Water Settlement": {
+        "url": "https://drive.google.com/file/d/1H7zGAupEm7XU0si4fM9gwbq20dTOortx/view?usp=drive_link",
+        "description": "1983 Agreement in Principle to Revise Ak-Chin Water Settlement"
+    },
+    "Salt River Pima-Maricopa Indian Community Water Rights Settlement (2)": {
+        "url": "https://drive.google.com/file/d/1gOUecOdk3BLpfyYIQfo4rtJxavPvqgnM/view?usp=drive_link",
+        "description": "Salt River Pima-Maricopa Indian Community Water Rights Settlement (2)"
+    },
+    "Salt River Pima-Maricopa Indian Community Water Rights Settlement (1)": {
+        "url": "https://drive.google.com/file/d/1bK1_JOx0xFX90wZZ6oxk42WHelYtS7jO/view?usp=drive_link",
+        "description": "Salt River Pima-Maricopa Indian Community Water Rights Settlement (1)"
+    },
+    "Fort McDowell Indian Community Water Rights Settlement of 1990 Ac": {
+        "url": "https://drive.google.com/file/d/12KZY9NNhrjl7XlPnqXj4lG7-s-yrBdcP/view?usp=drive_link",
+        "description": "Fort McDowell Indian Community Water Rights Settlement of 1990 Ac"
+    },
+    "Salt River Pima-Maricopa Indian Community Water Rights Settlement of 1991": {
+        "url": "https://drive.google.com/file/d/14IjlbMeF8wPALBB1zOm6yZgcBmpA3n-u/view?usp=drive_link",
+        "description": "Salt River Pima-Maricopa Indian Community Water Rights Settlement of 1991"
+    },
+    "Technical Amendments to Southern Arizona Water Rights Settlement": {
+        "url": "https://drive.google.com/file/d/1-UFJb9Vuc5evBOCWoBm0pI89zZIvQqv7/view?usp=drive_link",
+        "description": "Technical Amendments to Southern Arizona Water Rights Settlement"
+    },
+    "San Carlos Apache Tribe Water Rights Settlement Act of 1992 San": {
+        "url": "https://drive.google.com/file/d/1aUVlDzzSqQx1AFObylOSc4CIsmXN_Go4/view?usp=drive_link",
+        "description": "San Carlos Apache Tribe Water Rights Settlement Act of 1992 San"
+    },
+    "1992 Amendments 1984 Ak-Chin Water Act (1)": {
+        "url": "https://drive.google.com/file/d/1y0eyKjxTTfTPIlIyCWoccIL-tGcrvoV5/view?usp=sharing",
+        "description": "1992 Amendments 1984 Ak-Chin Water Act (1)"
+    },
+    "Fort McDowell Indian Community Water Settlement (Yavapai Nation)": {
+        "url": "https://drive.google.com/file/d/10l9or1hc2T-s_EbW258FtV7uCYhQ4Huf/view?usp=drive_link",
+        "description": "Fort McDowell Indian Community Water Settlement (Yavapai Nation)"
+    },
+    "Yavapai-Prescott Indian Water Rights Settlement Act of 1994": {
+        "url": "https://drive.google.com/file/d/1aH9zxpLz3P4Gz2hiGSF1eBLyL3EQHz2W/view?usp=drive_link",
+        "description": "Yavapai-Prescott Indian Water Rights Settlement Act of 1994"
+    },
+    "San Carlos Apache Tribe Water Rights Settlement Act of 1992 Amen": {
+        "url": "https://drive.google.com/file/d/1Pmu4yxESqaWM3B5SAf4XIqXRnCw6c816/view?usp=drive_link",
+        "description": "San Carlos Apache Tribe Water Rights Settlement Act of 1992 Amen"
+    },
+    "An Act to Provide for the Settlement of the Water Rights Claims of Yavapai": {
+        "url": "https://drive.google.com/file/d/1j3PW1DI--bGXFPU1zFxrXir9GW4W_AGO/view?usp=drive_link",
+        "description": "An Act to Provide for the Settlement of the Water Rights Claims of Yavapai"
+    },
+    "Yavapai-Prescott Indian Tribe Water Rights Settlement of 1994 Am": {
+        "url": "https://drive.google.com/file/d/1h0VXgtMuzTx9yTmxtWUYw_lJ4uP05LdW/view?usp=drive_link",
+        "description": "Yavapai-Prescott Indian Tribe Water Rights Settlement of 1994 Am"
+    },
+    "San Carlos Apache Tribe Amendments to Act of 1992 1997 Amendment": {
+        "url": "https://drive.google.com/file/d/1E6lTUrTlpxtMb3PDjA-8Ep3T2fSmhBMN/view?usp=drive_link",
+        "description": "San Carlos Apache Tribe Amendments to Act of 1992 1997 Amendment"
+    },
+    "San Carlos Apache Tribe Water Rights Settlement Agreement of 1999": {
+        "url": "https://drive.google.com/file/d/1MJ5H2sGqdUKclAEA-vD-m-lN22ppbh2F/view?usp=drive_link",
+        "description": "San Carlos Apache Tribe Water Rights Settlement Agreement of 1999"
+    },
+    "Zuni Indian Tribe Water Rights Settlement in the Little CO River": {
+        "url": "https://drive.google.com/file/d/18ro5k2PKHOm2nxS1jfpmoMePw4Zf7WhJ/view?usp=drive_link",
+        "description": "Zuni Indian Tribe Water Rights Settlement in the Little CO River"
+    },
+    "Zuni Indian Tribe Water Rights Settlement Act of 2003": {
+        "url": "https://drive.google.com/file/d/1eASZoeQYE2ZjY0VFvykgcHnXcYLjbUwB/view?usp=drive_link",
+        "description": "Zuni Indian Tribe Water Rights Settlement Act of 2003"
+    },
+    "Tohono Oodham Settlement": {
+        "url": "https://drive.google.com/file/d/1lTFRCaIexshWP7CkJ2tRHbSRMBtN_41A/view?usp=drive_link",
+        "description": "Tohono Oodham Settlement"
+    },
+    "Gila River Indian Community Water Rights Settlement Act of 2004": {
+        "url": "https://drive.google.com/file/d/1n6K9eA4pwgxZvrRGc6g38O4w5al9cKFj/view?usp=drive_link",
+        "description": "Gila River Indian Community Water Rights Settlement Act of 2004"
+    },
+    "Amendment No. 1 to the Zuni Indian Tribe Water Rights Settlement": {
+        "url": "https://drive.google.com/file/d/1AjV9YxM5i26xNOYR2zoRmq_Tz1PQSx_q/view?usp=drive_link",
+        "description": "Amendment No. 1 to the Zuni Indian Tribe Water Rights Settlement"
+    },
+    "2005 Amended and Restated Gila River Indian Community Water Right": {
+        "url": "https://drive.google.com/file/d/1bUyGcH5mg0-XAE8F4D-WWsN18434Xqhe/view?usp=drive_link",
+        "description": "2005 Amended and Restated Gila River Indian Community Water Right"
+    },
+    "Fort McDowell Indian Community Water Rights Settlement Revision A": {
+        "url": "https://drive.google.com/file/d/1NEzvg-0vRXjBhA0BCmE-4Ac6SOBTyJB-/view?usp=drive_link",
+        "description": "Fort McDowell Indian Community Water Rights Settlement Revision A"
+    },
+    "Amendment No. 1 to the Amended and Restated Gila River Indian Com": {
+        "url": "https://drive.google.com/file/d/1HWBgc5KYNbfZR6o4asFETqZ2VGS5Ddkl/view?usp=drive_link",
+        "description": "Amendment No. 1 to the Amended and Restated Gila River Indian Com"
+    },
+    "Amended and Restated Gila River Indian Community Water Rights Amendment 2 2007": {
+        "url": "https://drive.google.com/file/d/1OHh8RdcdJu9EshDMRCLmXxkiu8Pa0gMh/view?usp=drive_link",
+        "description": "Amended and Restated Gila River Indian Community Water Rights Amendment 2 2007"
+    },
+    "White Mountain Apache Tribe Water Rights Quantification Act of 2010": {
+        "url": "https://drive.google.com/file/d/15jpmbSHHQrooHGl_gE-PUNY79c11oaSl/view?usp=drive_link",
+        "description": "White Mountain Apache Tribe Water Rights Quantification Act of 2010"
+    },
+    "Amended and Restated White Mountain Apache Tribe Water Rights Qua": {
+        "url": "https://drive.google.com/file/d/18mm3EiJr0syymQ9S83uCxqZOYGnEcrrr/view?usp=drive_link",
+        "description": "Amended and Restated White Mountain Apache Tribe Water Rights Qua"
+    },
+    "White Mountain Apache Water Rights Quantification Settlement Judg": {
+        "url": "https://drive.google.com/file/d/1UtUKHiC_U5czXfiyl8k5-8o0ZUVXDfO1/view?usp=drive_link",
+        "description": "White Mountain Apache Water Rights Quantification Settlement Judg"
+    },
+    "Bill Williams River Water Rights Settlement Act of 2014": {
+        "url": "https://drive.google.com/file/d/1yWMkwj0zKcLamC2RS_W7toY_D3qy2i2j/view?usp=drive_link",
+        "description": "Bill Williams River Water Rights Settlement Act of 2014"
+    },
+    "White Mountain Apache Tribe Water Rights Quantification Act": {
+        "url": "https://drive.google.com/file/d/1HQPSqvCZ7oItOkhh9zMyIe4y9QwwgqxN/view?usp=drive_link",
+        "description": "White Mountain Apache Tribe Water Rights Quantification Act"
+    },
+    "Hualapai Tribe Water Rights Settlement Act of 2022": {
+        "url": "https://drive.google.com/file/d/1BENEONXHWDJoznXJKaarCODhI9xZ6KvN/view?usp=drive_link",
+        "description": "Hualapai Tribe Water Rights Settlement Act of 2022"
+    },
+    "Ak-Chin Settlement Act of 1984": {
+        "url": "https://drive.google.com/file/d/1-0dmg3cM-I0SySpeAJGCQupL7VBGkFLH/view?usp=drive_link",
+        "description": "Ak-Chin Settlement Act of 1984"
+    },
+    "1992 Amendments 1984 Ak-Chin Water Act": {
+        "url": "https://drive.google.com/file/d/1kvECq3CVSfdY7PEZDfCkNiKGqzcoBdaI/view?usp=drive_link",
+        "description": "1992 Amendments 1984 Ak-Chin Water Act"
+    },
+    "Ak-Chin Water Use Act of 1984 2000 Amendments": {
+        "url": "https://drive.google.com/file/d/1MP7fIl_TU1ERDBl0IqHqK0ZJIlitaFCa/view?usp=drive_link",
+        "description": "Ak-Chin Water Use Act of 1984 2000 Amendments"
+    },
+    "Fort Mojave Indian Tribe - Keepers of the River": {
+        "url": "https://drive.google.com/file/d/1wdn04ge8T0k_rh7Up7-ZC-I4GdBRcjkc/view?usp=drive_link",
+        "description": "Fort Mojave Indian Tribe - Keepers of the River"
+    },
+    "Rights to Use Water in the Gila River System": {
+        "url": "https://drive.google.com/file/d/1CKves3-ZmwQq2IIrIklRI3E3TI1ETyVN/view?usp=drive_link",
+        "description": "Rights to Use Water in the Gila River System"
+    },
+    "2023 Consumer Confidence Report": {
+        "url": "https://www.tempe.gov/home/showdocument?id=108032&t=638514514522921469",
+        "description": "2023 Consumer Confidence Report"
+    },
+    "Arizona Department of Water Resources": {
+        "url": "https://drive.google.com/file/d/1JUlZlpUoR_bdEWR9R1fMLcn8PJ6ZFmGq/view?usp=drive_link",
+        "description": "Arizona Department of Water Resources"
+    },
+  "Superior General Plan": {
+        "url": "https://drive.google.com/file/d/1uuDRq01sar1zfAPUOa5k1Gb-3wpF_tEm/view?usp=drive_link",
+        "description": "Superior General Plan"
+    },
+  ### Spanish Resources ###
 
+  "Arizona Water Banking Authority Annual Plan of Operation 2023 (Plan de operaciones anual de la autoridad bancaria de agua de Arizona 2023).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Arizona Water Banking Authority Annual Plan of Operation 2023 (Plan de operaciones anual de la autoridad bancaria de agua de Arizona 2023)"
+    },
+    "Arizona Water Banking Authority Annual Report 2022 (Informe anual de la Autoridad Bancaria de Agua de Arizona 2022).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Arizona Water Banking Authority Annual Report 2022 (Informe anual de la Autoridad Bancaria de Agua de Arizona 2022)"
+    },
+    "Arizona Water Fact Sheet Maricopa County (Hoja Informativa Sobre el Agua de Arizona Condado de Maricopa).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Arizona Water Fact Sheet Maricopa County (Hoja Informativa Sobre el Agua de Arizona Condado de Maricopa)"
+    },
+    "Colorado River Interim Guidelines for Lower Basin Shortages and the Coordinated Operations for Lake Powell and Lake Mead .pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Colorado River Interim Guidelines for Lower Basin Shortages and the Coordinated Operations for Lake Powell and Lake Mead (Directrices Provisionales del Río Colorado para la Escasez en la Cuenca Inferior y las Operaciones Coordinadas para el Lago Powell y el Lago Mead)"
+    },
+    "How to be Efficient and Effective with Your Outdoor Watering (Cómo ser eficiente y efectivo con su riego al aire libre).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "How to be Efficient and Effective with Your Outdoor Watering (Cómo ser eficiente y efectivo con su riego al aire libre)"
+    },
+    "Issues We're Facing (Problemas que enfrentamos).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Issues We're Facing (Problemas que enfrentamos)"
+    },
+    "Lessons from the Past (Lecciones del pasado).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Lessons from the Past (Lecciones del pasado)"
+    },
+    "NCA5_Ch11_Agriculture_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch11_Agriculture_esp (NCA5_Capítulo 11_Agricultura_esp)"
+    },
+    "NCA5_Ch16_Tribes-and-Indigenous-Peoples_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch16_Tribes-and-Indigenous-Peoples_esp (NCA5_Capítulo 16_Tribus y Pueblos Indígenas_esp)"
+    },
+    "NCA5_Ch1_Overview_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch1_Overview_esp (NCA5_Capítulo 1_Resumen_esp)"
+    },
+    "NCA5_Ch28_Southwest_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch28_Southwest_esp (NCA5_Capítulo 28_Suroeste_esp)"
+    },
+    "NCA5_Ch31_Adaptation_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch31_Adaptation_esp (NCA5_Capítulo 31_Adaptación_esp)"
+    },
+    "NCA5_Ch32_Mitigation_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch32_Mitigation_esp (NCA5_Capítulo 32_Mitigación_esp)"
+    },
+    "NCA5_Ch4_Water_esp.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "NCA5_Ch4_Water_esp (NCA5_Capítulo 4_Agua_esp)"
+    },
+    "OMWUA One for Water.pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "OMWUA One for Water (OMWUA Uno por el Agua)"
+    },
+    "Overview of the Arizona Groundwater Management Code (Descripción General del Código de Gestión de Aguas Subterráneas de Arizona).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Overview of the Arizona Groundwater Management Code (Descripción General del Código de Gestión de Aguas Subterráneas de Arizona)"
+    },
+    "Precision Agriculture (Agricultura de precisión).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Precision Agriculture (Agricultura de precisión)"
+    },
+    "Reclamation Confirms a Tier 1 Colorado River Shortage for 2024 (Reclamation confirma una escasez de nivel 1 en el río Colorado para 2024).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Reclamation Confirms a Tier 1 Colorado River Shortage for 2024 (Reclamation confirma una escasez de nivel 1 en el río Colorado para 2024)"
+    },
+    "Return to Watering the Sun Corridor (Regreso a regando el corredor solar).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Return to Watering the Sun Corridor (Regreso a regando el corredor solar)"
+    },
+    "The Arizona Drought Contingency: A Tribal Perspective (Plan de Contingencia ante Sequía de Arizona: Una Perspectiva Tribal).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "The Arizona Drought Contingency: A Tribal Perspective (Plan de Contingencia ante Sequía de Arizona: Una Perspectiva Tribal)"
+    },
+    "The Elusive Concept of an Assured Water Supply: The Role of CAGRD and Replenishment (El elusivo concepto de un suministro de agua asegurado: El papel de CAGRD y Reabastecimiento).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "The Elusive Concept of an Assured Water Supply: The Role of CAGRD and Replenishment (El elusivo concepto de un suministro de agua asegurado: El papel de CAGRD y Reabastecimiento)"
+    },
+    "The Future of Water in Arizona (El futuro del agua en Arizona).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "The Future of Water in Arizona (El futuro del agua en Arizona)"
+    },
+    "Tohono O'odham Brief History of Water Resources Department (Breve historia del Departamento de Recursos Hídricos de Tohono O'odham).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Tohono O'odham Brief History of Water Resources Department (Breve historia del Departamento de Recursos Hídricos de Tohono O'odham)"
+    },
+    "Tribal Water Supply: An Overview (Estudio tribal sobre el agua: una visión general).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Tribal Water Supply: An Overview (Estudio tribal sobre el agua: una visión general)"
+    },
+    "Untangling Housing Affordability & Groundwater Regulation (Desentrañando la asequibilidad de la vivienda y la regulación de las aguas subterráneas).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Untangling Housing Affordability & Groundwater Regulation (Desentrañando la asequibilidad de la vivienda y la regulación de las aguas subterráneas)"
+    },
+    "Water and Waste Water (Agua y aguas residuales).pdf": {
+        "url": "https://drive.google.com/drive/folders/1QgemZWUva8f1X7oCbpxDjETL1cZdW_25",  
+        "description": "Water and Waste Water (Agua y aguas residuales)"
+    }
+  
 }

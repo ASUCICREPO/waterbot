@@ -9,7 +9,7 @@ class ChromaManager():
         super().__init__(*args,**kwargs)
     
     def parse_source(self,source):
-        pattern = r'/([^/]+\.pdf)$'
+        pattern = r'[\\/]+([^\\/]+\.pdf)$' #to match windows backslashes, change accordingly as per OS eg:newData\\NCA5_Ch28_Southwest_esp.pdf
 
         match = re.search(pattern, source)
         if match:
@@ -18,6 +18,7 @@ class ChromaManager():
                 filename, 
                 {"url":"","description": ""}
             )
+            
             payload = {
                 "full_path":source,
                 "filename":filename,
@@ -35,7 +36,9 @@ class ChromaManager():
             return payload
         
     async def ann_search(self, user_query):
+        # logging.debug(f"User query: {user_query}")
         docs=self.vectordb.similarity_search(user_query)
+        # logging.debug(f"Documents retrieved: {docs}")
         sources=[docs[i].metadata["source"] for i in range(len(docs))]
 
 

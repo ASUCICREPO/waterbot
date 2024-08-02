@@ -5,7 +5,6 @@ import socket
 import httpx
 import logging
 
-
 from typing import Annotated
 
 import mappings.custom_tags as custom_tags
@@ -30,6 +29,7 @@ from amazon_transcribe.handlers import TranscriptResultStreamHandler
 from amazon_transcribe.model import TranscriptEvent
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.websockets import WebSocketState
+from langdetect import detect, DetectorFactory
 
 import asyncio
 
@@ -39,6 +39,18 @@ import os
 import json
 import datetime
 from starlette.middleware.base import BaseHTTPMiddleware
+
+# Ensure reproducibility by setting the seed
+DetectorFactory.seed = 0
+
+def detect_language(text):
+    try:
+        language = detect(text)
+        logging.info(f"Detected language: {language}")
+        return language
+    except Exception as e:
+        logging.error(f"Language detection failed: {str(e)}")
+        return None
 
 # Set the cookie name to match the one configured in the CDK
 COOKIE_NAME = "WATERBOT"
@@ -156,11 +168,11 @@ llm_adapter=ADAPTERS["claude.haiku"]
 
 embeddings = llm_adapter.get_embeddings()
 
-
 # Manager classes
 memory = MemoryManager()  # Assuming you have a MemoryManager class
 datastore = DynamoDBManager(messages_table=MESSAGES_TABLE)
 knowledge_base = ChromaManager(persist_directory="docs/chroma/", embedding_function=embeddings)
+knowledge_base_spanish = ChromaManager(persist_directory="docs/chroma/spanish", embedding_function=embeddings)
 s3_manager = S3Manager(bucket_name=TRANSCRIPT_BUCKET_NAME)
 
 @app.get("/", response_class=HTMLResponse)
@@ -175,6 +187,19 @@ async def home(request: Request,):
     }
 
     return templates.TemplateResponse("index.html", context )
+
+@app.get("/Spanish_Translation_2.0.1.html", response_class=HTMLResponse)
+async def home(request: Request,):
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+
+    context = {
+        "request": request,
+        "hostname": hostname,
+        "ip_address": ip_address
+    }
+
+    return templates.TemplateResponse("spanish.html", context )
 
 @app.websocket("/transcribe")
 async def transcribe(websocket: WebSocket):
@@ -276,21 +301,27 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
     docs=await memory.get_latest_memory( session_id=session_uuid, read="documents")
     user_query=await memory.get_latest_memory( session_id=session_uuid, read="content")
     sources=await memory.get_latest_memory( session_id=session_uuid, read="sources")
+    language = detect_language(user_query)
+    
+    # print("user query : ", user_query)
+    # print("user query language detected is : ", language)
 
 
     memory_payload={
         "documents":docs,
         "sources":sources
     }
+    
+    print("Sources detected is : ", memory_payload)
 
     formatted_source_list=await memory.format_sources_as_html(source_list=sources)
-
 
     generated_user_query = f'{custom_tags.tags["SOURCE_REQUEST"][0]}Provide me sources.{custom_tags.tags["SOURCE_REQUEST"][1]}'
     generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
 
     bot_response=formatted_source_list
 
+    print("Bot response : ",bot_response)
 
     await memory.add_message_to_session( 
         session_id=session_uuid, 
@@ -336,9 +367,18 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
 
     user_query=await memory.get_latest_memory( session_id=session_uuid, read="content",travel=-2)
     bot_response=await memory.get_latest_memory( session_id=session_uuid, read="content")
-
-    doc_content_str = await knowledge_base.knowledge_to_string({"documents":docs})
-
+    
+    language = detect_language(user_query)
+    
+    # print("user query : ", user_query)
+    # print("user query language detected is : ", language)
+    
+    if language == 'es':
+        print("Inside spanish chromaDB")
+        doc_content_str = await knowledge_base_spanish.knowledge_to_string({"documents":docs})     
+    else:
+        print("Inside english chromaDB")
+        doc_content_str = await knowledge_base.knowledge_to_string({"documents":docs})
 
     llm_body=await llm_adapter.get_llm_nextsteps_body( kb_data=doc_content_str,user_query=user_query,bot_response=bot_response )
     response_content = await llm_adapter.generate_response(llm_body=llm_body)
@@ -388,9 +428,18 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
 
     user_query=await memory.get_latest_memory( session_id=session_uuid, read="content",travel=-2)
     bot_response=await memory.get_latest_memory( session_id=session_uuid, read="content")
+    
+    language = detect_language(user_query)
+    
+    # print("user query : ", user_query)
+    # print("user query language detected is : ", language)
 
-    doc_content_str = await knowledge_base.knowledge_to_string({"documents":docs})
-
+    if language == 'es':
+        print("Inside spanish chromaDB")
+        doc_content_str = await knowledge_base_spanish.knowledge_to_string({"documents":docs})
+    else:
+        print("Inside enlgish chromaDB")
+        doc_content_str = await knowledge_base.knowledge_to_string({"documents":docs})
 
     llm_body=await llm_adapter.get_llm_detailed_body( kb_data=doc_content_str,user_query=user_query,bot_response=bot_response )
     response_content = await llm_adapter.generate_response(llm_body=llm_body)
@@ -477,9 +526,16 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
         source_list=[]
     )
     
-
-    docs = await knowledge_base.ann_search(user_query)
-    doc_content_str = await knowledge_base.knowledge_to_string(docs)
+    language = detect_language(user_query)
+    
+    if language == 'es':
+        print("Inside spanish chromaDB")
+        docs = await knowledge_base_spanish.ann_search(user_query)
+        doc_content_str = await knowledge_base_spanish.knowledge_to_string(docs)
+    else:
+         print("Inside english chromaDB")
+         docs = await knowledge_base.ann_search(user_query)
+         doc_content_str = await knowledge_base.knowledge_to_string(docs)
     
     llm_body = await llm_adapter.get_llm_body( 
         chat_history=await memory.get_session_history_all(session_uuid), 
