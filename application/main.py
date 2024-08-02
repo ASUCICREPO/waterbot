@@ -312,16 +312,12 @@ async def chat_sources_post(request: Request, background_tasks:BackgroundTasks):
         "sources":sources
     }
     
-    print("Sources detected is : ", memory_payload)
-
     formatted_source_list=await memory.format_sources_as_html(source_list=sources)
 
     generated_user_query = f'{custom_tags.tags["SOURCE_REQUEST"][0]}Provide me sources.{custom_tags.tags["SOURCE_REQUEST"][1]}'
     generated_user_query += f'{custom_tags.tags["OG_QUERY"][0]}{user_query}{custom_tags.tags["OG_QUERY"][1]}'
 
     bot_response=formatted_source_list
-
-    print("Bot response : ",bot_response)
 
     await memory.add_message_to_session( 
         session_id=session_uuid, 
@@ -369,9 +365,6 @@ async def chat_action_items_api_post(request: Request, background_tasks:Backgrou
     bot_response=await memory.get_latest_memory( session_id=session_uuid, read="content")
     
     language = detect_language(user_query)
-    
-    # print("user query : ", user_query)
-    # print("user query language detected is : ", language)
     
     if language == 'es':
         print("Inside spanish chromaDB")
@@ -430,9 +423,6 @@ async def chat_detailed_api_post(request: Request, background_tasks:BackgroundTa
     bot_response=await memory.get_latest_memory( session_id=session_uuid, read="content")
     
     language = detect_language(user_query)
-    
-    # print("user query : ", user_query)
-    # print("user query language detected is : ", language)
 
     if language == 'es':
         print("Inside spanish chromaDB")
