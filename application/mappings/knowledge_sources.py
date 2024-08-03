@@ -1512,6 +1512,22 @@ knowledge_sources = {
         "url": "https://azdeq.gov/node/3634",
         "description": "Arizona Public School Drinking Water Lead Screening Program"
     },
+     "Water Quality-2.pdf": {
+        "url": "https://www.queencreekaz.gov/home/showpublisheddocument/38216/638235484870300000",
+        "description": "Water Quality-2"
+    },
+    "Colorado River Interim Guidelines for Lower Basin Shortages.pdf": {
+        "url": "https://www.usbr.gov/lc/region/programs/strategies/RecordofDecision.pdf",
+        "description": "Colorado River Interim Guidelines for Lower Basin Shortages"
+    },
+    "OPERATION PLAN FOR COLORADO RIVER RESERVOIRS.pdf": {
+        "url": "https://www.usbr.gov/lc/region/g4000/24mo.pdf",
+        "description": "OPERATION PLAN FOR COLORADO RIVER RESERVOIRS"
+    },
+    "California's Water Supply Strategy.pdf": {
+        "url": "https://resources.ca.gov/-/media/CNRA-Website/Files/Initiatives/Water-Resilience/CA-Water-Supply-Strategy.pdf",
+        "description": "California's Water Supply Strategy"
+    },
   ### Spanish Resources ###
 
   "Arizona Water Banking Authority Annual Plan of Operation 2023 (Plan de operaciones anual de la autoridad bancaria de agua de Arizona 2023).pdf": {
