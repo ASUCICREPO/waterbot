@@ -22,7 +22,7 @@ def write_documents_to_file(docs, file_path):
 
 # Example usage
 if __name__ == "__main__":
-    source_to_query = "newData\Know Your Water Factsheet.txt"
+    source_to_query = "newData\\100+ Water Saving Tips.pdf"
     found_documents = retrieve_documents_by_source(db, source_to_query)
     
     if found_documents['ids']:

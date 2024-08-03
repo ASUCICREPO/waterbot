@@ -9,7 +9,8 @@ class ChromaManager():
         super().__init__(*args,**kwargs)
     
     def parse_source(self,source):
-        pattern = r'[\\/]+([^\\/]+\.pdf)$' #to match windows backslashes, change accordingly as per OS eg:newData\\NCA5_Ch28_Southwest_esp.pdf
+        pattern = r'[\\/]+([^\\/]+\.pdf)$' #used windows OS to upload to chromaDB so used \,eg:newData\\NCA5_Ch28_Southwest_esp.pdf
+        #stick to that pattern, if using a different convention then change regex to include this and your converntion.
 
         match = re.search(pattern, source)
         if match:

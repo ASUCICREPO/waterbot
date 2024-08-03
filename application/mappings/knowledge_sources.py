@@ -1488,21 +1488,29 @@ knowledge_sources = {
         "url": "https://drive.google.com/file/d/1wdn04ge8T0k_rh7Up7-ZC-I4GdBRcjkc/view?usp=drive_link",
         "description": "Fort Mojave Indian Tribe - Keepers of the River"
     },
-    "Rights to Use Water in the Gila River System": {
+    "Rights to Use Water in the Gila River System.pdf": {
         "url": "https://drive.google.com/file/d/1CKves3-ZmwQq2IIrIklRI3E3TI1ETyVN/view?usp=drive_link",
         "description": "Rights to Use Water in the Gila River System"
     },
-    "2023 Consumer Confidence Report": {
+    "2023 Consumer Confidence Report.pdf": {
         "url": "https://www.tempe.gov/home/showdocument?id=108032&t=638514514522921469",
         "description": "2023 Consumer Confidence Report"
     },
-    "Arizona Department of Water Resources": {
+    "Arizona Department of Water Resources.pdf": {
         "url": "https://drive.google.com/file/d/1JUlZlpUoR_bdEWR9R1fMLcn8PJ6ZFmGq/view?usp=drive_link",
         "description": "Arizona Department of Water Resources"
     },
-  "Superior General Plan": {
+  "Superior General Plan.pdf": {
         "url": "https://drive.google.com/file/d/1uuDRq01sar1zfAPUOa5k1Gb-3wpF_tEm/view?usp=drive_link",
         "description": "Superior General Plan"
+    },
+   "100+ Water Saving Tips.pdf": {
+        "url": "https://wateruseitwisely.com/100-ways-to-conserve-water/",
+        "description": "100+ Water Saving Tips"
+    },
+    "Arizona Public School Drinking Water Lead Screening Program.pdf": {
+        "url": "https://azdeq.gov/node/3634",
+        "description": "Arizona Public School Drinking Water Lead Screening Program"
     },
   ### Spanish Resources ###
 
