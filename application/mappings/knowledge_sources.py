@@ -1,5 +1,5 @@
 knowledge_sources = {
-    "Pesticide and Groundwater Quality.txt": {
+    "Pesticide and Groundwater Quality.pdf": {
       "url": "https://azdeq.gov/node/4677",
       "description": "Pesticide and Groundwater Quality"
     },
@@ -75,7 +75,7 @@ knowledge_sources = {
       "url": "https://experience.arcgis.com/experience/e9430d121b4b4c07a6589f2bb522e582/page/page_0/?views=view_32",
       "description": "RESIN Portal"
     },
-    "Calwater - Drought Information and Resources.txt": {
+    "Calwater - Drought Information and Resources.pdf": {
       "url": "https://www.calwater.com/conservation/drought/",
       "description": "Calwater - Drought Information and Resources"
     },
@@ -95,31 +95,31 @@ knowledge_sources = {
       "url": "https://www.nifa.usda.gov/grants/programs/precision-geospatial-sensor-technologies-programs/precision-agriculture-crop-production",
       "description": "Precision Agriculture in Crop Production NIFA"
     },
-    "howToXeriscape.txt": {
+    "howToXeriscape.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/how-to-xeriscape/",
       "description": "how To Xeriscape"
     },
-    "Make Low-Water Use Plants a High Priority.txt": {
+    "Make Low-Water Use Plants a High Priority.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/how-to-xeriscape/low-water-use-plants/",
       "description": "Make Low-Water Use Plants a High Priority"
     },
-    "Water-Saving Tips.txt": {
+    "Water-Saving Tips.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/",
       "description": "Water-Saving Tips"
     },
-    "Planting Trees and Shrubs.txt": {
+    "Planting Trees and Shrubs.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/our-top-landscape-ideas/planting-trees-shrubs/",
       "description": "Planting Trees and Shrubs"
     },
-    "Programming Your Irrigation Controller _ Timer.txt": {
+    "Programming Your Irrigation Controller _ Timer.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/our-top-landscape-ideas/programming-your-controller-timer/",
       "description": "Programming Your Irrigation Controller Timer"
     },
-    "Summer Scaping.txt": {
+    "Summer Scaping.pdf": {
       "url": "https://wateruseitwisely.com/saving-water-outdoors/our-top-landscape-ideas/summer-scaping/",
       "description": "Summer Scaping"
     },
-    "Sustainable Water Planning.txt": {
+    "Sustainable Water Planning.pdf": {
       "url": "https://www.avondaleaz.gov/government/departments/public-works/water/sustainable-water-planning",
       "description": "Sustainable Water Planning"
     },
@@ -131,19 +131,19 @@ knowledge_sources = {
       "url": "https://verderiver.org/learn/watershed-report-card/",
       "description": "verde water scorecard"
     },
-    "Understanding Your Water Bill.txt": {
+    "Understanding Your Water Bill.pdf": {
       "url": "https://www.epa.gov/watersense/understanding-your-water-bill",
       "description": "Understanding Your Water Bill"
     },
-    "WaterSense.txt": {
+    "WaterSense.pdf": {
       "url": "https://www.epa.gov/watersense/about-watersense",
       "description": "WaterSense"
     },
-    "Save with Us.txt": {
+    "Save with Us.pdf": {
       "url": "https://www.epa.gov/watersense/save-us",
       "description": "Save with Us"
     },
-    "StartSaving.txt": {
+    "StartSaving.pdf": {
       "url": "https://www.epa.gov/watersense/start-saving",
       "description": "Start Saving"
     },
@@ -155,15 +155,15 @@ knowledge_sources = {
       "url": "https://waterbank.az.gov/sites/default/files/2023-01/AWBA%202023%20Plan%20of%20Operation.pdf",
       "description": "AWBA 2023 Plan of Operation"
     },
-    "AMWUA_coloradoshortage.txt": {
+    "AMWUA_coloradoshortage.pdf": {
       "url": "https://www.amwua.org/where-we-stand/issues/colorado-river-structural-deficit",
       "description": "AMWUA coloradoshortage"
     },
-    "AMWUA_droughtandshortage.txt": {
+    "AMWUA_droughtandshortage.pdf": {
       "url": "https://www.amwua.org/where-we-stand/issues/drought-and-shortage",
       "description": "AMWUA droughtandshortage"
     },
-    "Tier 1 Colorado River Shortage 2024.txt": {
+    "Tier 1 Colorado River Shortage 2024.pdf": {
       "url": "https://www.amwua.org/blog/reclamation-confirms-a-tier-1-colorado-river-shortage-for-2024",
       "description": "Tier 1 Colorado River Shortage 2024"
     },
@@ -175,15 +175,15 @@ knowledge_sources = {
       "url": "https://azdeq.gov/node/3634",
       "description": "Arizona Public School Pgm"
     },
-    "MyCommunity.txt": {
+    "MyCommunity.pdf": {
       "url": "https://azdeq.gov/MyCommunity",
       "description": "My Community"
     },
-    "doWeHaveEnough.txt": {
+    "doWeHaveEnough.pdf": {
       "url": "https://www.arizonawaterfacts.com/do-we-have-enough",
       "description": "do We Have Enough"
     },
-    "2021 City of Mesa Water Quality Consumer Confidence Report.pdf": {
+    "Water Quality Report-1.pdf": {
       "url": "https://issuu.com/mesawaterresources/docs/2021_water_quality_report_pdf_doc",
       "description": "2021 City of Mesa Water Quality Consumer Confidence Report"
     },
@@ -199,7 +199,7 @@ knowledge_sources = {
       "url": "https://www.tucsonaz.gov/files/sharedassets/public/v/1/water/documents/wq/mainsystem.pdf",
       "description": "2022 tuscon water quality report"
     },
-    "2022 yuma Water Quality Report .pdf": {
+    "Water Quality Report-2.pdf": {
       "url": "https://www.yumaaz.gov/government/utilities/lab-reports/water-quality-report",
       "description": "2022 yuma Water Quality Report"
     },
@@ -219,7 +219,7 @@ knowledge_sources = {
       "url": "https://www.azwater.gov/sites/default/files/media/ArizonaStrategicVisionforWaterResourcesSustainability_May2014%20%2817%29.pdf",
       "description": "Arizona Strategic Vision for Water Resources Sustainability for the next century May2014 (17)"
     },
-    "arizonawaterfacts.txt": {
+    "arizonawaterfacts.pdf": {
       "url": "https://www.arizonawaterfacts.com/water-your-facts",
       "description": "arizona water facts"
     },
@@ -279,15 +279,15 @@ knowledge_sources = {
       "url": "https://www.tolc-nsn.gov/docs/Title25Ch3.pdf",
       "description": "Title25Ch3"
     },
-    "waste water treatment.txt": {
+    "waste water treatment.pdf": {
       "url": "https://www.wickenburgaz.gov/DocumentCenter/View/2273/General-Plan-2025",
       "description": "waste water treatment"
     },
-    "water sanitation and hygiene.txt": {
+    "water sanitation and hygiene.pdf": {
       "url": "https://www.unicef.org/wash#:~:text=Growing%20up%20in%20a%20clean,a%20healthier%20start%20in%20life.",
       "description": "water sanitation and hygiene"
     },
-    "howCanIhelp.txt": {
+    "howCanIhelp.pdf": {
       "url": "https://www.arizonawaterfacts.com",
       "description": "how Can I help"
     },
@@ -295,11 +295,11 @@ knowledge_sources = {
       "url": "https://www.mesaaz.gov/residents/water/water-quality",#duplicate links
       "description": "mesa waterquality 2022"
     },
-    "Rainwater-Harvesting-Leads-to-More-Culturally-Appropriate-Food-in-Water-Scarce-Native-American-Commu.txt": {
+    "Rainwater-Harvesting-Leads-to-More-Culturally-Appropriate-Food-in-Water-Scarce-Native-American-Commu.pdf": {
       "url": "https://ashiwi.org/POZUtility.htm",
       "description": "Rainwater-Harvesting-Leads-to-More-Culturally-Appropriate-Food-in-Water-Scarce-Native-American-Commu"
     },
-    "reclaimed_wastewater.txt": {
+    "reclaimed_wastewater.pdf": {
       "url": "https://www.usgs.gov/special-topics/water-science-school/science/reclaimed-wastewater",
       "description": "reclaimed wastewater"
     },
@@ -311,7 +311,7 @@ knowledge_sources = {
       "url": "https://www.phoenix.gov/waterservicessite/documents/wsdprimarywqr.pdf",#2023 report
       "description": "phx waterQualityReport"
     },
-    "phx_waterquality_2022.pdf": {
+    "Water Quality Report 2022-3.pdf": {
       "url": "https://www.phoenix.gov/waterservicessite/Documents/wsdprimarywqr2022.pdf",
       "description": "phx waterquality 2022"
     },
@@ -319,7 +319,7 @@ knowledge_sources = {
       "url": "https://www.phoenix.gov/waterservicessite/Documents/wsdprimarywqr2021.pdf",
       "description": "phx waterquality 2021"
     },
-    "maricopa county water quality.txt": {
+    "maricopa county water quality.pdf": {
       "url": "https://www.maricopa.gov/2353/Drinking-Water-Quality",
       "description": "maricopa county water quality"
     },
@@ -339,7 +339,7 @@ knowledge_sources = {
       "url": "http://www.tonation-nsn.gov/water-resources/",
       "description": "Tohono O'odham Nation"
     },
-    "waterBuildsOurEconomy.txt": {
+    "waterBuildsOurEconomy.pdf": {
       "url": "https://www.arizonawaterfacts.com/water-builds-our-economy#:~:text=A%20stable%20secure%20long%2Dterm,efficient%20in%20their%20water%20use.",
       "description": "water Builds Our Economy"
     },
@@ -347,7 +347,7 @@ knowledge_sources = {
       "url": "https://www.phoenix.gov/waterservicessite/documents/wsdanthemwestwqr.pdf",
       "description": "phx anthem 2022"
     },
-    "The pima-maricopa irrigation project nation-building through irrigation infrastructure - Irrigation.txt": {
+    "The pima-maricopa irrigation project nation-building through irrigation infrastructure - Irrigation.pdf": {
       "url": "https://irrigationleadermagazine.com/the-pima-maricopa-irrigation-project/",
       "description": "The pima-maricopa irrigation project nation-building through irrigation infrastructure - Irrigation"
     },
@@ -383,11 +383,11 @@ knowledge_sources = {
       "url": "https://www.gilariver.org/index.php/about/water-settlement#:~:text=Since%20before%20the%20arrival%20of,ned%20irrigation%20system%20in%20place.",
       "description": "Gila river - water settlement"
     },
-    "hard_water_info_az.txt": {
+    "hard_water_info_az.pdf": {
       "url": "https://www.mesaaz.gov/residents/water/water-quality/hard-water", #dupliate link
       "description": "hard water info az"
     },
-    "desalination.txt": {
+    "desalination.pdf": {
       "url": "https://www.usgs.gov/special-topics/water-science-school/science/desalination",
       "description": "desalination"
     },
@@ -423,7 +423,7 @@ knowledge_sources = {
       "url": "https://www.cap-az.com/water/cap-system/power-operations/",
       "description": "cap-factsheet-power-portfolio"
     },
-    "chandler water.txt": {
+    "Water-1.pdf": {
       "url": "https://www.chandleraz.gov/residents/water",
       "description": "chandler water"
     },
@@ -459,7 +459,7 @@ knowledge_sources = {
       "url": "https://aipi.asu.edu/sites/default/files/the_arizona_dcp_-_a_tribal_perspective.pdf",
       "description": "the arizona dcp - a tribal perspective"
     },
-    "Outdoor Water Use.txt": {
+    "Outdoor Water Use.pdf": {
       "url": "https://www.azwater.gov/conservation/landscaping#:~:text=Landscaping%20%2D%20Residential%20%26%20professional,courses%2C%20sport%20fields%20and%20resorts",
       "description": "Outdoor Water Use"
     },
@@ -475,19 +475,19 @@ knowledge_sources = {
       "url": "https://morrisoninstitute.asu.edu/sites/default/files/housing_affordability_and_groundwater.pdf",
       "description": "Housing Affordability and Groundwater Regulation"
     },
-    "Future of Water in Arizona.txt": {
+    "Future of Water in Arizona.pdf": {
       "url": "https://news.asu.edu/20221115-arizona-impact-future-water-arizona",
       "description": "Future of Water in Arizona"
     },
-    "What is ASU doing_.txt": {
+    "What is ASU doing_.pdf": {
       "url": "https://sustainability-innovation.asu.edu/campus/what-asu-is-doing/#:~:text=ASU%20has%20reduced%20water%20consumption,water%20than%20their%20conventional%20counterparts.",
       "description": "What is ASU doing "
     },
-    "AWII.txt": {
+    "AWII.pdf": {
       "url": "https://azwaterinnovation.asu.edu/",
       "description": "AWII"
     },
-    "SDG Impact- ASU.txt": {
+    "SDG Impact- ASU.pdf": {
       "url": "https://sdgimpact.asu.edu/sdg-6-clean-water-and-sanitation#free-drinking-water",
       "description": "SDG Impact- ASU"
     },
@@ -495,7 +495,7 @@ knowledge_sources = {
       "url": "https://www.azwater.com/files/water-quality/ccr-apache-junction_2022.pdf",
       "description": "apache-junction waterQualityReport2022"
     },
-    "Apache Junction water.txt": {
+    "Apache Junction water.pdf": {
       "url": "https://www.apachejunctionaz.gov/1091/Water-Resources",
       "description": "Apache Junction water"
     },
@@ -503,7 +503,7 @@ knowledge_sources = {
       "url": "https://www.avondaleaz.gov/home/showpublisheddocument/18226/638211455805300000",
       "description": "Avondale City waterQualityReport"
     },
-    "Avondale City water.txt": {
+    "Avondale City water.pdf": {
       "url": "https://ehq-production-us-california.s3.us-west-1.amazonaws.com/b3c2e5d8bddb0497ce8904344e508a3799114be9/original/1703787282/60caadf187c5e35812ede861f2143373_RES_1080-1223_-_Recorded.pdf",
       "description": "Avondale City water"
     },
@@ -523,11 +523,11 @@ knowledge_sources = {
       "url": "https://www.bullheadcity.com/home/showpublisheddocument/16850/637909053157970000",
       "description": "Bullhead City Water Conservation2022"
     },
-    "Billhead City water.txt": {
+    "Billhead City water.pdf": {
       "url": "https://www.bullheadcity.com/home/showpublisheddocument/6109/635991581053900000",
       "description": "Billhead City water"
     },
-    "CSWR_FAQ.txt": {
+    "CSWR_FAQ.pdf": {
       "url": "https://www.centralstateswaterresources.com/frequently-asked-questions#card-view/card/67231c7d-2352-4402-953d-9ab614df6e0e_d011cbe3-6a97-4bfb-8cc6-cf4440851dfa",
       "description": "CSWR FAQ"
     },
@@ -535,7 +535,7 @@ knowledge_sources = {
       "url": "https://cdnsm5-hosted.civiclive.com/UserFiles/Servers/Server_9450682/File/Departments%20and%20Services/Waste&Wastewater/FINAL%20Williams%20Water%20Master%20Plan%20-%20full%20size%20maps.pdf",
       "description": "FINAL Williams Water Master Plan"
     },
-    "Willcox_City_info.txt": {
+    "Willcox_City_info.pdf": {
       "url": "https://willcox.az.gov/media/Planning%20and%20Zoning%20Commission/2040%20General%20Plan.pdf",
       "description": "Willcox City info"
     },
@@ -543,7 +543,7 @@ knowledge_sources = {
       "url": "https://cottonwoodaz.gov/DocumentCenter/View/4069/City-of-Cottonwood-Drought-and-Water-Shortage-Preparedness-Plan-2020",
       "description": "City of Cottonwood Drought and Water Shortage Preparedness Plan"
     },
-    "City of El Mirage Water Quality and Resources FAQs.txt": {
+    "City of El Mirage Water Quality and Resources FAQs.pdf": {
       "url": "https://www.elmirageaz.gov/681/Water-Statement-and-FAQ",
       "description": "City of El Mirage Water Quality and Resources FAQs"
     },
@@ -551,11 +551,11 @@ knowledge_sources = {
       "url": "https://content.civicplus.com/api/assets/5a1a8a07-f9e7-48bf-a287-3ffe580db3fc",
       "description": "Colorado River Shortage Status 2023"
     },
-    "Water Resource Management Flagstaff.txt": {
+    "Water Resource Management Flagstaff.pdf": {
       "url": "https://flagstaff.az.gov/2258/Water-Resources-Management",
       "description": "Water Resource Management Flagstaff"
     },
-    "EPCOR WATER MANAGEMENT.txt": {
+    "EPCOR WATER MANAGEMENT.pdf": {
       "url": "https://www.fountainhillsaz.gov/760/EPCOR-WATER-MANAGEMENT",
       "description": "EPCOR WATER MANAGEMENT"
     },
@@ -563,7 +563,7 @@ knowledge_sources = {
       "url": "https://www.fountainhillsaz.gov/DocumentCenter/View/755/Storm-Water-Pollution-Tips-PDF?bidId=",
       "description": "Storm Water Pollution Tips"
     },
-    "Storm Water Management.txt": {
+    "Storm Water Management.pdf": {
       "url": "https://www.fountainhillsaz.gov/358/Storm-Water-Management",
       "description": "Storm Water Management"
     },
@@ -571,11 +571,11 @@ knowledge_sources = {
       "url": "https://jerome.az.gov/documents/76/2018_GENERAL_PLAN_FINAL_reduced.pdf",
       "description": "Jerome CCR2022"
     },
-    "Town of Kearny_water.txt": {
+    "Town of Kearny_water.pdf": {
       "url": "https://www.kearnyaz.gov/sites/g/files/vyhlif7746/f/uploads/conserveplan.pdf",
       "description": "Town of Kearny water"
     },
-    "Lake Havasu Water Savers.txt": {
+    "Lake Havasu Water Savers.pdf": {
       "url": "https://www.lhcaz.gov/docs/default-source/department-documents/waterconservationplan.pdf?sfvrsn=ad2b2f7c_28",
       "description": "Lake Havasu Water Savers"
     },
@@ -587,7 +587,7 @@ knowledge_sources = {
       "url": "https://www.sjaz.us/wp-content/uploads/2022/06/Water-Quality-Report-2021.pdf",
       "description": "Water-Quality-Report-CityOfStJohn"
     },
-    "2022-Water-Quality-Report-starValley.pdf": {
+    "Water Quality Report 2022-5.pdf": {
       "url": "https://starvalleyaz.com/wp-content/uploads/2023/05/2022-Water-Quality-Report.pdf",
       "description": "2022-Water-Quality-Report-starValley"
     },
@@ -595,15 +595,15 @@ knowledge_sources = {
       "url": "https://www.queencreekaz.gov/home/showpublisheddocument/38869/638422055428170000",
       "description": "2022 QC Water Quality Report Queen creek"
     },
-    "WaterDept_Safford.txt": {
+    "Water-3.pdf": {
       "url": "https://www.cityofsafford.us/200/Water",
       "description": "WaterDept Safford"
     },
-    "Water Quality Report 2022 San Luis.pdf": {
+    "Water Quality Report 2022-4.pdf": {
       "url": "https://www.sanluisaz.gov/DocumentCenter/View/11376/Water-Quality-Report-2022---Web",
       "description": "Water Quality Report 2022 San Luis"
     },
-    "Water Resource Management_City of Goodyear.txt": {
+    "Water Resource Management_City of Goodyear.pdf": {
       "url": "https://www.goodyearaz.gov/government/departments/water-services/water-resource-management",
       "description": "Water Resource Management City of Goodyear"
     },
@@ -615,11 +615,11 @@ knowledge_sources = {
       "url": "https://pageutility.com/wp-content/uploads/2023/05/2022-CCR.pdf",
       "description": "2022-CCR-Page"
     },
-    "Town of Paradise Valley_UtilityServices.txt": {
+    "Town of Paradise Valley_UtilityServices.pdf": {
       "url": "https://www.paradisevalleyaz.gov/DocumentCenter/View/9907/6-Environmental-Planning-_-Water-Resources?bidId=",
       "description": "Town of Paradise Valley UtilityServices"
     },
-    "Town of Payson Water Department.txt": {
+    "Town of Payson Water Department.pdf": {
       "url": "https://www.paysonaz.gov/departments/water-department",
       "description": "Town of Payson Water Department"
     },
@@ -695,7 +695,7 @@ knowledge_sources = {
         "url": "https://www.gilabendaz.org/DocumentCenter/View/1154/240327_Final-Existing-Conditions-Report",
         "description": "Ground Water Resources and Geology: Gila Bend and Dendora Areas, Maricopa County, Arizona"
     },
-     "Keepers of the River.pdf": {
+     "Fort Mojave Indian Tribe-2.pdf": {
         "url": "https://tentribespartnership.org/wp-content/uploads/2020/01/Ch.-5.6-Ft.-Mojave-Current-Future-Water-Use-12-13-2018.pdf",
         "description": "Keepers of the River: Ft. Mojave Current and Future Water Use"
     },
@@ -1023,7 +1023,7 @@ knowledge_sources = {
         "url": "https://www.pinetopwatercfd.com/documents/581/res2007-2.pdf",
         "description": "Pinetop Water-2"
     },
-    "Water Resources": {
+    "Water Resources-3": {
         "url": "https://planprescott.com/wp-content/uploads/2023/01/10-Water-Resources-Element.pdf",
         "description": "Water Resources"
     },
@@ -1063,9 +1063,13 @@ knowledge_sources = {
         "url": "https://surpriseaz.gov/603/Water-Resource-Management",
         "description": "Water Resource Management"
     },
-    "Fort Mojave Indian Tribe": {
-        "url": "https://tentribespartnership.org/wp-content/uploads/2020/01/Ch.-5.6-Ft.-Mojave-Current-Future-Water-Use-12-13-2018.pdf",
-        "description": "Fort Mojave Indian Tribe"
+    "General Plan - Water Resources-3.pdf": {
+        "url": "https://content.civicplus.com/api/assets/92746936-baf3-4b14-a50e-204c418083da?cache=1800",
+        "description": "General Plan Water Resources"
+    },
+    "Tribal Water Uses in Colorado River Basin-2.pdf": {
+        "url": "http://www.tribalwateruse.org/?page_id=189",
+        "description": "Tribal Water Uses in Colorado River Basin"
     },
     "Brief History of Tohono O'odham Water": {
         "url": "http://www.tonation-nsn.gov/water-resources/brief-history/",
@@ -1168,7 +1172,7 @@ knowledge_sources = {
         "url": "https://www.globeaz.gov/public-works/pages/pinal-creek-wastewater-treatment-facility",
         "description": "Pinal Creek Wastewater Treatment Facility"
     },
-    "Water-3": {
+    "Water-2.pdf": {
         "url": "https://www.globeaz.gov/public-works/pages/water",
         "description": "Water"
     },
