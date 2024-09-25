@@ -192,7 +192,7 @@
             </button>
           </form>
           
-          <p class="disclosure">
+          <!-- <p class="disclosure">
             <small>
               Free Research Preview. Arizona Water Chatbot may produce
               inaccurate information about people, places, or facts.</small>
@@ -203,7 +203,7 @@
             <small>Hostname: {{ hostname }}</small><br>
             <small>IP Address: {{ ip_address }}</small>
           </p>
-          
+           -->
         </div>
         <!-- Water droplet logo and New chat button -->
         <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-xs-4 col-12 chatbot-guidelines">
@@ -219,7 +219,7 @@
                 <button type="button" class="btn btn-primary btn-lg btn-new-chat"
                   onclick="window.location.href='/'">New Chat</button>
                  
-                  <button class="btn btn-mic" id="mic-button" type="button" onclick="window.location.href='/'"
+                  <button class="btn btn-mic" id="mic-button-2" type="button" onclick="window.location.href='/'"
                   style="margin-left: 1px; background: none; border: none; display: inline-flex; align-items: center;">
                   <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 65 65" fill="none">
                     <circle cx="32.5" cy="32.5" r="30.2586" fill="url(#paint0_linear_71_443)" fill-opacity="0.9"/>
@@ -270,13 +270,13 @@
 
             <div class="row">
               <!-- Language Section -->
-              <div class="col-12 col-md-6 language-section">
-                <p class="language-text">Language</p>
+              <!-- <div class="col-12 col-md-6 language-section"> -->
+                <!-- <p class="language-text">Language</p> -->
                 <div class="language-toggle">
                   <button class="language-button english-button active" id="english-button" onclick="window.location.href='/'">ENGLISH</button>
                   <button class="language-button spanish-button" id="spanish-button" onclick="window.location.href='/spanish'">ESPAÑOL</button>
                 </div>
-              </div>
+              <!-- </div> -->
             
               <!-- Transcript Section -->
               <div class="col-12 col-md-6 transcript-section">
@@ -469,6 +469,15 @@
 
   <script>
     const micButton = document.getElementById('mic-button');
+    if (micButton) {
+      micButton.style.display = 'none';
+    }
+
+    const micButton2 = document.getElementById('mic-button-2');
+    if (micButton2) {
+      micButton2.style.display = 'none';
+    }
+
     const transcriptionDiv = document.getElementById('transcription');
 
     let socket;

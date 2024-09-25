@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}  # Pass the key from your local environment
+      - AWS_DEFAULT_REGION=us-east-1 
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}   # Pass AWS access key ID from environment
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}   # Pass AWS secret access key from environment
+    volumes:
+      - ./application:/app  # Mount the application code for live updates
+    ports:
+      - "8000:8000"
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
