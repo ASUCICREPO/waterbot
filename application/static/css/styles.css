@@ -762,7 +762,7 @@ a {
 .language-section, .transcript-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start; /* Align content to the left */
   padding: 10px;
 }
 
@@ -779,8 +779,8 @@ a {
 }
 
 .transcript-button {
-  width: 100px; /* Set the button width */
-  height: 35px; /* Set the button height */
+  width: 125px; /* Set the button width */
+  height: 40px; /* Set the button height */
   margin-top: 0; 
   flex-shrink: 0; /* Prevent the button from shrinking */
   background-color: #8C1D40; /* Background color */
@@ -789,7 +789,7 @@ a {
   border: none; /* Remove default border */
   border-radius: 25px; /* Rounded corners */
   font-family: Arial, sans-serif; /* Font styling */
-  font-size: 14px; /* Font size */
+  font-size: 16px; /* Font size */
   font-weight: bold; /* Font weight */
   cursor: pointer; /* Cursor indicates it's clickable */
   outline: none; /* Remove focus outline */

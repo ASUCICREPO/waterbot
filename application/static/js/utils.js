@@ -598,9 +598,9 @@ chatHistory.appendChild(userMessage);
         <a type="button" class = "btn btn-sm followup-buttons fw-bold" id="actionItemsButton">
           Next steps
         </a>
-        <a type="button" class = "btn btn-sm followup-buttons fw-bold" id="sourcesButton">
+        <!-- <a type="button" class = "btn btn-sm followup-buttons fw-bold" id="sourcesButton">
           Sources
-        </a>
+        </a> -->
         <!-- <a type="button" class = "btn btn-sm followup-buttons" id="actionItemsButton">
           <div>Things you can do</div> -->
         </a>
