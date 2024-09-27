@@ -158,8 +158,8 @@ TRANSCRIPT_BUCKET_NAME=os.getenv("TRANSCRIPT_BUCKET_NAME")
 # adapter choices
 ADAPTERS = {
     "claude.haiku":BedrockClaudeAdapter("anthropic.claude-3-haiku-20240307-v1:0"),
-    "claude.sonnet":BedrockClaudeAdapter("anthropic.claude-3-sonnet-20240229-v1:0"),
-    "openai-gpt3.5":OpenAIAdapter("gpt-3.5-turbo")
+    "claude.":BedrockClaudeAdapter("anthropic.claude-3-sonnet-20240229-v1:0"),
+    # "openai-gpt3.5":OpenAIAdapter("gpt-3.5-turbo")
 }
 
 # Set adapter choice
@@ -177,26 +177,26 @@ s3_manager = S3Manager(bucket_name=TRANSCRIPT_BUCKET_NAME)
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request,):
-    hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
+    # hostname = socket.gethostname()
+    # ip_address = socket.gethostbyname(hostname)
 
     context = {
         "request": request,
-        "hostname": hostname,
-        "ip_address": ip_address
+        # "hostname": hostname,
+        # "ip_address": ip_address
     }
 
     return templates.TemplateResponse("index.html", context )
 
 @app.get("/Spanish_Translation_2.0.1.html", response_class=HTMLResponse)
 async def home(request: Request,):
-    hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
+    # hostname = socket.gethostname()
+    # ip_address = socket.gethostbyname(hostname)
 
     context = {
         "request": request,
-        "hostname": hostname,
-        "ip_address": ip_address
+        # "hostname": hostname,
+        # "ip_address": ip_address
     }
 
     return templates.TemplateResponse("spanish.html", context )
