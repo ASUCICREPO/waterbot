@@ -2,7 +2,7 @@
 :root body {
   font-family: Arial, Helvetica, "Nimbus Sans L", "Liberation Sans", FreeSans,
     sans-serif !important;
-  background-color: white !important;
+  /* background-color: white !important; */
   margin: 0;
   box-sizing: border-box;
   position: relative;
@@ -318,7 +318,7 @@ a {
 .chatbot-prompt-container {
   padding: 1rem 10rem 0rem 10rem;
   background-color: #f9f9f9;
-  /* min-width: 100vh; */
+  min-width: 100vh;
   /* overflow: overlay; */
   /* overscroll-behavior: contain; */
 }
@@ -752,11 +752,8 @@ a {
   color: #FFFFFF;
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
+.language-transcript-row {
+  padding: 20px;
 }
 
 .language-section, .transcript-section {
