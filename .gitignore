@@ -169,3 +169,4 @@ cython_debug/
 
 push_to_ecr.sh
 application/newData/
+application/AMWUA_Blog_Posts/
