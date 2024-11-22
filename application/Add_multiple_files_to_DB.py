@@ -50,7 +50,7 @@ def main():
     db = Chroma(persist_directory='docs/chroma/', embedding_function=embeddings)
 
     # Path to the folder containing PDFs
-    folder_path = "AMWUA_Blog_Posts"  # Update this to your folder path
+    folder_path = "ADWR Blogs"  # Update this to your folder path
 
     # Check if the folder exists
     if not os.path.isdir(folder_path):
