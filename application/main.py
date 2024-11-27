@@ -157,14 +157,14 @@ MESSAGES_TABLE=os.getenv("MESSAGES_TABLE")
 TRANSCRIPT_BUCKET_NAME=os.getenv("TRANSCRIPT_BUCKET_NAME")
 # adapter choices
 ADAPTERS = {
-    "claude.haiku":BedrockClaudeAdapter("anthropic.claude-3-haiku-20240307-v1:0"),
-    "claude.":BedrockClaudeAdapter("anthropic.claude-3-sonnet-20240229-v1:0"),
-    # "openai-gpt3.5":OpenAIAdapter("gpt-3.5-turbo")
+    # "claude.haiku":BedrockClaudeAdapter("anthropic.claude-3-haiku-20240307-v1:0"),
+    # "claude.":BedrockClaudeAdapter("anthropic.claude-3-sonnet-20240229-v1:0"),
+    "openai-gpt4":OpenAIAdapter("gpt-4-turbo")
 }
 
 # Set adapter choice
-llm_adapter=ADAPTERS["claude.haiku"]
-#llm_adapter=ADAPTERS["openai-gpt3.5"]
+# llm_adapter=ADAPTERS["claude.haiku"]
+llm_adapter=ADAPTERS["openai-gpt4"]
 
 embeddings = llm_adapter.get_embeddings()
 
@@ -471,6 +471,10 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
         
     moderation_result,intent_result = await llm_adapter.safety_checks(user_query)
 
+    # print(moderation_result)
+    # print(intent_result)
+    # print(llm_adapter.safety_checks(user_query))
+
     user_intent=1
     prompt_injection=1
     unrelated_topic=1
@@ -483,7 +487,6 @@ async def chat_api_post(request: Request, user_query: Annotated[str, Form()], ba
     except Exception as e:
         print(intent_result)
         print("ERROR", str(e))
-
 
     if( moderation_result or (prompt_injection or unrelated_topic)):
         response_content= "I am sorry, your request is inappropriate and I cannot answer it." if moderation_result else not_handled
